@@ -1,59 +1,52 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
+"use client";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+    <header
+      className={`sticky top-0 z-50 backdrop-blur-md transition-all duration-300 ${
+        scrolled
+          ? "bg-white/80 shadow-md border-b border-gray-200"
+          : ""
+      }`}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-blue-600 dark:text-blue-400">
+          <div className="flex items-center px-5">
+            <Link href="/" className="text-xl font-bold text-[#1D3557]">
               ByeStunting
             </Link>
           </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link
-              href="/"
-              className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
-            >
-              Home
-            </Link>
-            <Link
-              href="/cek-stunting"
-              className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
-            >
-              Cek Stunting
-            </Link>
-            <Link
-              href="/edukasi"
-              className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
-            >
-              Edukasi
-            </Link>
-            <Link
-              href="/kontak"
-              className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
-            >
-              Kontak
-            </Link>
-            <Link
-              href="/tentang-kami"
-              className="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
-            >
-              Tentang Kami
-            </Link>
+          <nav className="hidden md:flex items-center space-x-12">
+            {["Home", "Cek Stunting", "Edukasi", "Kontak", "Tentang Kami"].map(
+              (text, idx) => (
+                <Link
+                  key={idx}
+                  href={`/${text.toLowerCase().replace(" ", "-")}`}
+                  className="text-sm font-semibold text-gray-800 hover:text-[#317BC4]"
+                >
+                  {text}
+                </Link>
+              )
+            )}
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="mr-2">
             <ThemeToggle />
-            <Link href="/cek-stunting">
-              <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-md">
-                Cek Sekarang
-              </Button>
-            </Link>
           </div>
         </div>
       </div>
     </header>
-  )
+  );
 }
