@@ -1,56 +1,61 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
+import type React from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 export default function AdminLogin() {
-  const router = useRouter()
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  })
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setCredentials((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setCredentials((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
-    // Simulasi autentikasi admin (dalam implementasi nyata, ini akan memanggil API)
     setTimeout(() => {
-      // Kredensial admin sederhana untuk demo
-      if (credentials.email === "admin@byestunting.id" && credentials.password === "admin123") {
-        // Simpan status login di localStorage (dalam implementasi nyata, gunakan token JWT atau session)
-        localStorage.setItem("adminLoggedIn", "true")
-        router.push("/admin/dashboard")
+      if (
+        credentials.email === "admin@byestunting.id" &&
+        credentials.password === "admin123"
+      ) {
+        localStorage.setItem("adminLoggedIn", "true");
+        router.push("/admin/dashboard");
       } else {
-        setError("Email atau password salah. Silakan coba lagi.")
+        setError("Email atau password salah. Silakan coba lagi.");
       }
-      setIsLoading(false)
-    }, 1000)
-  }
+      setIsLoading(false);
+    }, 1000);
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
-          <CardDescription className="text-center">
-            Masuk ke dashboard admin untuk mengelola konten edukasi
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-cyan-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-12 px-4">
+      <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-2xl rounded-2xl">
+        <CardHeader className="space-y-2 text-center">
+          <CardTitle className="text-3xl font-extrabold text-primary dark:text-blue-400">
+            Admin <span className="text-secondary">Login</span>
+          </CardTitle>
+          <CardDescription className="text-gray-600 dark:text-gray-400">
+            Kelola konten edukasi di Dashboard Admin
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -60,23 +65,24 @@ export default function AdminLogin() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="admin@byestunting.id"
+                placeholder="Masukan Email Anda"
                 required
                 value={credentials.email}
                 onChange={handleChange}
+                className="rounded-lg"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
+                <a href="#" className="text-sm text-blue-500 hover:underline">
                   Lupa password?
                 </a>
               </div>
@@ -84,19 +90,26 @@ export default function AdminLogin() {
                 id="password"
                 name="password"
                 type="password"
+                placeholder="Masukan Password Anda"
                 required
                 value={credentials.password}
                 onChange={handleChange}
+                className="rounded-lg"
               />
             </div>
+            <Button
+              className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-200 text-white font-semibold py-2 px-4 rounded-lg"
+              disabled={isLoading}
+              type="submit"
+            >
+              {isLoading ? "Memproses..." : "Masuk"}
+            </Button>
           </form>
         </CardContent>
-        <CardFooter>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? "Memproses..." : "Masuk"}
-          </Button>
+        <CardFooter className="justify-center items-center text-xs text-gray-400 mt-4 text-center">
+          &copy; {new Date().getFullYear()} ByeStunting. Semua hak dilindungi.
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
