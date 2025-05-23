@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Search, Loader2 } from "lucide-react"
+import { Search, Loader2, BookOpen, Clock, Calendar, ArrowRight } from "lucide-react"
+import { motion } from "framer-motion"
 
 interface Article {
   id: number
@@ -71,80 +72,249 @@ export default function Edukasi() {
     setFilteredArticles(filtered)
   }, [searchTerm, activeCategory, articles])
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  }
+
+  // Featured article (first article)
+  const featuredArticle = filteredArticles[0]
+
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Edukasi</h1>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Pelajari informasi penting tentang stunting, nutrisi, dan tips praktis untuk mendukung pertumbuhan optimal
-          anak Anda.
-        </p>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
-        <div className="relative w-full md:w-64">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-          <Input
-            placeholder="Cari artikel..."
-            className="pl-8"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="w-full md:w-auto">
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex">
-            <TabsTrigger value="all">Semua</TabsTrigger>
-            {categories.map((category) => (
-              <TabsTrigger key={category} value={category}>
-                {category}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-      </div>
-
-      {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-        </div>
-      ) : filteredArticles.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredArticles.map((article) => (
-            <Card key={article.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48 w-full bg-blue-100 dark:bg-blue-900">
-                <Image src={article.image || "/placeholder.svg"} alt={article.title} fill className="object-cover" />
-                <div className="absolute top-3 left-3">
-                  <Badge className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">
-                    {article.category}
-                  </Badge>
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-gray-950 px-5">
+      <div className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#317BC4] to-[#64B5F6] mb-12 shadow-xl">
+          <div className="absolute inset-0 bg-blue-600 opacity-10">
+            <svg
+              className="absolute inset-0 h-full w-full"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <path
+                fill="none"
+                stroke="white"
+                strokeWidth="0.5"
+                strokeDasharray="6,6"
+                d="M0,0 L100,100 M100,0 L0,100"
+              />
+            </svg>
+          </div>
+          <div className="relative z-10 flex flex-col md:flex-row items-center p-6 md:p-12">
+            <div className="md:w-1/2 mb-6 md:mb-0 md:pr-8 text-center md:text-left">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
+                Edukasi <span className="text-primary">Stunting</span>
+              </h1>
+              <p className="text-base md:text-lg opacity-90 mb-6 text-white">
+                Pelajari informasi penting tentang stunting, nutrisi, dan tips
+                praktis untuk mendukung pertumbuhan optimal anak Anda.
+              </p>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white">
+                  <BookOpen className="h-5 w-5" />
+                  <span className="text-sm font-medium">
+                    {articles.length} Artikel
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white">
+                  <Clock className="h-5 w-5" />
+                  <span className="text-sm font-medium">
+                    Diperbarui Berkala
+                  </span>
                 </div>
               </div>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{article.date}</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">{article.excerpt}</p>
-              </CardContent>
-              <CardFooter className="px-6 pb-6 pt-0">
-                <Link href={`/edukasi/${article.id}`} className="w-full">
-                  <Button
-                    variant="outline"
-                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-950"
-                  >
-                    Baca Selengkapnya
-                  </Button>
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-300 lg:h-300">
+                <Image
+                  src="/edukasi.png"
+                  alt="Edukasi Stunting"
+                  width={500}
+                  height={500}
+                  className="object-contain w-[500px] h-[300px]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Search and Filter */}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+          <div className="relative w-full md:w-64">
+            <Search className="absolute left-3 top-3 h-5 w-5 text-[#317BC4]" />
+            <Input
+              placeholder="Cari artikel..."
+              className="pl-10 h-12 rounded-full border-[#D7EBFC] dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm focus-visible:ring-[#317BC4]"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <Tabs
+            defaultValue="all"
+            value={activeCategory}
+            onValueChange={setActiveCategory}
+            className="w-full md:w-auto overflow-x-auto"
+          >
+            <TabsList className="flex w-full md:w-auto bg-[#D7EBFC] dark:bg-gray-800 p-1 rounded-full">
+              <TabsTrigger
+                value="all"
+                className="flex-shrink-0 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-[#317BC4] dark:data-[state=active]:text-blue-400 data-[state=active]:shadow-sm"
+              >
+                Semua
+              </TabsTrigger>
+              {categories.map((category) => (
+                <TabsTrigger
+                  key={category}
+                  value={category}
+                  className="flex-shrink-0 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-[#317BC4] dark:data-[state=active]:text-blue-400 data-[state=active]:shadow-sm"
+                >
+                  {category}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </div>
+
+        {isLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="h-10 w-10 animate-spin text-[#317BC4]" />
+          </div>
+        ) : filteredArticles.length > 0 ? (
+          <>
+            {/* Featured Article */}
+            {featuredArticle && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mb-8 md:mb-12"
+              >
+                <Link href={`/edukasi/${featuredArticle.id}`} className="block">
+                  <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="relative h-56 md:h-auto md:w-1/2">
+                        <Image
+                          src={
+                            featuredArticle.image ||
+                            "/placeholder.svg?height=600&width=800"
+                          }
+                          alt={featuredArticle.title}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-[#317BC4] hover:bg-[#2A6CB0] text-white px-3 py-1 text-sm rounded-full">
+                            Artikel Pilihan
+                          </Badge>
+                        </div>
+                      </div>
+                      <div className="p-5 md:p-6 lg:p-8 md:w-1/2 flex flex-col justify-center">
+                        <div className="flex flex-wrap items-center gap-3 mb-3">
+                          <Badge className="bg-[#D7EBFC] text-[#317BC4] hover:bg-[#C4E0FA] dark:bg-blue-900 dark:text-blue-300 px-3 py-1 rounded-full">
+                            {featuredArticle.category}
+                          </Badge>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                            <Calendar className="h-4 w-4 mr-1" />
+                            {featuredArticle.date}
+                          </span>
+                        </div>
+                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-3 md:mb-4 text-gray-900 dark:text-white">
+                          {featuredArticle.title}
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4 md:mb-6 line-clamp-2 md:line-clamp-3 text-sm md:text-base">
+                          {featuredArticle.excerpt}
+                        </p>
+                        <Button className="w-fit bg-[#317BC4] hover:bg-[#2A6CB0] text-white rounded-full group">
+                          Baca Selengkapnya
+                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-600 dark:text-gray-400">Tidak ada artikel yang ditemukan</p>
-        </div>
-      )}
+              </motion.div>
+            )}
+
+            {/* Article Grid */}
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"
+              variants={container}
+              initial="hidden"
+              animate="show"
+            >
+              {filteredArticles.slice(1).map((article) => (
+                <motion.div key={article.id} variants={item}>
+                  <Link
+                    href={`/edukasi/${article.id}`}
+                    className="block h-full group"
+                  >
+                    <Card className="overflow-hidden h-full border-0 bg-white dark:bg-gray-800 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl">
+                      <div className="relative h-40 sm:h-48 w-full overflow-hidden">
+                        <Image
+                          src={
+                            article.image ||
+                            "/placeholder.svg?height=400&width=600"
+                          }
+                          alt={article.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute top-3 left-3">
+                          <Badge className="bg-[#317BC4] hover:bg-[#2A6CB0] dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-3 py-1 rounded-full">
+                            {article.category}
+                          </Badge>
+                        </div>
+                      </div>
+                      <CardContent className="p-4 md:p-6">
+                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2 md:mb-3">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          <span>{article.date}</span>
+                        </div>
+                        <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-gray-900 dark:text-white line-clamp-2 group-hover:text-[#317BC4] dark:group-hover:text-blue-400 transition-colors">
+                          {article.title}
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 md:line-clamp-3 mb-4">
+                          {article.excerpt}
+                        </p>
+                        <Button
+                          variant="outline"
+                          className="w-full bg-secondary border-[#317BC4] text-white hover:bg-[#D7EBFC] dark:border-blue-400 dark:text-blue-400 dark:hover:bg-foreground rounded-full group-hover:bg-foreground group-hover:text-primary transition-colors"
+                        >
+                          Baca Selengkapnya
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </>
+        ) : (
+          <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D7EBFC] dark:bg-blue-900 mb-4">
+              <Search className="h-8 w-8 text-[#317BC4] dark:text-blue-400" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">
+              Tidak ada artikel yang ditemukan
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+              Coba gunakan kata kunci lain atau pilih kategori yang berbeda
+            </p>
+          </div>
+        )}
+      </div>
     </div>
-  )
+  );
 }
