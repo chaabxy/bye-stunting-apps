@@ -3,26 +3,33 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer>
-      <div className="container mx-auto px-4 md:px-6 text-center text-black bg-foreground py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 justify-items-center">
+      <div className="container mx-auto px-4 md:px-6 text-center text-black bg-foreground py-8 md:py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
           {/* Kolom 1: Logo dan Deskripsi */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">ByeStunting</h3>
-            <p className="text-sm leading-relaxed max-w-xs mx-auto">
+          <div className="text-center sm:text-left">
+            <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">
+              ByeStunting
+            </h3>
+            <p className="text-xs md:text-sm leading-relaxed max-w-xs mx-auto sm:mx-0">
               Aplikasi untuk memantau tumbuh kembang anak dan mencegah stunting
               dengan dukungan AI.
             </p>
           </div>
 
           {/* Kolom 2: Tautan Navigasi */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Tautan</h3>
+          <div className="text-center sm:text-left">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
+              Tautan
+            </h3>
             <ul className="space-y-2">
               {["/", "/cek-stunting", "/edukasi", "/kontak"].map((path, i) => {
                 const names = ["Home", "Cek Stunting", "Edukasi", "Kontak"];
                 return (
                   <li key={path}>
-                    <Link href={path} className="text-sm hover:underline">
+                    <Link
+                      href={path}
+                      className="text-xs md:text-sm hover:underline"
+                    >
                       {names[i]}
                     </Link>
                   </li>
@@ -32,18 +39,22 @@ export default function Footer() {
           </div>
 
           {/* Kolom 3: Kontak */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Kontak</h3>
-            <ul className="space-y-2 text-sm">
+          <div className="text-center sm:text-left">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
+              Kontak
+            </h3>
+            <ul className="space-y-2 text-xs md:text-sm">
               <li>Email: info@byestunting.id</li>
               <li>Telepon: +62 123 4567 890</li>
             </ul>
           </div>
 
           {/* Kolom 4: Sosial Media */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Ikuti Kami</h3>
-            <div className="flex justify-center space-x-4">
+          <div className="text-center sm:text-left">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
+              Ikuti Kami
+            </h3>
+            <div className="flex justify-center sm:justify-start space-x-4">
               {[
                 { href: "#", label: "Facebook", iconPath: "M18 2h-3a5..." },
                 { href: "#", label: "Twitter", iconPath: "M22 4s-.7..." },
@@ -78,8 +89,8 @@ export default function Footer() {
         </div>
       </div>
       {/* Copyright */}
-      <div className="border-t border-gray-300 p-5 bg-background text-center">
-        <p className="text-sm">
+      <div className="border-t border-gray-300 p-4 md:p-5 bg-background text-center">
+        <p className="text-xs md:text-sm">
           &copy; {new Date().getFullYear()} ByeStunting. Hak Cipta Dilindungi.
         </p>
       </div>
