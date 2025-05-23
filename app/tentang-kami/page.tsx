@@ -45,8 +45,8 @@ export default function TentangKami() {
   return (
     <div className="container mx-auto px-4 py-10 max-w-6xl">
       <div className="text-center mb-5">
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-          Tentang Kami
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-primary from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+          Tentang <span className="text-secondary">Kami</span>
         </h1>
         <p className="text-gray-600 dark:text-gray-400 text-sm md:text-xl mx-auto">
           ByeStunting adalah platform inovatif yang didedikasikan untuk membantu
@@ -81,8 +81,8 @@ export default function TentangKami() {
             <div className=" bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full ">
               <Target className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
-            <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-              Misi Kami
+            <h2 className="text-2xl font-bold text-primary dark:text-blue-300">
+              Misi <span className="text-secondary">Kami</span>
             </h2>
           </div>
 
@@ -97,8 +97,8 @@ export default function TentangKami() {
             <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
               <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
-            <h2 className="mt-5 text-2xl font-bold text-blue-700 dark:text-blue-300">
-              Apa yang Kami Lakukan
+            <h2 className="mt-5 text-2xl font-bold text-primary dark:text-blue-300">
+              Apa yang <span className="text-secondary">Kami Lakukan?</span>
             </h2>
           </div>
 
@@ -145,7 +145,7 @@ export default function TentangKami() {
             <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full mb-4">
               <Award className="h-8 w-8 text-blue-600 dark:text-blue-400" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-blue-700 dark:text-blue-300">
+            <h3 className="text-xl font-bold mb-2 text-primary dark:text-blue-300">
               Keunggulan
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
@@ -158,7 +158,7 @@ export default function TentangKami() {
             <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full mb-4">
               <Heart className="h-8 w-8 text-blue-600 dark:text-blue-400" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-blue-700 dark:text-blue-300">
+            <h3 className="text-xl font-bold mb-2 text-primary dark:text-blue-300">
               Komitmen
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
@@ -182,8 +182,8 @@ export default function TentangKami() {
       {/* Tim Kami */}
       <div className="mb-16 px-5 -mt-5">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold mb-3 text-blue-700 dark:text-blue-300">
-            Tim Kami
+          <h2 className="text-3xl font-bold mb-3 text-primary dark:text-blue-300">
+            Tim <span className="text-secondary">Kami</span>
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Kenali para profesional berbakat yang berdedikasi untuk mewujudkan
@@ -210,7 +210,7 @@ export default function TentangKami() {
                 <h3 className="text-xl font-semibold mb-1 text-blue-700 dark:text-blue-300">
                   {member.name}
                 </h3>
-                <p className="text-blue-600 dark:text-blue-400 font-medium mb-1">
+                <p className="text-primary dark:text-blue-400 font-medium mb-1">
                   {member.role}
                 </p>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
