@@ -1,12 +1,6 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  CheckCircle,
-  Award,
-  Heart,
-  BookOpen,
-  Target,
-} from "lucide-react";
+import { CheckCircle, Award, Heart, BookOpen, Target } from "lucide-react";
 
 const teamMembers = [
   {
@@ -51,10 +45,10 @@ export default function TentangKami() {
   return (
     <div className="container mx-auto px-4 py-10 max-w-6xl">
       <div className="text-center mb-5">
-        <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
           Tentang Kami
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <p className="text-gray-600 dark:text-gray-400 text-sm md:text-xl mx-auto">
           ByeStunting adalah platform inovatif yang didedikasikan untuk membantu
           orang tua mencegah stunting pada anak sejak dini.
         </p>
@@ -70,10 +64,10 @@ export default function TentangKami() {
 
         {/* Konten teks */}
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white p-4">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2 text-center">
+          <h2 className="text-xl md:text-3xl font-bold mb-2 text-center">
             Bersama Melawan Stunting
           </h2>
-          <p className="text-base md:text-lg max-w-xl text-center">
+          <p className="text-sm md:text-lg max-w-xl text-center">
             Kami berkomitmen untuk menurunkan angka stunting di Indonesia
             melalui teknologi dan edukasi
           </p>
@@ -81,10 +75,10 @@ export default function TentangKami() {
       </div>
 
       {/* Misi dan Visi */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 px-5">
         <div className="space-y-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+            <div className=" bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full ">
               <Target className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
             <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-300">
@@ -92,7 +86,7 @@ export default function TentangKami() {
             </h2>
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400 text-sm max-sm:text-justify">
             ByeStunting hadir dengan misi untuk menurunkan angka stunting di
             Indonesia melalui teknologi dan edukasi. Kami berkomitmen untuk
             mendukung program nasional dalam menurunkan angka stunting menjadi
@@ -103,7 +97,7 @@ export default function TentangKami() {
             <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
               <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
-            <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-300">
+            <h2 className="mt-5 text-2xl font-bold text-blue-700 dark:text-blue-300">
               Apa yang Kami Lakukan
             </h2>
           </div>
@@ -146,7 +140,7 @@ export default function TentangKami() {
           </ul>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30 rounded-xl p-6 shadow-md border border-blue-100 dark:border-blue-900 flex flex-col items-center justify-center text-center">
             <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full mb-4">
               <Award className="h-8 w-8 text-blue-600 dark:text-blue-400" />
@@ -173,20 +167,20 @@ export default function TentangKami() {
             </p>
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-1 md:col-span-2">
             <Image
               src="/tentang-kami.png"
               alt="Komitmen ByeStunting"
               width={600}
               height={600}
-              className="rounded-xl shadow-md object-cover w-full h-[425px]"
+              className="rounded-xl shadow-md object-cover w-full md:h-[500px] lg:h-[405px]"
             />
           </div>
         </div>
       </div>
 
       {/* Tim Kami */}
-      <div className="mb-16">
+      <div className="mb-16 px-5 -mt-5">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-3 text-blue-700 dark:text-blue-300">
             Tim Kami
