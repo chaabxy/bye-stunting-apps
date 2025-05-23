@@ -28,7 +28,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="bg-background w-full flex items-center justify-center lg:-mt-16 h-screen md:h-[85vh] lg:h-screen">
+      <section className="bg-background w-full flex items-center justify-center md:-mt-16 h-screen md:h-[50vh] lg:h-screen">
         <div className="w-full max-w-screen-xl px-4 md:px-8">
           <div className="bg-foreground rounded-xl p-6 md:p-8 lg:p-12 shadow-md h-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center h-full">
@@ -133,8 +133,8 @@ export default async function Home() {
           </h2>
 
           {/* Desktop Layout (3 kolom dengan alignment) */}
-          <div className="justify-center items-center grid grid-col-1 lg:grid lg:grid-cols-3 gap-6">
-            <div className="lg:ml-auto">
+          <div className="justify-center items-center grid grid-col-1 md:grid md:grid-cols-3 gap-6">
+            <div className="md:ml-auto">
               <CampaignCard
                 title="Analisis Risiko Stunting"
                 description="Aplikasi ini membantu orang tua mendeteksi sejak dini apakah anak berisiko mengalami stunting dengan membandingkan data pertumbuhan anak terhadap standar WHO. Deteksi ini penting sebagai langkah awal pencegahan."
@@ -146,14 +146,14 @@ export default async function Home() {
               description="Sistem prediksi risiko stunting kami didukung oleh machine learning yang telah dilatih dengan data antropometri anak. Teknologi ini memungkinkan analisis yang lebih cepat, akurat, dan personal untuk tiap anak tanpa harus menunggu konsultasi langsung."
               icon={Brain}
             />
-            <div className="lg:mr-auto">
+            <div className="md:mr-auto">
               <CampaignCard
                 title="Dilengkapi Edukasi Lengkap"
                 description="ByeStunting menyajikan artikel dan video edukatif yang bersumber dari lembaga resmi seperti Kementerian Kesehatan RI dan beberapa edukasi di youtube yang disusun agar mudah dipahami oleh semua kalangan orang tua."
                 icon={BookOpen}
               />
             </div>
-            <div className="lg:ml-auto">
+            <div className="md:ml-auto">
               <CampaignCard
                 title="Grafik Hasil Prediksi Anak"
                 description="Aplikasi akan menampilkan grafik visual hasil prediksi anak berdasarkan data yang dimasukkan, kemudian dibandingkan dengan kurva pertumbuhan WHO. Hal ini membantu orang tua memahami apakah anak tumbuh dalam jalur sehat atau perlu perhatian khusus."
@@ -165,7 +165,7 @@ export default async function Home() {
               description="Setiap hasil prediksi disertai laporan yang dapat diunduh dalam format PDF. Laporan ini dilengkapi dengan status gizi anak, interpretasi hasil, serta rekomendasi tindak lanjut sebagai panduan bagi orang tua untuk menjaga pertumbuhan anak secara optimal."
               icon={Notebook}
             />
-            <div className="lg:mr-auto">
+            <div className="md:mr-auto">
               <CampaignCard
                 title="Privasi Data Terjamin"
                 description="Data anak yang dimasukkan ke dalam sistem kami dijaga dengan baik. ByeStunting berkomitmen untuk menjaga privasi dan kerahasiaan informasi setiap pengguna dan tidak disalahgunakan."
