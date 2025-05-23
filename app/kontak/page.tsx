@@ -1,59 +1,108 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Mail, MapPin, Phone, Send, MessageSquare, Clock } from "lucide-react";
 
 export default function Kontak() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-center mb-2">Kontak Kami</h1>
-      <p className="text-gray-600 text-center mb-8 max-w-2xl mx-auto">
-        Punya pertanyaan atau saran? Jangan ragu untuk menghubungi kami. Tim kami siap membantu Anda.
-      </p>
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <div className="text-center mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-secondary from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+          Kontak Kami
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 text-sm mx-auto px-5">
+          Punya pertanyaan atau saran? Jangan ragu untuk menghubungi kami. Tim
+          kami siap membantu Anda dalam upaya pencegahan stunting.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Kirim Pesan</CardTitle>
+        <Card className="lg:col-span-2 shadow-md border-blue-100 dark:border-blue-900">
+          <CardHeader className="bg-input from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border-b border-blue-100 dark:border-blue-900">
+            <CardTitle className=" text-blue-700 dark:text-blue-300 flex items-center gap-2">
+              <MessageSquare className="h-5 w-5" /> Kirim Pesan
+            </CardTitle>
+            <CardDescription>
+              Isi formulir di bawah ini dan tim kami akan merespons dalam 1-2
+              hari kerja
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="nama">Nama Lengkap</Label>
-                  <Input id="nama" placeholder="Masukkan nama lengkap" />
+                  <Input
+                    id="nama"
+                    placeholder="Masukkan nama lengkap"
+                    className="border-blue-200 focus:border-blue-400"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="Masukkan email" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Masukkan email"
+                    className="border-blue-200 focus:border-blue-400"
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="subjek">Subjek</Label>
-                <Input id="subjek" placeholder="Masukkan subjek pesan" />
+                <Input
+                  id="subjek"
+                  placeholder="Masukkan subjek pesan"
+                  className="border-blue-200 focus:border-blue-400"
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="pesan">Pesan</Label>
-                <Textarea id="pesan" placeholder="Tulis pesan Anda di sini" rows={5} />
+                <Textarea
+                  id="pesan"
+                  placeholder="Tulis pesan Anda di sini"
+                  rows={5}
+                  className="bg-input border-blue-200 focus:border-blue-400 resize-none"
+                />
               </div>
 
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">Kirim Pesan</Button>
+              <Button className=" w-full bg-secondary from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all">
+                <Send className="h-4 w-4 mr-2" /> Kirim Pesan
+              </Button>
             </form>
           </CardContent>
         </Card>
 
-        <div className="space-y-6">
-          <Card>
-            <CardContent className="p-6">
+        <div className="space-y-8">
+          <Card className="shadow-md border-blue-100 dark:border-blue-900 overflow-hidden ">
+            <div className="h-16 lg:h-24 bg-secondary from-secondary to-cyan-500 relative">
+              <div className="absolute inset-0 opacity-20 bg-[url('/placeholder.svg?height=200&width=400')] bg-center bg-cover"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <h3 className="text-white text-xl font-bold">
+                  Informasi Kontak
+                </h3>
+              </div>
+            </div>
+            <CardContent className="p-6 space-y-6 mb-10">
               <div className="flex items-start space-x-4">
-                <MapPin className="h-6 w-6 text-blue-600 mt-1" />
+                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
+                  <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                </div>
                 <div>
-                  <h3 className="font-semibold mb-2">Alamat</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">
+                    Alamat
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
                     Jl. Kesehatan No. 123
                     <br />
                     Jakarta Pusat, 10110
@@ -62,35 +111,51 @@ export default function Kontak() {
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardContent className="p-6">
               <div className="flex items-start space-x-4">
-                <Phone className="h-6 w-6 text-blue-600 mt-1" />
+                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
+                  <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                </div>
                 <div>
-                  <h3 className="font-semibold mb-2">Telepon</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">
+                    Telepon
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
                     +62 123 4567 890
-                    <br />
-                    Senin - Jumat: 08.00 - 17.00
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardContent className="p-6">
               <div className="flex items-start space-x-4">
-                <Mail className="h-6 w-6 text-blue-600 mt-1" />
+                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
+                  <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                </div>
                 <div>
-                  <h3 className="font-semibold mb-2">Email</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">
+                    Email
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
                     info@byestunting.id
                     <br />
                     support@byestunting.id
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
+                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
+                  <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2 text-blue-700 dark:text-blue-300">
+                    Jam Operasional
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    Senin - Jumat: 08.00 - 17.00
+                    <br />
+                    Sabtu: 09.00 - 14.00
+                    <br />
+                    Minggu: Tutup
                   </p>
                 </div>
               </div>
@@ -98,6 +163,20 @@ export default function Kontak() {
           </Card>
         </div>
       </div>
+
+      <div className="mt-12 rounded-lg overflow-hidden shadow-md border border-blue-100 dark:border-blue-900">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6664672948397!2d106.82496851476883!3d-6.175392395532956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1653971234567!5m2!1sid!2sid"
+          width="100%"
+          height="450"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Lokasi ByeStunting"
+          className="w-full"
+        ></iframe>
+      </div>
     </div>
-  )
+  );
 }
