@@ -90,6 +90,12 @@ export default function KelolaEdukasi() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingEdukasi, setEditingEdukasi] = useState<Edukasi | null>(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+
   const [formData, setFormData] = useState({
     title: "",
     headerImage: "",
@@ -132,6 +138,41 @@ export default function KelolaEdukasi() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const filteredEdukasiList = edukasiList.filter((edukasi) => {
+    const matchesSearch =
+      edukasi.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      edukasi.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "" || edukasi.category === selectedCategory;
+
+    const matchesStatus =
+      selectedStatus === "" ||
+      (selectedStatus === "popular" && edukasi.isPopular) ||
+      (selectedStatus === "regular" && !edukasi.isPopular);
+
+    const matchesDateFrom =
+      dateFrom === "" || new Date(edukasi.publishDate) >= new Date(dateFrom);
+    const matchesDateTo =
+      dateTo === "" || new Date(edukasi.publishDate) <= new Date(dateTo);
+
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesStatus &&
+      matchesDateFrom &&
+      matchesDateTo
+    );
+  });
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("");
+    setSelectedStatus("");
+    setDateFrom("");
+    setDateTo("");
   };
 
   const generateTableOfContents = () => {
@@ -386,527 +427,759 @@ export default function KelolaEdukasi() {
 
   return (
     <div className="container mx-auto px-0">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Kelola Edukasi</h1>
-          <p className="text-gray-600 mt-2">
-            Kelola konten edukasi stunting untuk pengguna
-          </p>
-        </div>
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 rounded-xl p-6 mb-6 border border-blue-200 dark:border-blue-700">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-blue-900 dark:text-blue-100">
+              Kelola Edukasi
+            </h1>
+            <p className="text-blue-700 dark:text-blue-300 mt-2">
+              Kelola dan analisis konten edukasi stunting
+            </p>
+          </div>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-[#317BC4] hover:bg-[#2A6CB0]">
-              <Plus className="h-4 w-4 mr-2" />
-              Tambah Edukasi
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
-            <DialogHeader className="flex-shrink-0">
-              <DialogTitle>
-                {editingEdukasi ? "Edit" : "Tambah"} Edukasi
-              </DialogTitle>
-              <DialogDescription>
-                Form untuk {editingEdukasi ? "mengedit" : "menambah"} data
-                edukasi.
-              </DialogDescription>
-            </DialogHeader>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Tambah Edukasi
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+                <DialogHeader className="flex-shrink-0">
+                  <DialogTitle>
+                    {editingEdukasi ? "Edit" : "Tambah"} Edukasi
+                  </DialogTitle>
+                  <DialogDescription>
+                    Form untuk {editingEdukasi ? "mengedit" : "menambah"} data
+                    edukasi.
+                  </DialogDescription>
+                </DialogHeader>
 
-            <div className="flex-1 overflow-y-auto pr-2 bg-white p-5">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Basic Information */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Informasi Dasar</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="title">Judul Artikel *</Label>
-                      <Input
-                        id="title"
-                        value={formData.title}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            title: e.target.value,
-                          }))
-                        }
-                        placeholder="Masukkan judul artikel"
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="headerImage">Gambar Header *</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                        <div className="text-center">
-                          <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                          <div className="mt-2">
-                            <label
-                              htmlFor="headerImageFile"
-                              className="cursor-pointer"
-                            >
-                              <span className="mt-2 block text-sm font-medium text-gray-900">
-                                Drag & drop gambar atau klik untuk memilih
-                              </span>
-                              <input
-                                id="headerImageFile"
-                                type="file"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={(e) =>
-                                  handleImageUpload(
-                                    "headerImage",
-                                    e.target.files?.[0]
-                                  )
-                                }
-                              />
-                            </label>
-                          </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF hingga 10MB
-                          </p>
+                <div className="flex-1 overflow-y-auto pr-2 bg-white p-5">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Basic Information */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Informasi Dasar</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="title">Judul Artikel *</Label>
+                          <Input
+                            id="title"
+                            value={formData.title}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                title: e.target.value,
+                              }))
+                            }
+                            placeholder="Masukkan judul artikel"
+                            required
+                          />
                         </div>
-                        {formData.headerImage && (
-                          <div className="mt-2">
-                            <img
-                              src={formData.headerImage || "/placeholder.svg"}
-                              alt="Preview"
-                              className="max-h-32 mx-auto rounded"
+
+                        <div className="space-y-2">
+                          <Label htmlFor="headerImage">Gambar Header *</Label>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                            <div className="text-center">
+                              <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                              <div className="mt-2">
+                                <label
+                                  htmlFor="headerImageFile"
+                                  className="cursor-pointer"
+                                >
+                                  <span className="mt-2 block text-sm font-medium text-gray-900">
+                                    Drag & drop gambar atau klik untuk memilih
+                                  </span>
+                                  <input
+                                    id="headerImageFile"
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={(e) =>
+                                      handleImageUpload(
+                                        "headerImage",
+                                        e.target.files?.[0]
+                                      )
+                                    }
+                                  />
+                                </label>
+                              </div>
+                              <p className="text-xs text-gray-500">
+                                PNG, JPG, GIF hingga 10MB
+                              </p>
+                            </div>
+                            {formData.headerImage && (
+                              <div className="mt-2">
+                                <img
+                                  src={
+                                    formData.headerImage || "/placeholder.svg"
+                                  }
+                                  alt="Preview"
+                                  className="max-h-32 mx-auto rounded"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="category">Kategori *</Label>
+                            <Select
+                              value={formData.category}
+                              onValueChange={(value) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  category: value,
+                                }))
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Pilih kategori" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {categories.map((category) => (
+                                  <SelectItem key={category} value={category}>
+                                    {category}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="publishDate">
+                              Tanggal Publikasi *
+                            </Label>
+                            <Input
+                              id="publishDate"
+                              type="date"
+                              value={formData.publishDate}
+                              onChange={(e) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  publishDate: e.target.value,
+                                }))
+                              }
+                              required
                             />
                           </div>
-                        )}
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="category">Kategori *</Label>
-                        <Select
-                          value={formData.category}
-                          onValueChange={(value) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              category: value,
-                            }))
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Pilih kategori" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {categories.map((category) => (
-                              <SelectItem key={category} value={category}>
-                                {category}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="publishDate">Tanggal Publikasi *</Label>
-                        <Input
-                          id="publishDate"
-                          type="date"
-                          value={formData.publishDate}
-                          onChange={(e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              publishDate: e.target.value,
-                            }))
-                          }
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="readingTime">
-                          Waktu Baca (menit) *
-                        </Label>
-                        <Input
-                          id="readingTime"
-                          type="number"
-                          min="1"
-                          value={formData.readingTime}
-                          onChange={(e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              readingTime: Number.parseInt(e.target.value) || 5,
-                            }))
-                          }
-                          placeholder="5"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="excerpt">Ringkasan Singkat *</Label>
-                      <Textarea
-                        id="excerpt"
-                        className="bg-input"
-                        value={formData.excerpt}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            excerpt: e.target.value,
-                          }))
-                        }
-                        placeholder="Masukkan ringkasan singkat artikel yang akan ditampilkan di halaman utama"
-                        rows={3}
-                        required
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Content Sections */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Konten Artikel</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {formData.content.map((section, index) => (
-                      <div
-                        key={section.id}
-                        className="border rounded-lg p-4 space-y-4"
-                      >
-                        <div className="flex justify-between items-center">
-                          <h4 className="font-medium">Konten {index + 1}</h4>
-                          <div className="flex gap-2">
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() =>
-                                addIllustrationToContent(section.id)
+                          <div className="space-y-2">
+                            <Label htmlFor="readingTime">
+                              Waktu Baca (menit) *
+                            </Label>
+                            <Input
+                              id="readingTime"
+                              type="number"
+                              min="1"
+                              value={formData.readingTime}
+                              onChange={(e) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  readingTime:
+                                    Number.parseInt(e.target.value) || 5,
+                                }))
                               }
-                              disabled={!!section.illustration}
-                            >
-                              <ImageIcon className="h-4 w-4 mr-1" />
-                              Tambah Ilustrasi
-                            </Button>
-                            {formData.content.length > 1 && (
+                              placeholder="5"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="excerpt">Ringkasan Singkat *</Label>
+                          <Textarea
+                            id="excerpt"
+                            className="bg-input"
+                            value={formData.excerpt}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                excerpt: e.target.value,
+                              }))
+                            }
+                            placeholder="Masukkan ringkasan singkat artikel yang akan ditampilkan di halaman utama"
+                            rows={3}
+                            required
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Content Sections */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Konten Artikel</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {formData.content.map((section, index) => (
+                          <div
+                            key={section.id}
+                            className="border rounded-lg p-4 space-y-4"
+                          >
+                            <div className="flex justify-between items-center">
+                              <h4 className="font-medium">
+                                Konten {index + 1}
+                              </h4>
+                              <div className="flex gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() =>
+                                    addIllustrationToContent(section.id)
+                                  }
+                                  disabled={!!section.illustration}
+                                >
+                                  <ImageIcon className="h-4 w-4 mr-1" />
+                                  Tambah Ilustrasi
+                                </Button>
+                                {formData.content.length > 1 && (
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      removeContentSection(section.id)
+                                    }
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label>Heading (H2) *</Label>
+                              <Input
+                                value={section.h2}
+                                onChange={(e) =>
+                                  updateContentSection(
+                                    section.id,
+                                    "h2",
+                                    e.target.value
+                                  )
+                                }
+                                placeholder="Masukkan judul bagian"
+                                required
+                              />
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label>Paragraf *</Label>
+                              <Textarea
+                                className="bg-input"
+                                value={section.paragraph}
+                                onChange={(e) =>
+                                  updateContentSection(
+                                    section.id,
+                                    "paragraph",
+                                    e.target.value
+                                  )
+                                }
+                                placeholder="Masukkan isi paragraf"
+                                rows={4}
+                                required
+                              />
+                            </div>
+
+                            {section.illustration && (
+                              <div className="border-t pt-4 space-y-4">
+                                <div className="flex justify-between items-center">
+                                  <h5 className="font-medium">Ilustrasi</h5>
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      removeIllustrationFromContent(section.id)
+                                    }
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </Button>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div className="space-y-2">
+                                    <Label>Tipe Ilustrasi</Label>
+                                    <Select
+                                      value={section.illustration.type}
+                                      onValueChange={(
+                                        value: "image" | "video"
+                                      ) =>
+                                        updateContentSection(
+                                          section.id,
+                                          "illustration",
+                                          {
+                                            ...section.illustration!,
+                                            type: value,
+                                          }
+                                        )
+                                      }
+                                    >
+                                      <SelectTrigger>
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="image">
+                                          Gambar
+                                        </SelectItem>
+                                        <SelectItem value="video">
+                                          Video
+                                        </SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <Label>
+                                      URL{" "}
+                                      {section.illustration.type === "image"
+                                        ? "Gambar"
+                                        : "Video"}
+                                    </Label>
+                                    <Input
+                                      value={section.illustration.url}
+                                      onChange={(e) =>
+                                        updateContentSection(
+                                          section.id,
+                                          "illustration",
+                                          {
+                                            ...section.illustration!,
+                                            url: e.target.value,
+                                          }
+                                        )
+                                      }
+                                      placeholder={
+                                        section.illustration.type === "image"
+                                          ? "https://example.com/image.jpg"
+                                          : "https://www.youtube.com/watch?v=..."
+                                      }
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <Label>Caption</Label>
+                                  <Input
+                                    value={section.illustration.caption}
+                                    onChange={(e) =>
+                                      updateContentSection(
+                                        section.id,
+                                        "illustration",
+                                        {
+                                          ...section.illustration!,
+                                          caption: e.target.value,
+                                        }
+                                      )
+                                    }
+                                    placeholder="Masukkan caption untuk ilustrasi"
+                                  />
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={addContentSection}
+                          className="w-full"
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Tambah Konten
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    {/* Important Points */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Poin-Poin Penting</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {formData.importantPoints.map((point, index) => (
+                          <div key={index} className="flex gap-2">
+                            <Input
+                              value={point}
+                              onChange={(e) =>
+                                updateImportantPoint(index, e.target.value)
+                              }
+                              placeholder={`Poin penting ${index + 1}`}
+                            />
+                            {formData.importantPoints.length > 1 && (
                               <Button
                                 type="button"
                                 variant="outline"
-                                size="sm"
-                                onClick={() => removeContentSection(section.id)}
+                                size="icon"
+                                onClick={() => removeImportantPoint(index)}
                               >
                                 <X className="h-4 w-4" />
                               </Button>
                             )}
                           </div>
-                        </div>
+                        ))}
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={addImportantPoint}
+                          className="w-full"
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Tambah Poin Penting
+                        </Button>
+                      </CardContent>
+                    </Card>
 
+                    {/* Conclusion */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Kesimpulan</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
                         <div className="space-y-2">
-                          <Label>Heading (H2) *</Label>
+                          <Label>Heading (H2)</Label>
                           <Input
-                            value={section.h2}
+                            value={formData.conclusion.h2}
                             onChange={(e) =>
-                              updateContentSection(
-                                section.id,
-                                "h2",
-                                e.target.value
-                              )
+                              setFormData((prev) => ({
+                                ...prev,
+                                conclusion: {
+                                  ...prev.conclusion,
+                                  h2: e.target.value,
+                                },
+                              }))
                             }
-                            placeholder="Masukkan judul bagian"
-                            required
+                            placeholder="Kesimpulan"
+                            disabled
+                            className="bg-background"
                           />
                         </div>
 
                         <div className="space-y-2">
-                          <Label>Paragraf *</Label>
+                          <Label>Paragraf Kesimpulan *</Label>
                           <Textarea
                             className="bg-input"
-                            value={section.paragraph}
+                            value={formData.conclusion.paragraph}
                             onChange={(e) =>
-                              updateContentSection(
-                                section.id,
-                                "paragraph",
-                                e.target.value
-                              )
+                              setFormData((prev) => ({
+                                ...prev,
+                                conclusion: {
+                                  ...prev.conclusion,
+                                  paragraph: e.target.value,
+                                },
+                              }))
                             }
-                            placeholder="Masukkan isi paragraf"
+                            placeholder="Masukkan kesimpulan artikel"
                             rows={4}
                             required
                           />
                         </div>
+                      </CardContent>
+                    </Card>
 
-                        {section.illustration && (
-                          <div className="border-t pt-4 space-y-4">
-                            <div className="flex justify-between items-center">
-                              <h5 className="font-medium">Ilustrasi</h5>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                onClick={() =>
-                                  removeIllustrationFromContent(section.id)
-                                }
-                              >
-                                <X className="h-4 w-4" />
-                              </Button>
-                            </div>
+                    {/* Table of Contents Preview */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Preview Daftar Isi</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h4 className="font-medium mb-2">
+                            Daftar Isi (Otomatis)
+                          </h4>
+                          <ul className="space-y-1">
+                            {generateTableOfContents().map((item, index) => (
+                              <li key={index} className="text-sm text-gray-600">
+                                {index + 1}. {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </CardContent>
+                    </Card>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label>Tipe Ilustrasi</Label>
-                                <Select
-                                  value={section.illustration.type}
-                                  onValueChange={(value: "image" | "video") =>
-                                    updateContentSection(
-                                      section.id,
-                                      "illustration",
-                                      {
-                                        ...section.illustration!,
-                                        type: value,
-                                      }
-                                    )
-                                  }
-                                >
-                                  <SelectTrigger>
-                                    <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="image">
-                                      Gambar
-                                    </SelectItem>
-                                    <SelectItem value="video">Video</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label>
-                                  URL{" "}
-                                  {section.illustration.type === "image"
-                                    ? "Gambar"
-                                    : "Video"}
-                                </Label>
-                                <Input
-                                  value={section.illustration.url}
-                                  onChange={(e) =>
-                                    updateContentSection(
-                                      section.id,
-                                      "illustration",
-                                      {
-                                        ...section.illustration!,
-                                        url: e.target.value,
-                                      }
-                                    )
-                                  }
-                                  placeholder={
-                                    section.illustration.type === "image"
-                                      ? "https://example.com/image.jpg"
-                                      : "https://www.youtube.com/watch?v=..."
-                                  }
-                                />
-                              </div>
-                            </div>
-
-                            <div className="space-y-2">
-                              <Label>Caption</Label>
-                              <Input
-                                value={section.illustration.caption}
-                                onChange={(e) =>
-                                  updateContentSection(
-                                    section.id,
-                                    "illustration",
-                                    {
-                                      ...section.illustration!,
-                                      caption: e.target.value,
-                                    }
-                                  )
-                                }
-                                placeholder="Masukkan caption untuk ilustrasi"
-                              />
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={addContentSection}
-                      className="w-full"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Tambah Konten
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {/* Important Points */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Poin-Poin Penting</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {formData.importantPoints.map((point, index) => (
-                      <div key={index} className="flex gap-2">
-                        <Input
-                          value={point}
-                          onChange={(e) =>
-                            updateImportantPoint(index, e.target.value)
-                          }
-                          placeholder={`Poin penting ${index + 1}`}
-                        />
-                        {formData.importantPoints.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => removeImportantPoint(index)}
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </div>
-                    ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={addImportantPoint}
-                      className="w-full"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Tambah Poin Penting
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {/* Conclusion */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Kesimpulan</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>Heading (H2)</Label>
-                      <Input
-                        value={formData.conclusion.h2}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            conclusion: {
-                              ...prev.conclusion,
-                              h2: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="Kesimpulan"
-                        disabled
-                        className="bg-background"
-                      />
+                    <div className="flex justify-end gap-2 pt-4 border-t">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleDialogClose}
+                      >
+                        Batal
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="bg-[#317BC4] hover:bg-[#2A6CB0]"
+                      >
+                        {editingEdukasi ? "Update" : "Simpan"} Edukasi
+                      </Button>
                     </div>
-
-                    <div className="space-y-2">
-                      <Label>Paragraf Kesimpulan *</Label>
-                      <Textarea
-                        className="bg-input"
-                        value={formData.conclusion.paragraph}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            conclusion: {
-                              ...prev.conclusion,
-                              paragraph: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="Masukkan kesimpulan artikel"
-                        rows={4}
-                        required
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Table of Contents Preview */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Preview Daftar Isi</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h4 className="font-medium mb-2">
-                        Daftar Isi (Otomatis)
-                      </h4>
-                      <ul className="space-y-1">
-                        {generateTableOfContents().map((item, index) => (
-                          <li key={index} className="text-sm text-gray-600">
-                            {index + 1}. {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <div className="flex justify-end gap-2 pt-4 border-t">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleDialogClose}
-                  >
-                    Batal
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="bg-[#317BC4] hover:bg-[#2A6CB0]"
-                  >
-                    {editingEdukasi ? "Update" : "Simpan"} Edukasi
-                  </Button>
+                  </form>
                 </div>
-              </form>
-            </div>
-          </DialogContent>
-        </Dialog>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Daftar Edukasi ({edukasiList.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="flex justify-center items-center py-8">
-              <div className="text-gray-500">Memuat data...</div>
+      {/* Add statistics cards section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-blue-700 font-medium">Total Artikel</p>
+                <p className="text-3xl font-bold text-blue-900">
+                  {edukasiList.length}
+                </p>
+                <p className="text-sm text-blue-600 mt-1">
+                  dari {edukasiList.length} total artikel
+                </p>
+              </div>
+              <div className="bg-blue-500 p-3 rounded-full">
+                <Calendar className="h-6 w-6 text-white" />
+              </div>
             </div>
-          ) : edukasiList.length === 0 ? (
-            <div className="flex justify-center items-center py-8">
-              <div className="text-gray-500">Belum ada data edukasi</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-green-700 font-medium">Artikel Populer</p>
+                <p className="text-3xl font-bold text-green-900">
+                  {edukasiList.filter((item) => item.isPopular).length}
+                </p>
+                <p className="text-sm text-green-600 mt-1">
+                  {edukasiList.length > 0
+                    ? `${(
+                        (edukasiList.filter((item) => item.isPopular).length /
+                          edukasiList.length) *
+                        100
+                      ).toFixed(1)}%`
+                    : "0%"}
+                </p>
+              </div>
+              <div className="bg-green-500 p-3 rounded-full">
+                <Heart className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200 shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-amber-700 font-medium">Total Views</p>
+                <p className="text-3xl font-bold text-amber-900">
+                  {edukasiList.reduce((total, item) => total + item.views, 0)}
+                </p>
+                <p className="text-sm text-amber-600 mt-1">
+                  rata-rata{" "}
+                  {edukasiList.length > 0
+                    ? Math.round(
+                        edukasiList.reduce(
+                          (total, item) => total + item.views,
+                          0
+                        ) / edukasiList.length
+                      )
+                    : 0}{" "}
+                  per artikel
+                </p>
+              </div>
+              <div className="bg-amber-500 p-3 rounded-full">
+                <Eye className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-purple-700 font-medium">Total Likes</p>
+                <p className="text-3xl font-bold text-purple-900">
+                  {edukasiList.reduce((total, item) => total + item.likes, 0)}
+                </p>
+                <p className="text-sm text-purple-600 mt-1">
+                  rata-rata{" "}
+                  {edukasiList.length > 0
+                    ? Math.round(
+                        edukasiList.reduce(
+                          (total, item) => total + item.likes,
+                          0
+                        ) / edukasiList.length
+                      )
+                    : 0}{" "}
+                  per artikel
+                </p>
+              </div>
+              <div className="bg-purple-500 p-3 rounded-full">
+                <Heart className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Search and Filter Section */}
+      <Card className="mb-6 shadow-lg border-0 bg-white dark:bg-slate-800">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {/* Search Input */}
+            <div className="lg:col-span-2">
+              <Label
+                htmlFor="search"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300"
+              >
+                Cari Artikel
+              </Label>
+              <Input
+                id="search"
+                placeholder="Cari berdasarkan judul atau ringkasan..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+
+            {/* Category Filter */}
+            <div>
+              <Label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Kategori
+              </Label>
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Semua Kategori" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Kategori</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Status Filter */}
+            <div>
+              <Label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Status
+              </Label>
+              <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Semua Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Status</SelectItem>
+                  <SelectItem value="popular">Populer</SelectItem>
+                  <SelectItem value="regular">Regular</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Clear Filters Button */}
+            <div className="flex items-end">
+              <Button
+                variant="outline"
+                onClick={clearFilters}
+                className="w-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
+              >
+                <X className="h-4 w-4 mr-2" />
+                Reset Filter
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="shadow-lg border-0 bg-gradient-to-r dark:bg-slate-800">
+        <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
+          <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
+            Daftar Edukasi
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="px-2">
+          {isLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-slate-500 dark:text-slate-400">
+                Memuat data...
+              </div>
+            </div>
+          ) : filteredEdukasiList.length === 0 ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-slate-500 dark:text-slate-400">
+                {edukasiList.length === 0
+                  ? "Belum ada data edukasi"
+                  : "Tidak ada artikel yang sesuai dengan filter"}
+              </div>
             </div>
           ) : (
-            <div className="rounded-md border ">
+            <div className="rounded-md border-0 overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-center">Judul</TableHead>
-                    <TableHead className="text-center">Kategori</TableHead>
-                    <TableHead className="text-center">
+                  <TableRow className="bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600">
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300 w-12">
+                      No
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                      Judul
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                      Kategori
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
                       Tanggal Publikasi
                     </TableHead>
-                    <TableHead className="text-center">Likes</TableHead>
-                    <TableHead className="text-center">Views</TableHead>
-                    <TableHead className="text-center">Status</TableHead>
-                    <TableHead className="text-center">Aksi</TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                      Likes
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                      Views
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                      Status
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                      Aksi
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {edukasiList.map((edukasi) => (
-                    <TableRow key={edukasi.id}>
+                  {filteredEdukasiList.map((edukasi, index) => (
+                    <TableRow
+                      key={edukasi.id}
+                      className="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <TableCell className="text-center font-medium">
+                        {index + 1}
+                      </TableCell>
                       <TableCell className="font-medium max-w-xs">
-                        <div className="truncate" title={edukasi.title}>
+                        <div
+                          className="truncate text-slate-900 dark:text-slate-100"
+                          title={edukasi.title}
+                        >
                           {edukasi.title}
                         </div>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge variant="secondary">{edukasi.category}</Badge>
+                        <Badge className="bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                          {edukasi.category}
+                        </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
@@ -936,7 +1209,7 @@ export default function KelolaEdukasi() {
                         )}
                       </TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 justify-center">
                           <Button
                             variant="outline"
                             size="sm"
@@ -944,6 +1217,7 @@ export default function KelolaEdukasi() {
                               window.open(`/edukasi/${edukasi.id}`, "_blank")
                             }
                             title="Lihat di halaman user"
+                            className="hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all duration-200"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -952,6 +1226,7 @@ export default function KelolaEdukasi() {
                             size="sm"
                             onClick={() => handleEdit(edukasi)}
                             title="Edit artikel"
+                            className="hover:bg-amber-50 hover:border-amber-300 hover:text-amber-600 transition-all duration-200"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -960,6 +1235,7 @@ export default function KelolaEdukasi() {
                             size="sm"
                             onClick={() => handleDelete(edukasi.id)}
                             title="Hapus artikel"
+                            className="hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all duration-200"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

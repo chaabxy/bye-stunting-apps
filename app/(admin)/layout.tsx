@@ -10,10 +10,10 @@ import {
   Menu,
   LayoutDashboard,
   FileText,
-  Film,
-  Settings,
+  Database,
   Bell,
   User,
+  MessageCircle,
 } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -33,7 +33,7 @@ const sidebarItems = [
     href: "/dashboard",
     icon: LayoutDashboard,
     label: "Dashboard",
-    description: "Overview dan statistik",
+    description: "Ringkasan Informasi",
   },
   {
     href: "/kelola-edukasi",
@@ -43,10 +43,16 @@ const sidebarItems = [
   },
   {
     href: "/kelola-data-stunting",
-    icon: Film,
+    icon: Database,
     label: "Kelola Data Stunting",
     description: "Data Hasil Input User",
-  }
+  },
+  {
+    href: "/kelola-pesan-user",
+    icon: MessageCircle,
+    label: "Kelola Pesan User",
+    description: "Pesan Kiriman User",
+  },
 ];
 
 export default function AdminLayout({
@@ -144,23 +150,6 @@ export default function AdminLayout({
           );
         })}
       </nav>
-
-      {/* Bottom section */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-xl">
-          <div className="flex items-center space-x-3">
-            <Settings className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-white">
-                Pengaturan
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                Konfigurasi sistem
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 
@@ -184,7 +173,7 @@ export default function AdminLayout({
         {/* Main Content */}
         <div className="lg:pl-80">
           {/* Top Header */}
-          <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
+          <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 py-4">
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
@@ -210,27 +199,13 @@ export default function AdminLayout({
 
                 <div className="flex items-center space-x-4">
                   <ThemeToggle />
-
-                  <Button variant="ghost" size="icon" className="relative">
-                    <Bell className="h-5 w-5" />
-                    <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></span>
-                  </Button>
-
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="relative h-10 w-10 rounded-full"
+                        className="h-10 w-10 rounded-full"
                       >
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage
-                            src="/placeholder.svg?height=40&width=40"
-                            alt="Admin"
-                          />
-                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-                            AD
-                          </AvatarFallback>
-                        </Avatar>
+                        <User className="h-5 w-5" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -249,14 +224,6 @@ export default function AdminLayout({
                         </div>
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <User className="mr-2 h-4 w-4" />
-                        <span>Profil</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Pengaturan</span>
-                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleLogout}>
                         <LogOut className="mr-2 h-4 w-4" />

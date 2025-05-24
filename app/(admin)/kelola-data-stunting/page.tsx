@@ -1,6 +1,14 @@
 "use client";
 
-import { Plus, Search, Edit, Trash2, Film, Play, Loader2 } from "lucide-react";
+import {
+  Search,
+  Download,
+  BarChart3,
+  Eye,
+  Loader2,
+  Users,
+  Filter,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import {
   Table,
@@ -15,14 +23,12 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Select,
@@ -32,272 +38,479 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ScatterChart,
+  Scatter,
+} from "recharts";
 
-type Video = {
+type StuntingData = {
   id: string;
-  title: string;
-  description: string;
-  videoUrl: string;
-  thumbnailUrl: string;
-  duration: string;
-  category: string;
-  date: string;
+  namaAnak: string;
+  namaIbu: string;
+  tanggalLahir: string;
+  jenisKelamin: string;
+  beratBadan: number;
+  tinggiBadan: number;
+  usia: number;
+  provinsi: string;
+  kabupaten: string;
+  kecamatan: string;
+  desa: string;
+  status: "normal" | "berisiko" | "stunting";
+  risiko: number;
+  tanggalPemeriksaan: string;
 };
 
-const categories = ["Nutrisi", "Tips Praktis", "Resep Sehat", "Gaya Hidup"];
-
-export default function VideosPage() {
-  const [videos, setVideos] = useState<Video[]>([]);
+export default function KelolaDataStunting() {
+  const [data, setData] = useState<StuntingData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
-  const [newVideo, setNewVideo] = useState<Omit<Video, "id" | "date">>({
-    title: "",
-    description: "",
-    videoUrl: "",
-    thumbnailUrl: "",
-    duration: "",
-    category: "Nutrisi",
-  });
+  const [isChartDialogOpen, setIsChartDialogOpen] = useState(false);
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState<StuntingData | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedProvinsi, setSelectedProvinsi] = useState("all");
+  const [selectedKabupaten, setSelectedKabupaten] = useState("all");
+  const [selectedKecamatan, setSelectedKecamatan] = useState("all");
+  const [selectedDesa, setSelectedDesa] = useState("all");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Data untuk dropdown filter
+  const [kabupatens, setKabupatens] = useState<string[]>([]);
+  const [kecamatans, setKecamatans] = useState<string[]>([]);
+  const [desas, setDesas] = useState<string[]>([]);
+
   useEffect(() => {
-    // Simulate fetching data from an API
+    // Simulate fetching data from localStorage or API
     setTimeout(() => {
-      const mockVideos: Video[] = [
+      const mockData: StuntingData[] = [
         {
           id: "1",
-          title: "Manfaat Sarapan Sehat",
-          description: "Pelajari mengapa sarapan penting untuk kesehatan Anda.",
-          videoUrl: "https://www.youtube.com/watch?v=example1",
-          thumbnailUrl: "https://via.placeholder.com/150",
-          duration: "5:30",
-          category: "Nutrisi",
-          date: "2024-01-20",
+          namaAnak: "Andi",
+          namaIbu: "Siti",
+          tanggalLahir: "2021-05-03",
+          jenisKelamin: "laki-laki",
+          beratBadan: 10.5,
+          tinggiBadan: 85.5,
+          usia: 43,
+          provinsi: "Jawa Barat",
+          kabupaten: "Garut",
+          kecamatan: "Cilawu",
+          desa: "Sukamurni",
+          status: "normal",
+          risiko: 15,
+          tanggalPemeriksaan: "2024-01-20",
         },
         {
           id: "2",
-          title: "Tips Memulai Gaya Hidup Aktif",
-          description:
-            "Panduan langkah demi langkah untuk menjadi lebih aktif.",
-          videoUrl: "https://www.youtube.com/watch?v=example2",
-          thumbnailUrl: "https://via.placeholder.com/150",
-          duration: "8:45",
-          category: "Tips Praktis",
-          date: "2024-01-15",
+          namaAnak: "Rina",
+          namaIbu: "Dewi",
+          tanggalLahir: "2020-10-10",
+          jenisKelamin: "perempuan",
+          beratBadan: 8.0,
+          tinggiBadan: 78.0,
+          usia: 51,
+          provinsi: "Jawa Tengah",
+          kabupaten: "Semarang",
+          kecamatan: "Tembalang",
+          desa: "Sendangmulyo",
+          status: "berisiko",
+          risiko: 45,
+          tanggalPemeriksaan: "2024-01-18",
         },
         {
           id: "3",
-          title: "Resep Smoothie Hijau Segar",
-          description: "Nikmati smoothie lezat dan sehat dengan resep ini.",
-          videoUrl: "https://www.youtube.com/watch?v=example3",
-          thumbnailUrl: "https://via.placeholder.com/150",
-          duration: "4:12",
-          category: "Resep Sehat",
-          date: "2024-01-10",
+          namaAnak: "Budi",
+          namaIbu: "Ani",
+          tanggalLahir: "2022-03-15",
+          jenisKelamin: "laki-laki",
+          beratBadan: 7.2,
+          tinggiBadan: 70.0,
+          usia: 22,
+          provinsi: "Jawa Timur",
+          kabupaten: "Malang",
+          kecamatan: "Klojen",
+          desa: "Kauman",
+          status: "stunting",
+          risiko: 75,
+          tanggalPemeriksaan: "2024-01-15",
+        },
+        {
+          id: "4",
+          namaAnak: "Sari",
+          namaIbu: "Umi",
+          tanggalLahir: "2021-08-20",
+          jenisKelamin: "perempuan",
+          beratBadan: 9.8,
+          tinggiBadan: 82.0,
+          usia: 29,
+          provinsi: "Jawa Barat",
+          kabupaten: "Bandung",
+          kecamatan: "Coblong",
+          desa: "Dago",
+          status: "normal",
+          risiko: 20,
+          tanggalPemeriksaan: "2024-01-12",
         },
       ];
-      setVideos(mockVideos);
+      setData(mockData);
       setIsLoading(false);
     }, 1000);
   }, []);
 
-  const handleAddVideo = () => {
-    // Simulate adding a new video
-    const newId = Math.random().toString(36).substring(7);
-    const newVideoWithId: Video = {
-      id: newId,
-      date: new Date().toISOString().slice(0, 10),
-      ...newVideo,
-    };
-    setVideos([...videos, newVideoWithId]);
-    setNewVideo({
-      title: "",
-      description: "",
-      videoUrl: "",
-      thumbnailUrl: "",
-      duration: "",
-      category: "Nutrisi",
-    });
-    setIsAddDialogOpen(false);
-    setSuccessMessage("Video berhasil ditambahkan!");
-    setTimeout(() => setSuccessMessage(null), 3000);
-  };
+  // Update dropdown options based on selected filters
+  useEffect(() => {
+    if (selectedProvinsi !== "all") {
+      const uniqueKabupatens = [
+        ...new Set(
+          data
+            .filter((d) => d.provinsi === selectedProvinsi)
+            .map((d) => d.kabupaten)
+        ),
+      ];
+      setKabupatens(uniqueKabupatens);
+    } else {
+      setKabupatens([]);
+    }
+    setSelectedKabupaten("all");
+    setSelectedKecamatan("all");
+    setSelectedDesa("all");
+  }, [selectedProvinsi, data]);
 
-  const handleEditVideo = () => {
-    if (!currentVideo) return;
+  useEffect(() => {
+    if (selectedKabupaten !== "all") {
+      const uniqueKecamatans = [
+        ...new Set(
+          data
+            .filter(
+              (d) =>
+                d.provinsi === selectedProvinsi &&
+                d.kabupaten === selectedKabupaten
+            )
+            .map((d) => d.kecamatan)
+        ),
+      ];
+      setKecamatans(uniqueKecamatans);
+    } else {
+      setKecamatans([]);
+    }
+    setSelectedKecamatan("all");
+    setSelectedDesa("all");
+  }, [selectedKabupaten, selectedProvinsi, data]);
 
-    // Simulate updating the video
-    const updatedVideos = videos.map((video) =>
-      video.id === currentVideo.id ? currentVideo : video
+  useEffect(() => {
+    if (selectedKecamatan !== "all") {
+      const uniqueDesas = [
+        ...new Set(
+          data
+            .filter(
+              (d) =>
+                d.provinsi === selectedProvinsi &&
+                d.kabupaten === selectedKabupaten &&
+                d.kecamatan === selectedKecamatan
+            )
+            .map((d) => d.desa)
+        ),
+      ];
+      setDesas(uniqueDesas);
+    } else {
+      setDesas([]);
+    }
+    setSelectedDesa("all");
+  }, [selectedKecamatan, selectedKabupaten, selectedProvinsi, data]);
+
+  const handleDownloadExcel = () => {
+    // Simulate Excel download
+    const csvContent = [
+      [
+        "No",
+        "Nama Anak",
+        "Nama Ibu",
+        "Tanggal Lahir",
+        "Jenis Kelamin",
+        "Berat (kg)",
+        "Tinggi (cm)",
+        "Usia (bulan)",
+        "Provinsi",
+        "Kabupaten/Kota",
+        "Kecamatan",
+        "Desa",
+        "Status",
+        "Risiko (%)",
+        "Tanggal Pemeriksaan",
+      ],
+      ...filteredData.map((item, index) => [
+        index + 1,
+        item.namaAnak,
+        item.namaIbu,
+        item.tanggalLahir,
+        item.jenisKelamin === "laki-laki" ? "Laki-laki" : "Perempuan",
+        item.beratBadan,
+        item.tinggiBadan,
+        item.usia,
+        item.provinsi,
+        item.kabupaten,
+        item.kecamatan,
+        item.desa,
+        item.status === "normal"
+          ? "Normal"
+          : item.status === "berisiko"
+          ? "Berisiko"
+          : "Stunting",
+        item.risiko,
+        item.tanggalPemeriksaan,
+      ]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `data-stunting-${new Date().toISOString().split("T")[0]}.csv`
     );
-    setVideos(updatedVideos);
-    setIsEditDialogOpen(false);
-    setCurrentVideo(null);
-    setSuccessMessage("Video berhasil diperbarui!");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setSuccessMessage("Data berhasil diunduh!");
     setTimeout(() => setSuccessMessage(null), 3000);
   };
 
-  const handleDeleteVideo = () => {
-    if (!currentVideo) return;
+  const filteredData = data.filter((item) => {
+    const searchMatch =
+      item.namaAnak.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.namaIbu.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.provinsi.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.kabupaten.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Simulate deleting the video
-    setVideos(videos.filter((video) => video.id !== currentVideo.id));
-    setIsDeleteDialogOpen(false);
-    setCurrentVideo(null);
-    setSuccessMessage("Video berhasil dihapus!");
-    setTimeout(() => setSuccessMessage(null), 3000);
-  };
+    const provinsiMatch =
+      selectedProvinsi === "all" || item.provinsi === selectedProvinsi;
+    const kabupatenMatch =
+      selectedKabupaten === "all" || item.kabupaten === selectedKabupaten;
+    const kecamatanMatch =
+      selectedKecamatan === "all" || item.kecamatan === selectedKecamatan;
+    const desaMatch = selectedDesa === "all" || item.desa === selectedDesa;
 
-  const filteredVideos = videos.filter((video) => {
-    const searchTermMatch = video.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const categoryMatch =
-      selectedCategory === "all" || video.category === selectedCategory;
-    return searchTermMatch && categoryMatch;
+    return (
+      searchMatch &&
+      provinsiMatch &&
+      kabupatenMatch &&
+      kecamatanMatch &&
+      desaMatch
+    );
   });
+
+  // Prepare chart data
+  const chartData = filteredData.map((item, index) => ({
+    name: item.namaAnak,
+    usia: item.usia,
+    beratBadan: item.beratBadan,
+    tinggiBadan: item.tinggiBadan,
+    risiko: item.risiko,
+    status: item.status,
+    jenisKelamin: item.jenisKelamin,
+  }));
+
+  const uniqueProvinsis = [...new Set(data.map((d) => d.provinsi))];
 
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Kelola Video
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
-            Kelola dan atur konten video edukasi
-          </p>
-        </div>
-        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl transition-all duration-200">
-              <Plus className="mr-2 h-4 w-4" /> Tambah Video
+      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900 dark:to-teal-900 rounded-xl p-6 mb-6 border border-emerald-200 dark:border-emerald-700">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-emerald-900 dark:text-white">
+              Kelola Data Stunting
+            </h1>
+            <p className="text-emerald-700 dark:text-emerald-300 mt-2">
+              Kelola dan analisis data pemeriksaan stunting
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Dialog
+              open={isChartDialogOpen}
+              onOpenChange={setIsChartDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-white border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400 shadow-md transition-all duration-200"
+                >
+                  <BarChart3 className="mr-2 h-4 w-4" />
+                  Lihat Grafik WHO
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Grafik WHO - Semua Data</DialogTitle>
+                  <DialogDescription>
+                    Visualisasi data pertumbuhan anak berdasarkan standar WHO
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="font-semibold mb-4">Berat Badan vs Usia</h3>
+                    <div className="h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ScatterChart data={chartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="usia"
+                            label={{
+                              value: "Usia (bulan)",
+                              position: "insideBottom",
+                              offset: -10,
+                            }}
+                          />
+                          <YAxis
+                            label={{
+                              value: "Berat (kg)",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            formatter={(value, name) => [
+                              value,
+                              name === "beratBadan" ? "Berat Badan (kg)" : name,
+                            ]}
+                          />
+                          <Scatter dataKey="beratBadan" fill="#22c55e" />
+                        </ScatterChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-4">
+                      Berat Badan vs Jenis Kelamin
+                    </h3>
+                    <div className="h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ScatterChart data={chartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="jenisKelamin"
+                            label={{
+                              value: "Jenis Kelamin",
+                              position: "insideBottom",
+                              offset: -10,
+                            }}
+                          />
+                          <YAxis
+                            label={{
+                              value: "Berat (kg)",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            formatter={(value, name) => [
+                              value,
+                              name === "beratBadan" ? "Berat Badan (kg)" : name,
+                            ]}
+                          />
+                          <Scatter dataKey="beratBadan" fill="#22c55e" />
+                        </ScatterChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-4">Tinggi Badan vs Usia</h3>
+                    <div className="h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ScatterChart data={chartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="usia"
+                            label={{
+                              value: "Usia (bulan)",
+                              position: "insideBottom",
+                              offset: -10,
+                            }}
+                          />
+                          <YAxis
+                            label={{
+                              value: "Tinggi (cm)",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            formatter={(value, name) => [
+                              value,
+                              name === "tinggiBadan"
+                                ? "Tinggi Badan (cm)"
+                                : name,
+                            ]}
+                          />
+                          <Scatter dataKey="tinggiBadan" fill="#22c55e" />
+                        </ScatterChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-4">
+                      Tinggi Badan vs Jenis Kelamin
+                    </h3>
+                    <div className="h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ScatterChart data={chartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="jenisKelamin"
+                            label={{
+                              value: "Jenis Kelamin",
+                              position: "insideBottom",
+                              offset: -10,
+                            }}
+                          />
+                          <YAxis
+                            label={{
+                              value: "Tinggi (cm)",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            formatter={(value, name) => [
+                              value,
+                              name === "tinggiBadan"
+                                ? "Tinggi Badan (cm)"
+                                : name,
+                            ]}
+                          />
+                          <Scatter dataKey="tinggiBadan" fill="#22c55e" />
+                        </ScatterChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            <Button
+              onClick={handleDownloadExcel}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download Excel
             </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold">
-                Tambah Video Baru
-              </DialogTitle>
-              <DialogDescription>
-                Isi form berikut untuk menambahkan video baru ke platform
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-6 py-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="text-sm font-medium">
-                    Judul Video
-                  </Label>
-                  <Input
-                    id="title"
-                    value={newVideo.title}
-                    onChange={(e) =>
-                      setNewVideo({ ...newVideo, title: e.target.value })
-                    }
-                    placeholder="Masukkan judul video"
-                    className="focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="category" className="text-sm font-medium">
-                    Kategori
-                  </Label>
-                  <Input
-                    id="category"
-                    value={newVideo.category}
-                    onChange={(e) =>
-                      setNewVideo({ ...newVideo, category: e.target.value })
-                    }
-                    placeholder="Masukkan kategori (mis. Nutrisi, Tips Praktis)"
-                    className="focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description" className="text-sm font-medium">
-                  Deskripsi
-                </Label>
-                <Textarea
-                  id="description"
-                  value={newVideo.description}
-                  onChange={(e) =>
-                    setNewVideo({ ...newVideo, description: e.target.value })
-                  }
-                  placeholder="Masukkan deskripsi video"
-                  rows={3}
-                  className="focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="videoUrl" className="text-sm font-medium">
-                    URL Video
-                  </Label>
-                  <Input
-                    id="videoUrl"
-                    value={newVideo.videoUrl}
-                    onChange={(e) =>
-                      setNewVideo({ ...newVideo, videoUrl: e.target.value })
-                    }
-                    placeholder="Masukkan URL video (mis. YouTube)"
-                    className="focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="duration" className="text-sm font-medium">
-                    Durasi
-                  </Label>
-                  <Input
-                    id="duration"
-                    value={newVideo.duration}
-                    onChange={(e) =>
-                      setNewVideo({ ...newVideo, duration: e.target.value })
-                    }
-                    placeholder="Masukkan durasi video (mis. 10:30)"
-                    className="focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="thumbnailUrl" className="text-sm font-medium">
-                  URL Thumbnail
-                </Label>
-                <Input
-                  id="thumbnailUrl"
-                  value={newVideo.thumbnailUrl}
-                  onChange={(e) =>
-                    setNewVideo({ ...newVideo, thumbnailUrl: e.target.value })
-                  }
-                  placeholder="Masukkan URL thumbnail"
-                  className="focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-            </div>
-            <DialogFooter className="gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setIsAddDialogOpen(false)}
-              >
-                Batal
-              </Button>
-              <Button
-                onClick={handleAddVideo}
-                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-              >
-                Simpan Video
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+          </div>
+        </div>
       </div>
 
       {/* Alert Messages */}
@@ -319,340 +532,676 @@ export default function VideosPage() {
         </Alert>
       )}
 
-      {/* Filters Section */}
-      <Card className="shadow-sm">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Cari video..."
-                className="pl-10 focus:ring-2 focus:ring-purple-500"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+              Total Data
+            </CardTitle>
+            <div className="p-2 bg-blue-500 rounded-lg">
+              <Users className="h-4 w-4 text-white" />
             </div>
-            <Select
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}
-            >
-              <SelectTrigger className="w-full md:w-48 focus:ring-2 focus:ring-purple-500">
-                <SelectValue placeholder="Filter kategori" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Semua Kategori</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-blue-900 dark:text-blue-100">
+              {filteredData.length}
+            </div>
+            <p className="text-xs text-blue-600 dark:text-blue-400">
+              dari {data.length} total data
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-green-700 dark:text-green-300">
+              Status Normal
+            </CardTitle>
+            <div className="p-2 bg-green-500 rounded-lg">
+              <div className="h-4 w-4 bg-white rounded-full"></div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-green-900 dark:text-green-100">
+              {filteredData.filter((d) => d.status === "normal").length}
+            </div>
+            <p className="text-xs text-green-600 dark:text-green-400">
+              {(
+                (filteredData.filter((d) => d.status === "normal").length /
+                  filteredData.length) *
+                  100 || 0
+              ).toFixed(1)}
+              %
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/50 dark:to-yellow-800/50 border-yellow-200 dark:border-yellow-700 shadow-lg hover:shadow-xl transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-yellow-700 dark:text-yellow-300">
+              Berisiko
+            </CardTitle>
+            <div className="p-2 bg-yellow-500 rounded-lg">
+              <div className="h-4 w-4 bg-white rounded-full"></div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-yellow-900 dark:text-yellow-100">
+              {filteredData.filter((d) => d.status === "berisiko").length}
+            </div>
+            <p className="text-xs text-yellow-600 dark:text-yellow-400">
+              {(
+                (filteredData.filter((d) => d.status === "berisiko").length /
+                  filteredData.length) *
+                  100 || 0
+              ).toFixed(1)}
+              %
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/50 dark:to-red-800/50 border-red-200 dark:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-semibold text-red-700 dark:text-red-300">
+              Stunting
+            </CardTitle>
+            <div className="p-2 bg-red-500 rounded-lg">
+              <div className="h-4 w-4 bg-white rounded-full"></div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-red-900 dark:text-red-100">
+              {filteredData.filter((d) => d.status === "stunting").length}
+            </div>
+            <p className="text-xs text-red-600 dark:text-red-400">
+              {(
+                (filteredData.filter((d) => d.status === "stunting").length /
+                  filteredData.length) *
+                  100 || 0
+              ).toFixed(1)}
+              %
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Filters Section */}
+      <Card className="shadow-lg border-0 bg-white dark:bg-slate-800 mb-6">
+        <CardContent className="p-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="p-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
+                <Filter className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+              </div>
+              <span className="font-semibold text-slate-700 dark:text-slate-300">
+                Filter Data
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Cari nama anak/ibu..."
+                  className="pl-10 focus:ring-2 focus:ring-purple-500"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+
+              <Select
+                value={selectedProvinsi}
+                onValueChange={setSelectedProvinsi}
+              >
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                  <SelectValue placeholder="Semua Provinsi" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Provinsi</SelectItem>
+                  {uniqueProvinsis.map((provinsi) => (
+                    <SelectItem key={provinsi} value={provinsi}>
+                      {provinsi}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={selectedKabupaten}
+                onValueChange={setSelectedKabupaten}
+                disabled={selectedProvinsi === "all"}
+              >
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                  <SelectValue placeholder="Semua Kabupaten" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Kabupaten</SelectItem>
+                  {kabupatens.map((kabupaten) => (
+                    <SelectItem key={kabupaten} value={kabupaten}>
+                      {kabupaten}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={selectedKecamatan}
+                onValueChange={setSelectedKecamatan}
+                disabled={selectedKabupaten === "all"}
+              >
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                  <SelectValue placeholder="Semua Kecamatan" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Kecamatan</SelectItem>
+                  {kecamatans.map((kecamatan) => (
+                    <SelectItem key={kecamatan} value={kecamatan}>
+                      {kecamatan}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={selectedDesa}
+                onValueChange={setSelectedDesa}
+                disabled={selectedKecamatan === "all"}
+              >
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                  <SelectValue placeholder="Semua Desa" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Desa</SelectItem>
+                  {desas.map((desa) => (
+                    <SelectItem key={desa} value={desa}>
+                      {desa}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedProvinsi("all");
+                  setSelectedKabupaten("all");
+                  setSelectedKecamatan("all");
+                  setSelectedDesa("all");
+                }}
+                className="w-full"
+              >
+                Reset Filter
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Videos Table */}
-      <Card className="shadow-sm">
+      {/* Data Table */}
+      <Card className="shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+        <CardTitle className="text-2xl font-bold text-slate-900 dark:text-white mb-4 px-6 pt-6">
+          Daftar Data Stunting
+        </CardTitle>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50 dark:bg-gray-800/50">
-                <TableHead className="font-semibold">Judul</TableHead>
-                <TableHead className="font-semibold">Kategori</TableHead>
-                <TableHead className="font-semibold">Durasi</TableHead>
-                <TableHead className="font-semibold">Tanggal</TableHead>
-                <TableHead className="text-right font-semibold">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-12">
-                    <div className="flex flex-col items-center space-y-3">
-                      <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-                      <span className="text-gray-500 dark:text-gray-400">
-                        Memuat data video...
-                      </span>
-                    </div>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table className="min-w-full border-separate border-spacing-y-2 px-6">
+              <TableHeader>
+                <TableRow className="bg-foreground dark:bg-purple-800 text-white rounded-t-lg">
+                  <TableHead className="font-semibold py-3 px-4 rounded-l-lg">
+                    No
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Nama Anak
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Nama Ibu
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Tanggal Lahir
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Jenis Kelamin
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Berat (kg)
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Tinggi (cm)
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Provinsi
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Kabupaten/Kota
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Kecamatan
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Desa
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Status
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Risiko (%)
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    Tanggal Pengecekan
+                  </TableHead>
+                  <TableHead className="font-semibold py-3 px-4">
+                    WHO Chart
+                  </TableHead>
+                  <TableHead className="text-right font-semibold py-3 px-4 rounded-r-lg">
+                    Aksi
+                  </TableHead>
                 </TableRow>
-              ) : videos.length > 0 ? (
-                videos.map((video) => (
-                  <TableRow
-                    key={video.id}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-                  >
-                    <TableCell className="font-medium py-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-                          <Play className="h-5 w-5 text-white" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            {video.title}
-                          </p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">
-                            {video.description}
-                          </p>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className="bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/20 dark:text-purple-300 dark:border-purple-800"
-                      >
-                        {video.category}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-gray-600 dark:text-gray-400">
-                      {video.duration}
-                    </TableCell>
-                    <TableCell className="text-gray-600 dark:text-gray-400">
-                      {video.date}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        {/* Edit Dialog */}
-                        <Dialog
-                          open={
-                            isEditDialogOpen && currentVideo?.id === video.id
-                          }
-                          onOpenChange={(open) => {
-                            setIsEditDialogOpen(open);
-                            if (!open) setCurrentVideo(null);
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              onClick={() => setCurrentVideo(video)}
-                              className="hover:bg-purple-50 hover:border-purple-200 hover:text-purple-600 dark:hover:bg-purple-900/20"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle className="text-xl font-semibold">
-                                Edit Video
-                              </DialogTitle>
-                              <DialogDescription>
-                                Edit informasi video yang sudah ada
-                              </DialogDescription>
-                            </DialogHeader>
-                            {currentVideo && (
-                              <div className="grid gap-6 py-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                  <div className="space-y-2">
-                                    <Label
-                                      htmlFor="edit-title"
-                                      className="text-sm font-medium"
-                                    >
-                                      Judul Video
-                                    </Label>
-                                    <Input
-                                      id="edit-title"
-                                      value={currentVideo.title}
-                                      onChange={(e) =>
-                                        setCurrentVideo({
-                                          ...currentVideo,
-                                          title: e.target.value,
-                                        })
-                                      }
-                                      className="focus:ring-2 focus:ring-purple-500"
-                                    />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label
-                                      htmlFor="edit-category"
-                                      className="text-sm font-medium"
-                                    >
-                                      Kategori
-                                    </Label>
-                                    <Input
-                                      id="edit-category"
-                                      value={currentVideo.category}
-                                      onChange={(e) =>
-                                        setCurrentVideo({
-                                          ...currentVideo,
-                                          category: e.target.value,
-                                        })
-                                      }
-                                      className="focus:ring-2 focus:ring-purple-500"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="space-y-2">
-                                  <Label
-                                    htmlFor="edit-description"
-                                    className="text-sm font-medium"
-                                  >
-                                    Deskripsi
-                                  </Label>
-                                  <Textarea
-                                    id="edit-description"
-                                    value={currentVideo.description}
-                                    onChange={(e) =>
-                                      setCurrentVideo({
-                                        ...currentVideo,
-                                        description: e.target.value,
-                                      })
-                                    }
-                                    rows={3}
-                                    className="focus:ring-2 focus:ring-purple-500"
-                                  />
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                  <div className="space-y-2">
-                                    <Label
-                                      htmlFor="edit-videoUrl"
-                                      className="text-sm font-medium"
-                                    >
-                                      URL Video
-                                    </Label>
-                                    <Input
-                                      id="edit-videoUrl"
-                                      value={currentVideo.videoUrl}
-                                      onChange={(e) =>
-                                        setCurrentVideo({
-                                          ...currentVideo,
-                                          videoUrl: e.target.value,
-                                        })
-                                      }
-                                      className="focus:ring-2 focus:ring-purple-500"
-                                    />
-                                  </div>
-                                  <div className="space-y-2">
-                                    <Label
-                                      htmlFor="edit-duration"
-                                      className="text-sm font-medium"
-                                    >
-                                      Durasi
-                                    </Label>
-                                    <Input
-                                      id="edit-duration"
-                                      value={currentVideo.duration}
-                                      onChange={(e) =>
-                                        setCurrentVideo({
-                                          ...currentVideo,
-                                          duration: e.target.value,
-                                        })
-                                      }
-                                      className="focus:ring-2 focus:ring-purple-500"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="space-y-2">
-                                  <Label
-                                    htmlFor="edit-thumbnailUrl"
-                                    className="text-sm font-medium"
-                                  >
-                                    URL Thumbnail
-                                  </Label>
-                                  <Input
-                                    id="edit-thumbnailUrl"
-                                    value={currentVideo.thumbnailUrl}
-                                    onChange={(e) =>
-                                      setCurrentVideo({
-                                        ...currentVideo,
-                                        thumbnailUrl: e.target.value,
-                                      })
-                                    }
-                                    className="focus:ring-2 focus:ring-purple-500"
-                                  />
-                                </div>
-                              </div>
-                            )}
-                            <DialogFooter className="gap-2">
-                              <Button
-                                variant="outline"
-                                onClick={() => setIsEditDialogOpen(false)}
-                              >
-                                Batal
-                              </Button>
-                              <Button
-                                onClick={handleEditVideo}
-                                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
-                              >
-                                Simpan Perubahan
-                              </Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-
-                        {/* Delete Dialog */}
-                        <Dialog
-                          open={
-                            isDeleteDialogOpen && currentVideo?.id === video.id
-                          }
-                          onOpenChange={(open) => {
-                            setIsDeleteDialogOpen(open);
-                            if (!open) setCurrentVideo(null);
-                          }}
-                        >
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              className="hover:bg-red-50 hover:border-red-200 hover:text-red-600 dark:hover:bg-red-900/20"
-                              onClick={() => setCurrentVideo(video)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle className="text-xl font-semibold">
-                                Hapus Video
-                              </DialogTitle>
-                              <DialogDescription>
-                                Apakah Anda yakin ingin menghapus video "
-                                {video.title}"? Tindakan ini tidak dapat
-                                dibatalkan.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter className="gap-2">
-                              <Button
-                                variant="outline"
-                                onClick={() => setIsDeleteDialogOpen(false)}
-                              >
-                                Batal
-                              </Button>
-                              <Button
-                                variant="destructive"
-                                onClick={handleDeleteVideo}
-                              >
-                                Hapus Video
-                              </Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
+              </TableHeader>
+              <TableBody>
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={16} className="text-center py-12">
+                      <div className="flex flex-col items-center space-y-3">
+                        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+                        <span className="text-gray-500 dark:text-gray-400">
+                          Memuat data...
+                        </span>
                       </div>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-12">
-                    <div className="flex flex-col items-center space-y-3">
-                      <Film className="h-12 w-12 text-gray-400" />
-                      <div>
-                        <p className="text-gray-500 dark:text-gray-400 font-medium">
-                          Tidak ada video yang ditemukan
-                        </p>
-                        <p className="text-sm text-gray-400 dark:text-gray-500">
-                          Mulai dengan menambahkan video pertama Anda
-                        </p>
+                ) : filteredData.length > 0 ? (
+                  filteredData.map((item, index) => (
+                    <TableRow
+                      key={item.id}
+                      className="bg-white dark:bg-gray-800 rounded-lg mb-2 shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      <TableCell className="font-medium px-4 py-3">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="font-medium px-4 py-3">
+                        {item.namaAnak}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.namaIbu}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.tanggalLahir}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.jenisKelamin === "laki-laki"
+                          ? "Laki-laki"
+                          : "Perempuan"}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.beratBadan}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.tinggiBadan}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.provinsi}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.kabupaten}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.kecamatan}
+                      </TableCell>
+                      <TableCell className="px-4 py-3">{item.desa}</TableCell>
+                      <TableCell className="px-4 py-3">
+                        <Badge
+                          variant="outline"
+                          className={`rounded-full px-3 py-1 text-sm font-semibold ${
+                            item.status === "normal"
+                              ? "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800"
+                              : item.status === "berisiko"
+                              ? "bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-300 dark:border-yellow-800"
+                              : "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800"
+                          }`}
+                        >
+                          {item.status === "normal"
+                            ? "Normal"
+                            : item.status === "berisiko"
+                            ? "Berisiko"
+                            : "Stunting"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        <span
+                          className={`font-semibold ${
+                            item.risiko <= 25
+                              ? "text-green-600"
+                              : item.risiko <= 50
+                              ? "text-yellow-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {item.risiko}%
+                        </span>
+                      </TableCell>
+                      <TableCell className="px-4 py-3">
+                        {item.tanggalPemeriksaan}
+                      </TableCell>
+                      <TableCell>
+                        <Dialog
+                          open={
+                            selectedData?.id === item.id && isChartDialogOpen
+                          }
+                          onOpenChange={(open) => {
+                            setIsChartDialogOpen(open);
+                            if (!open && selectedData?.id === item.id)
+                              setSelectedData(null);
+                          }}
+                        >
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                setSelectedData(item);
+                                setIsChartDialogOpen(true);
+                              }}
+                              className="text-blue-600 hover:text-blue-700"
+                            >
+                              <BarChart3 className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle>
+                                Grafik WHO - {item.namaAnak}
+                              </DialogTitle>
+                              <DialogDescription>
+                                Visualisasi data pertumbuhan anak berdasarkan
+                                standar WHO
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-6">
+                              <div>
+                                <h3 className="font-semibold mb-4">
+                                  Berat Badan vs Usia
+                                </h3>
+                                <div className="h-[300px]">
+                                  <ResponsiveContainer
+                                    width="100%"
+                                    height="100%"
+                                  >
+                                    <ScatterChart data={[item]}>
+                                      <CartesianGrid strokeDasharray="3 3" />
+                                      <XAxis
+                                        dataKey="usia"
+                                        label={{
+                                          value: "Usia (bulan)",
+                                          position: "insideBottom",
+                                          offset: -10,
+                                        }}
+                                        type="number"
+                                        domain={[0, "dataMax"]}
+                                      />
+                                      <YAxis
+                                        label={{
+                                          value: "Berat (kg)",
+                                          angle: -90,
+                                          position: "insideLeft",
+                                        }}
+                                        type="number"
+                                        domain={[0, "dataMax"]}
+                                      />
+                                      <Tooltip
+                                        formatter={(value, name) => [
+                                          value,
+                                          name === "beratBadan"
+                                            ? "Berat Badan (kg)"
+                                            : name,
+                                        ]}
+                                      />
+                                      <Scatter
+                                        dataKey="beratBadan"
+                                        fill={
+                                          item.status === "normal"
+                                            ? "#22c55e"
+                                            : item.status === "berisiko"
+                                            ? "#eab308"
+                                            : "#ef4444"
+                                        }
+                                      />
+                                    </ScatterChart>
+                                  </ResponsiveContainer>
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                  Grafik ini membandingkan berat badan anak
+                                  dengan usianya. Warna hijau menunjukkan berat
+                                  badan normal, kuning berisiko, dan merah
+                                  stunting.
+                                </p>
+                              </div>
+
+                              <div>
+                                <h3 className="font-semibold mb-4">
+                                  Tinggi Badan vs Usia
+                                </h3>
+                                <div className="h-[300px]">
+                                  <ResponsiveContainer
+                                    width="100%"
+                                    height="100%"
+                                  >
+                                    <ScatterChart data={[item]}>
+                                      <CartesianGrid strokeDasharray="3 3" />
+                                      <XAxis
+                                        dataKey="usia"
+                                        label={{
+                                          value: "Usia (bulan)",
+                                          position: "insideBottom",
+                                          offset: -10,
+                                        }}
+                                        type="number"
+                                        domain={[0, "dataMax"]}
+                                      />
+                                      <YAxis
+                                        label={{
+                                          value: "Tinggi (cm)",
+                                          angle: -90,
+                                          position: "insideLeft",
+                                        }}
+                                        type="number"
+                                        domain={[0, "dataMax"]}
+                                      />
+                                      <Tooltip
+                                        formatter={(value, name) => [
+                                          value,
+                                          name === "tinggiBadan"
+                                            ? "Tinggi Badan (cm)"
+                                            : name,
+                                        ]}
+                                      />
+                                      <Scatter
+                                        dataKey="tinggiBadan"
+                                        fill={
+                                          item.status === "normal"
+                                            ? "#22c55e"
+                                            : item.status === "berisiko"
+                                            ? "#eab308"
+                                            : "#ef4444"
+                                        }
+                                      />
+                                    </ScatterChart>
+                                  </ResponsiveContainer>
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                  Grafik ini membandingkan tinggi badan anak
+                                  dengan usianya. Warna hijau menunjukkan tinggi
+                                  badan normal, kuning berisiko, dan merah
+                                  stunting.
+                                </p>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Dialog
+                            open={
+                              isDetailDialogOpen && selectedData?.id === item.id
+                            }
+                            onOpenChange={(open) => {
+                              setIsDetailDialogOpen(open);
+                              if (!open) setSelectedData(null);
+                            }}
+                          >
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => setSelectedData(item)}
+                                className="hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600"
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl">
+                              <DialogHeader>
+                                <DialogTitle>Detail Data Stunting</DialogTitle>
+                                <DialogDescription>
+                                  Informasi lengkap hasil pemeriksaan
+                                </DialogDescription>
+                              </DialogHeader>
+                              {selectedData && (
+                                <div className="space-y-4">
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                      <Label className="font-medium">
+                                        Nama Anak
+                                      </Label>
+                                      <p>{selectedData.namaAnak}</p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Nama Ibu
+                                      </Label>
+                                      <p>{selectedData.namaIbu}</p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Tanggal Lahir
+                                      </Label>
+                                      <p>{selectedData.tanggalLahir}</p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Usia
+                                      </Label>
+                                      <p>{selectedData.usia} bulan</p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Jenis Kelamin
+                                      </Label>
+                                      <p>
+                                        {selectedData.jenisKelamin ===
+                                        "laki-laki"
+                                          ? "Laki-laki"
+                                          : "Perempuan"}
+                                      </p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Berat Badan
+                                      </Label>
+                                      <p>{selectedData.beratBadan} kg</p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Tinggi Badan
+                                      </Label>
+                                      <p>{selectedData.tinggiBadan} cm</p>
+                                    </div>
+                                    <div>
+                                      <Label className="font-medium">
+                                        Status
+                                      </Label>
+                                      <Badge
+                                        className={
+                                          selectedData.status === "normal"
+                                            ? "bg-green-100 text-green-800"
+                                            : selectedData.status === "berisiko"
+                                            ? "bg-yellow-100 text-yellow-800"
+                                            : "bg-red-100 text-red-800"
+                                        }
+                                      >
+                                        {selectedData.status === "normal"
+                                          ? "Normal"
+                                          : selectedData.status === "berisiko"
+                                          ? "Berisiko"
+                                          : "Stunting"}
+                                      </Badge>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <Label className="font-medium">
+                                      Alamat Lengkap
+                                    </Label>
+                                    <p>
+                                      {selectedData.desa},{" "}
+                                      {selectedData.kecamatan},{" "}
+                                      {selectedData.kabupaten},{" "}
+                                      {selectedData.provinsi}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <Label className="font-medium">
+                                      Tingkat Risiko
+                                    </Label>
+                                    <div className="flex items-center gap-2">
+                                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                                        <div
+                                          className={`h-2 rounded-full ${
+                                            selectedData.risiko <= 25
+                                              ? "bg-green-500"
+                                              : selectedData.risiko <= 50
+                                              ? "bg-yellow-500"
+                                              : "bg-red-500"
+                                          }`}
+                                          style={{
+                                            width: `${selectedData.risiko}%`,
+                                          }}
+                                        ></div>
+                                      </div>
+                                      <span className="font-medium">
+                                        {selectedData.risiko}%
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={16} className="text-center py-12">
+                      <div className="flex flex-col items-center space-y-3">
+                        <Users className="h-12 w-12 text-gray-400" />
+                        <div>
+                          <p className="text-gray-500 dark:text-gray-400 font-medium">
+                            Tidak ada data yang ditemukan
+                          </p>
+                          <p className="text-sm text-gray-400 dark:text-gray-500">
+                            Coba ubah filter atau kata kunci pencarian
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>
