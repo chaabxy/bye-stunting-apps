@@ -740,7 +740,8 @@ export function ArticleContent({
                           <Image
                             src={
                               relatedArticle.image ||
-                              "/placeholder.svg?height=160&width=320"
+                              "/placeholder.svg?height=160&width=320" ||
+                              "/placeholder.svg"
                             }
                             alt={relatedArticle.title}
                             fill

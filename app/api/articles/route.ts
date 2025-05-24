@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
-// Data artikel
+// Data dummy artikel yang sesuai dengan struktur tampilan user
 const articles = [
   {
     id: 1,
@@ -8,10 +8,13 @@ const articles = [
     excerpt:
       "Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis. Ketahui dampak jangka panjangnya pada perkembangan anak.",
     content:
-      "Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis terutama dalam 1.000 hari pertama kehidupan. Kondisi ini ditandai dengan tinggi badan anak yang lebih pendek dibandingkan anak seusianya. Stunting tidak hanya berdampak pada fisik anak, tetapi juga pada perkembangan otak, yang dapat memengaruhi kemampuan kognitif dan prestasi belajar di masa depan. Selain itu, anak yang mengalami stunting juga berisiko lebih tinggi terkena penyakit tidak menular seperti diabetes dan penyakit jantung di masa dewasa.",
-    image: "/placeholder.svg?height=200&width=400",
-    date: "10 Mei 2025",
-    category: "Pengetahuan Dasar",
+      "Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis terutama dalam 1.000 hari pertama kehidupan. Kondisi ini ditandai dengan tinggi badan anak yang lebih pendek dibandingkan anak seusianya.\n\nStunting tidak hanya berdampak pada fisik anak, tetapi juga pada perkembangan otak, yang dapat memengaruhi kemampuan kognitif dan prestasi belajar di masa depan. Selain itu, anak yang mengalami stunting juga berisiko lebih tinggi terkena penyakit tidak menular seperti diabetes dan penyakit jantung di masa dewasa.\n\nPencegahan stunting harus dilakukan sejak dini, mulai dari masa kehamilan hingga anak berusia 2 tahun. Ibu hamil perlu mendapatkan asupan gizi yang cukup, memberikan ASI eksklusif selama 6 bulan pertama, dan memberikan MPASI yang bergizi seimbang setelah anak berusia 6 bulan.\n\nDengan mengenali tanda-tanda stunting sejak dini dan melakukan upaya pencegahan yang tepat, kita dapat membantu anak-anak Indonesia tumbuh dan berkembang secara optimal.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "15 Januari 2025",
+    category: "Pengetahuan Umum",
+    likes: 45,
+    views: 1250,
+    isPopular: true,
   },
   {
     id: 2,
@@ -19,113 +22,96 @@ const articles = [
     excerpt:
       "Pelajari nutrisi-nutrisi penting yang harus diberikan pada anak untuk mencegah stunting dan mendukung pertumbuhan optimal.",
     content:
-      "Untuk mencegah stunting, anak membutuhkan asupan nutrisi yang lengkap dan seimbang. Beberapa nutrisi penting yang harus diperhatikan antara lain protein, kalsium, zat besi, zinc, vitamin A, vitamin D, dan asam folat. Protein berperan penting dalam pembentukan sel-sel tubuh dan pertumbuhan. Kalsium dan vitamin D diperlukan untuk pertumbuhan tulang dan gigi yang kuat. Zat besi mencegah anemia yang dapat menghambat pertumbuhan dan perkembangan kognitif. Zinc berperan dalam sistem kekebalan tubuh dan pertumbuhan. Vitamin A penting untuk penglihatan dan sistem kekebalan tubuh. Asam folat diperlukan untuk pembentukan sel-sel baru dan pertumbuhan jaringan.",
-    image: "/placeholder.svg?height=200&width=400",
-    date: "5 Mei 2025",
+      "Nutrisi yang tepat sangat penting untuk mencegah stunting pada anak. Protein merupakan zat gizi yang sangat penting untuk pertumbuhan anak. Sumber protein yang baik antara lain daging, ikan, telur, dan kacang-kacangan.\n\nVitamin A, D, dan zat besi sangat penting untuk mencegah stunting. Pastikan anak mendapat asupan yang cukup dari makanan bergizi atau suplemen jika diperlukan.\n\nASI eksklusif selama 6 bulan pertama memberikan nutrisi terbaik untuk bayi dan membantu mencegah stunting. Setelah usia 6 bulan, berikan MPASI yang bergizi dan bervariasi.\n\nDengan memberikan nutrisi yang tepat sejak dini, kita dapat membantu anak tumbuh dengan optimal dan terhindar dari stunting.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "12 Januari 2025",
     category: "Nutrisi",
+    likes: 32,
+    views: 890,
+    isPopular: true,
   },
   {
     id: 3,
-    title: "Pola Makan Seimbang untuk Anak Usia 1-3 Tahun",
+    title: "Resep MPASI Bergizi untuk Bayi 6-12 Bulan",
     excerpt:
-      "Panduan lengkap menyusun menu seimbang untuk anak usia 1-3 tahun yang mendukung pertumbuhan dan mencegah stunting.",
+      "Kumpulan resep MPASI bergizi yang mudah dibuat dan aman untuk bayi usia 6-12 bulan sebagai makanan pendamping ASI.",
     content:
-      "Pola makan seimbang untuk anak usia 1-3 tahun harus mencakup berbagai kelompok makanan, termasuk karbohidrat, protein, lemak, serta buah dan sayuran. Porsi makan untuk anak usia ini biasanya sekitar 3/4 hingga 1 cangkir makanan per waktu makan, dengan frekuensi 3 kali makan utama dan 2-3 kali makanan selingan. Pastikan untuk memberikan sumber protein seperti daging, ikan, telur, atau tahu/tempe setiap hari. Berikan juga produk susu seperti susu, keju, atau yogurt untuk memenuhi kebutuhan kalsium. Buah dan sayuran berwarna-warni akan memberikan berbagai vitamin dan mineral penting. Batasi makanan manis, asin, dan berlemak tinggi.",
-    image: "/placeholder.svg?height=200&width=400",
-    date: "1 Mei 2025",
-    category: "Nutrisi",
+      "MPASI yang bergizi sangat penting untuk mencegah stunting. Bubur ayam wortel kaya protein dan vitamin A, cocok untuk bayi usia 6-8 bulan sebagai MPASI pertama.\n\nKombinasi alpukat dan pisang memberikan lemak sehat dan energi yang dibutuhkan bayi untuk pertumbuhan optimal. Pure ini mudah dicerna dan disukai bayi.\n\nIkan salmon kaya omega-3 yang baik untuk perkembangan otak bayi. Olah dengan cara dikukus untuk mempertahankan nutrisi.\n\nPastikan selalu menjaga kebersihan saat menyiapkan MPASI dan perkenalkan makanan baru secara bertahap.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "10 Januari 2025",
+    category: "Resep Makanan",
+    likes: 28,
+    views: 756,
+    isPopular: false,
   },
   {
     id: 4,
-    title: "Pentingnya 1000 Hari Pertama Kehidupan",
+    title: "Tips Praktis Mencegah Stunting di Rumah",
     excerpt:
-      "1000 hari pertama kehidupan adalah periode kritis untuk pertumbuhan dan perkembangan anak. Ketahui mengapa periode ini sangat penting.",
+      "Tips praktis yang dapat diterapkan sehari-hari di rumah untuk mencegah stunting dan mendukung tumbuh kembang anak yang optimal.",
     content:
-      "1000 hari pertama kehidupan, mulai dari masa kehamilan hingga anak berusia 2 tahun, merupakan periode emas yang menentukan kualitas kesehatan, pertumbuhan, dan perkembangan anak di masa depan. Pada periode ini, otak dan organ tubuh lainnya berkembang dengan sangat pesat. Kekurangan gizi pada periode ini dapat menyebabkan kerusakan permanen pada pertumbuhan dan perkembangan anak, termasuk stunting. Oleh karena itu, asupan gizi yang cukup dan seimbang sangat penting, baik bagi ibu hamil maupun anak. Selain gizi, stimulasi yang tepat dan lingkungan yang sehat juga berperan penting dalam mendukung tumbuh kembang optimal anak pada 1000 hari pertama kehidupan.",
-    image: "/placeholder.svg?height=200&width=400",
-    date: "25 April 2025",
-    category: "Pengetahuan Dasar",
-  },
-  {
-    id: 5,
-    title: "Cara Memantau Pertumbuhan Anak dengan Benar",
-    excerpt:
-      "Panduan praktis untuk memantau pertumbuhan anak secara berkala dan mengenali tanda-tanda stunting sejak dini.",
-    content:
-      "Memantau pertumbuhan anak secara berkala sangat penting untuk mendeteksi masalah pertumbuhan, termasuk stunting, sejak dini. Cara yang paling efektif adalah dengan rutin mengukur berat dan tinggi badan anak, kemudian memplotnya pada kurva pertumbuhan WHO. Untuk bayi dan anak di bawah 2 tahun, pengukuran panjang badan dilakukan dengan posisi berbaring, sementara untuk anak di atas 2 tahun, pengukuran tinggi badan dilakukan dengan posisi berdiri. Pemantauan sebaiknya dilakukan setiap bulan untuk bayi hingga usia 1 tahun, setiap 3 bulan untuk anak usia 1-2 tahun, dan setiap 6 bulan untuk anak di atas 2 tahun. Perhatikan juga tanda-tanda lain seperti perkembangan motorik, bahasa, dan sosial anak.",
-    image: "/placeholder.svg?height=200&width=400",
-    date: "20 April 2025",
+      "Mencegah stunting dapat dilakukan dengan tips praktis sehari-hari. Berikan makanan bergizi seimbang dengan porsi yang cukup sesuai usia anak.\n\nPantau pertumbuhan anak secara rutin dengan mengukur tinggi dan berat badan. Bawa anak ke posyandu atau puskesmas untuk pemeriksaan berkala.\n\nJaga kebersihan lingkungan dan personal hygiene untuk mencegah infeksi yang dapat menghambat pertumbuhan.\n\nBerikan stimulasi yang tepat untuk perkembangan motorik dan kognitif anak melalui permainan edukatif.",
+    image: "/placeholder.svg?height=400&width=600",
+    date: "8 Januari 2025",
     category: "Tips Praktis",
+    likes: 19,
+    views: 543,
+    isPopular: false,
   },
-  {
-    id: 6,
-    title: "Resep Makanan Bergizi untuk Balita",
-    excerpt:
-      "Kumpulan resep makanan bergizi yang mudah dibuat dan disukai anak-anak untuk mendukung pertumbuhan optimal.",
-    content:
-      "Berikut adalah beberapa resep makanan bergizi yang mudah dibuat dan umumnya disukai anak-anak: 1) Bubur Ayam Sayuran: Kombinasi nasi, ayam cincang, wortel, dan bayam yang kaya protein dan vitamin. 2) Pancake Pisang: Menggunakan tepung gandum utuh, pisang matang, dan sedikit madu sebagai pemanis alami. 3) Nugget Ikan Homemade: Terbuat dari ikan giling, wortel parut, dan sedikit tepung, kemudian dipanggang bukan digoreng. 4) Smoothie Buah dan Sayur: Campuran buah-buahan seperti pisang dan stroberi dengan sayuran seperti bayam, ditambah yogurt untuk kalsium. 5) Sup Bola-bola Daging: Berisi bola-bola daging sapi atau ayam dengan berbagai sayuran seperti wortel, kentang, dan brokoli. Variasikan menu anak setiap hari untuk memastikan ia mendapatkan berbagai nutrisi penting.",
-    image: "/placeholder.svg?height=200&width=400",
-    date: "15 April 2025",
-    category: "Resep",
-  },
-]
+];
 
-// GET /api/articles - Mendapatkan semua artikel
 export async function GET(request: Request) {
-  // Mendapatkan parameter query
-  const { searchParams } = new URL(request.url)
-  const category = searchParams.get("category")
-  const search = searchParams.get("search")
-
-  let filteredArticles = [...articles]
-
-  // Filter berdasarkan kategori jika ada
-  if (category && category !== "all") {
-    filteredArticles = filteredArticles.filter((article) => article.category === category)
-  }
-
-  // Filter berdasarkan pencarian jika ada
-  if (search) {
-    const searchLower = search.toLowerCase()
-    filteredArticles = filteredArticles.filter(
-      (article) =>
-        article.title.toLowerCase().includes(searchLower) || article.excerpt.toLowerCase().includes(searchLower),
-    )
-  }
-
-  return NextResponse.json(filteredArticles)
-}
-
-// POST /api/articles - Menambahkan artikel baru
-export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get("category");
 
-    // Validasi data
-    if (!body.title || !body.excerpt || !body.content || !body.category) {
-      return NextResponse.json({ error: "Data tidak lengkap" }, { status: 400 })
+    let filteredArticles = articles;
+
+    if (category && category !== "all") {
+      filteredArticles = articles.filter(
+        (article) => article.category === category
+      );
     }
 
-    // Buat artikel baru
+    return NextResponse.json(filteredArticles);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch articles" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+
     const newArticle = {
-      id: articles.length > 0 ? Math.max(...articles.map((article) => article.id)) + 1 : 1,
+      id: articles.length + 1,
       title: body.title,
       excerpt: body.excerpt,
       content: body.content,
-      image: body.image || "/placeholder.svg?height=200&width=400",
+      image: body.image || "/placeholder.svg?height=400&width=600",
       date: new Date().toLocaleDateString("id-ID", {
         day: "numeric",
         month: "long",
         year: "numeric",
       }),
       category: body.category,
-    }
+      likes: 0,
+      views: 0,
+      isPopular: false,
+    };
 
-    // Tambahkan ke array (dalam implementasi nyata, ini akan disimpan ke database)
-    articles.unshift(newArticle)
+    articles.push(newArticle);
 
-    return NextResponse.json(newArticle, { status: 201 })
+    return NextResponse.json(newArticle, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Terjadi kesalahan saat memproses permintaan" }, { status: 500 })
+    console.error("Error creating article:", error);
+    return NextResponse.json(
+      { error: "Failed to create article" },
+      { status: 500 }
+    );
   }
 }

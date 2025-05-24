@@ -1,42 +1,17 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+// app/layout.tsx
 import "../styles/globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-
-const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-});
+import type { Metadata } from "next";
+import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "ByeStunting - Cegah Stunting Sejak Dini",
-  description:
-    "Aplikasi untuk memantau tumbuh kembang anak dan mencegah stunting dengan dukungan AI",
-  generator: "v0.dev",
+  title: "ByeStunting",
+  description: "Aplikasi prediksi dan edukasi stunting",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="id" suppressHydrationWarning>
-      <body className={poppins.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Footer />
-        </ThemeProvider>
-      </body>
+    <html lang="id">
+      <body>{children}</body>
     </html>
   );
 }

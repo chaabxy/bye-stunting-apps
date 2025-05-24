@@ -39,7 +39,7 @@ export default function AdminLogin() {
         credentials.password === "admin123"
       ) {
         localStorage.setItem("adminLoggedIn", "true");
-        router.push("/admin/dashboard");
+        router.push("/dashboard");
       } else {
         setError("Email atau password salah. Silakan coba lagi.");
       }
