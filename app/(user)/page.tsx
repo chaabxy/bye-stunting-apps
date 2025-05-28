@@ -77,10 +77,10 @@ export default async function Home() {
             {/* Konten utama */}
             <div className="lg:col-span-3 space-y-6 lg:px-10">
               <div className="space-y-2 text-center">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 font-poppins">
+                <h2 className="text-xl md:text-2xl font-bold text-text font-poppins">
                   Data Stunting <span className="text-secondary">Nasional</span>
                 </h2>
-                <h3 className="text-xs font-medium text-gray-400 font-poppins">
+                <h3 className="text-xs font-medium text-muted-foreground font-poppins">
                   Data ini diambil dari Data Resmi Stunting Nasional
                 </h3>
               </div>
@@ -102,10 +102,10 @@ export default async function Home() {
             {/* Sidebar */}
             <aside className="space-y-6">
               <div className="space-y-2 text-center">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 font-poppins">
+                <h2 className="text-xl md:text-2xl font-bold text-text font-poppins">
                   Edukasi <span className="text-secondary">Populer</span>
                 </h2>
-                <h3 className="text-xs font-medium text-gray-400 font-poppins">
+                <h3 className="text-xs font-medium text-muted-foreground font-poppins">
                   Edukasi yang populer dikunjungi pengguna
                 </h3>
               </div>
@@ -129,7 +129,7 @@ export default async function Home() {
 
         {/* Campaign Section - Zigzag Layout untuk Mobile/Tablet */}
         <div className="pt-8 px-4 md:px-8 lg:px-20">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 font-poppins text-center">
+          <h2 className="text-xl md:text-2xl font-bold text-text mb-6 font-poppins text-center">
             Kenapa <span className="text-secondary">Memilih</span> Kami ?
           </h2>
 
@@ -182,7 +182,7 @@ export default async function Home() {
           <div className="hidden lg:flex relative flex-row items-center justify-center gap-10">
             <div className="bg-card rounded-2xl p-6 md:p-5 shadow-md w-full md:w-[40%] relative mr-20 mt-20">
               <div className="text-left space-y-6">
-                <h3 className="text-xl md:text-xl font-bold text-black font-poppins mb-3">
+                <h3 className="text-xl md:text-xl font-bold text-text font-poppins mb-3">
                   CEK STATUS <span className="font-extrabold">STUNTING</span>{" "}
                   ANAK ANDA?
                 </h3>
@@ -205,9 +205,9 @@ export default async function Home() {
 
           {/* Mobile/Tablet Layout */}
           <div className="lg:hidden">
-            <div className="bg-[#D7EBFC] rounded-2xl p-6 shadow-md mx-auto max-w-md relative overflow-hidden">
+            <div className="bg-foreground rounded-2xl p-6 shadow-md mx-auto max-w-md relative overflow-hidden">
               <div className="text-center space-y-4 relative z-10">
-                <h3 className="text-xl font-bold text-black font-poppins mr-10 mb-2">
+                <h3 className="text-xl font-bold text-text font-poppins mr-10 mb-2">
                   CEK STATUS <span className="font-extrabold">STUNTING</span>{" "}
                   ANAK ANDA?
                 </h3>
