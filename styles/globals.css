@@ -16,10 +16,10 @@ body {
 
 @layer base {
   :root {
-    --background: #B9DDFB;
+    --background: #AAD1F2;
     --foreground: #D6EBFD;
-    --text :#0a0a0a
-    --card: #ffffff;
+    --text :#0a0a0a;
+    --card: #317BC433;
     --card-foreground: #0a0a0a;
     --popover: #ffffff;
     --popover-foreground: #0a0a0a;

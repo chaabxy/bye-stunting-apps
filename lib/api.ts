@@ -19,7 +19,7 @@ export async function fetchStuntingByAge() {
     console.error("Error fetching stunting data by age:", error);
     // Fallback data jika API gagal
     return [
-      { name: "0-6 bulan", value: 11.5 },
+      { name: "0-6 bulan", value: 100 },
       { name: "6-12 bulan", value: 17.8 },
       { name: "12-24 bulan", value: 30.2 },
       { name: "24-36 bulan", value: 25.6 },

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 // Dalam implementasi nyata, ini akan mengambil data dari database
 export async function GET() {
   const data = [
-    { ageGroup: "0-6 bulan", prevalence: 11.5 },
+    { ageGroup: "0-6 bulan", prevalence: 99.5 },
     { ageGroup: "6-12 bulan", prevalence: 17.8 },
     { ageGroup: "12-24 bulan", prevalence: 30.2 },
     { ageGroup: "24-36 bulan", prevalence: 25.6 },

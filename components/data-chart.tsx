@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   BarChart,
@@ -17,11 +18,10 @@ interface DataChartProps {
   type?: "age" | "province";
 }
 
-// Kita tidak perlu remaining lagi
 const prepareData = (data: Array<{ name: string; value: number }>) =>
   data.map((item) => ({
     ...item,
-    full: 100, 
+    full: 100,
   }));
 
 export default function DataChart({
@@ -30,6 +30,26 @@ export default function DataChart({
   type = "age",
 }: DataChartProps) {
   const chartData = prepareData(data);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth);
+    }
+
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const marginRight = 10; // jarak label persen dari kanan container
 
   return (
     <Card className="shadow-md bg-white">
@@ -48,7 +68,10 @@ export default function DataChart({
         ) : null}
       </CardHeader>
       <CardContent>
-        <div style={{ height: `${data.length * 60}px`, width: "100%" }}>
+        <div
+          ref={containerRef}
+          style={{ height: `${data.length * 60}px`, width: "100%" }}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               layout="vertical"
@@ -81,46 +104,50 @@ export default function DataChart({
                 fill="#317BC4"
                 stackId="a"
                 radius={[10, 10, 10, 10]}
-                background={(props) => {
-                  const { x, y, width, height } = props;
-                  return (
-                    <rect
-                      x={x}
-                      y={y}
-                      width={width}
-                      height={height}
-                      fill="#E5E7EB"
-                      rx={10}
-                      ry={10}
-                    />
-                  );
-                }}
+                background={({ x, y, width, height }) => (
+                  <rect
+                    x={x}
+                    y={y}
+                    width={width}
+                    height={height}
+                    fill="#E5E7EB"
+                    rx={10}
+                    ry={10}
+                  />
+                )}
               >
                 <LabelList
-                  dataKey="name"
-                  position="top"
-                  content={(props) => {
-                    const { x, y, value } = props;
+                  content={({ x = 0, y = 0, index }) => {
+                    const item = chartData[index];
+
                     return (
-                      <text
-                        x={x} // posisi x dari bar
-                        y={y! - 6} // sedikit naik biar sejajar atas
-                        textAnchor="start" // rata kiri
-                        fill="#111827"
-                        fontSize={12}
-                        fontWeight={500}
-                      >
-                        {value}
-                      </text>
+                      <>
+                        {/* Label nama di atas kiri */}
+                        <text
+                          x={x}
+                          y={y - 5}
+                          fill="#111827"
+                          fontSize={12}
+                          fontWeight={500}
+                          textAnchor="start"
+                        >
+                          {item.name}
+                        </text>
+
+                        {/* Label persentase di ujung kanan sejajar vertikal */}
+                        <text
+                          x={containerWidth - marginRight}
+                          y={y - 5}
+                          fill="#111827"
+                          fontSize={12}
+                          fontWeight={500}
+                          textAnchor="end"
+                        >
+                          {item.value}%
+                        </text>
+                      </>
                     );
                   }}
-                />
-
-                <LabelList
-                  dataKey="value"
-                  position="right"
-                  formatter={(value) => `${value}%`}
-                  style={{ fill: "#111827", fontSize: 13, fontWeight: 500 }}
                 />
               </Bar>
             </BarChart>
@@ -130,5 +157,3 @@ export default function DataChart({
     </Card>
   );
 }
-
-

@@ -8,7 +8,7 @@ import {
   BarChartIcon as ChartSpline,
   Notebook,
   EarthLock,
-  ArrowRight,
+  ChevronRight,
 } from "lucide-react";
 import DataChart from "@/components/data-chart";
 import EducationCard from "@/components/education-card";
@@ -28,28 +28,29 @@ export default async function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="bg-background w-full flex items-center justify-center md:-mt-16 h-screen md:h-[50vh] lg:h-screen">
+      <section className="bg-background w-full flex items-center justify-center md:-mt-16 h-[90vh] md:h-[50vh] lg:h-screen">
         <div className="w-full max-w-screen-xl px-4 md:px-8">
-          <div className="bg-foreground rounded-xl p-6 md:p-8 lg:p-12 shadow-md h-full">
+          <div className="bg-white/20 rounded-lg p-6 md:p-8 shadow-md md:h-[calc(100vh-53vh)] lg:h-[calc(100vh-5vh)]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center h-full">
               {/* Mobile: Gambar di atas, Desktop: Teks di kiri */}
               <div className="order-2 md:order-1 space-y-4 md:space-y-7">
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
-                  Kawan Cerdas Bunda, Cegah Stunting Sejak Dini.
+                <h1 className="text-2xl md:text-2xl lg:text-4xl font-bold text-text max-sm:text-center">
+                  Kawan Cerdas Bunda,{" "}
+                  <span className="block mt-2">Cegah Stunting Sejak Dini.</span>
                 </h1>
-                <p className="text-sm md:text-base text-gray-700">
+                <p className="text-sm md:text-md text-text">
                   Periksa tumbuh kembang anak, dapatkan rekomendasi gizi, dan
                   cegah stunting sejak dini dengan dilengkapi prediksi dari AI.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                   <Link href="/cek-stunting">
-                    <button className="bg-[#317BC4] text-white font-semibold px-4 py-2 rounded-xl shadow hover:bg-[#1f5b94] transition flex items-center justify-center gap-2 w-full sm:w-auto">
+                    <button className="text-md md:text-xs lg:text-lg bg-secondary text-white font-semibold px-4 py-2 rounded-xl border shadow hover:bg-[#1f5b94] transition flex items-center justify-center gap-2 w-full sm:w-auto">
                       Cek Sekarang
-                      <ArrowRight className="w-4 h-4" />
+                      <ChevronRight className="w-6 h-6 md:w-4 md:h-4 lg:w-6 lg:h-6" />
                     </button>
                   </Link>
                   <Link href="/tentang-kami">
-                    <button className="bg-white text-gray-900 font-semibold px-4 py-2 rounded-xl border shadow hover:bg-gray-100 transition w-full sm:w-auto">
+                    <button className="text-md md:text-xs lg:text-lg bg-white text-text font-semibold px-4 py-2 rounded-xl border shadow hover:bg-gray-100 transition w-full sm:w-auto">
                       Pelajari Lebih Lanjut
                     </button>
                   </Link>
@@ -61,7 +62,7 @@ export default async function Home() {
                 <img
                   src="/Hero.png"
                   alt="Ibu dan Anak"
-                  className="max-w-xs md:max-w-md w-full h-auto"
+                  className="max-w-[200px] md:max-w-md w-full h-auto"
                 />
               </div>
             </div>
@@ -77,14 +78,14 @@ export default async function Home() {
             <div className="lg:col-span-3 space-y-6 lg:px-10">
               <div className="space-y-2 text-center">
                 <h2 className="text-xl md:text-2xl font-bold text-gray-900 font-poppins">
-                  Data Stunting <span className="text-[#317BC4]">Nasional</span>
+                  Data Stunting <span className="text-secondary">Nasional</span>
                 </h2>
                 <h3 className="text-xs font-medium text-gray-400 font-poppins">
                   Data ini diambil dari Data Resmi Stunting Nasional
                 </h3>
               </div>
 
-              <div className="flex flex-col lg:flex-row gap-6 bg-foreground p-4 md:p-6 rounded-lg shadow">
+              <div className="flex flex-col lg:flex-row gap-6 bg-card p-4 md:p-6 rounded-lg shadow">
                 <DataChart
                   title="Prevalensi Stunting Berdasarkan Umur"
                   data={stuntingByAge}
@@ -102,13 +103,13 @@ export default async function Home() {
             <aside className="space-y-6">
               <div className="space-y-2 text-center">
                 <h2 className="text-xl md:text-2xl font-bold text-gray-900 font-poppins">
-                  Edukasi <span className="text-[#317BC4]">Populer</span>
+                  Edukasi <span className="text-secondary">Populer</span>
                 </h2>
                 <h3 className="text-xs font-medium text-gray-400 font-poppins">
                   Edukasi yang populer dikunjungi pengguna
                 </h3>
               </div>
-              <div className="bg-foreground p-4 md:p-6 rounded-lg shadow h-fit space-y-4">
+              <div className="bg-card p-4 md:p-6 rounded-lg shadow h-fit space-y-4">
                 {popularEducation.map((item) => (
                   <EducationCard
                     key={item.id}
@@ -117,7 +118,7 @@ export default async function Home() {
                   />
                 ))}
                 <Link href="/edukasi">
-                  <Button className="bg-[#317BC4] hover:bg-[#2A6CB0] text-white w-full font-poppins mt-2">
+                  <Button className="bg-secondary hover:bg-[#2A6CB0] text-white w-full font-poppins mt-2 rounded-xl">
                     Lihat Semua Artikel
                   </Button>
                 </Link>
@@ -129,7 +130,7 @@ export default async function Home() {
         {/* Campaign Section - Zigzag Layout untuk Mobile/Tablet */}
         <div className="pt-8 px-4 md:px-8 lg:px-20">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 font-poppins text-center">
-            Kenapa <span className="text-[#317BC4]">Memilih</span> Kami ?
+            Kenapa <span className="text-secondary">Memilih</span> Kami ?
           </h2>
 
           {/* Desktop Layout (3 kolom dengan alignment) */}
@@ -179,14 +180,14 @@ export default async function Home() {
         <div className="mt-10 mb-10 px-4 md:px-8">
           {/* Desktop Layout */}
           <div className="hidden lg:flex relative flex-row items-center justify-center gap-10">
-            <div className="bg-[#D7EBFC] rounded-2xl p-6 md:p-5 shadow-md w-full md:w-[40%] relative mr-20 mt-20">
+            <div className="bg-card rounded-2xl p-6 md:p-5 shadow-md w-full md:w-[40%] relative mr-20 mt-20">
               <div className="text-left space-y-6">
                 <h3 className="text-xl md:text-xl font-bold text-black font-poppins mb-3">
                   CEK STATUS <span className="font-extrabold">STUNTING</span>{" "}
                   ANAK ANDA?
                 </h3>
                 <Link href="/cek-stunting">
-                  <button className="bg-[#317BC4] hover:bg-[#2A6CB0] text-white font-bold rounded-md px-6 py-2 font-poppins text-sm shadow">
+                  <button className="bg-secondary hover:bg-[#2A6CB0] text-white font-bold rounded-xl px-6 py-2 font-poppins text-sm shadow">
                     MARI CEK
                   </button>
                 </Link>
@@ -211,7 +212,7 @@ export default async function Home() {
                   ANAK ANDA?
                 </h3>
                 <Link href="/cek-stunting">
-                  <button className="bg-[#317BC4] hover:bg-[#2A6CB0] text-white font-bold rounded-md px-6 py-3 font-poppins text-sm shadow w-full">
+                  <button className="bg-secondary hover:bg-[#2A6CB0] text-white font-bold rounded-md px-6 py-3 font-poppins text-sm shadow w-full">
                     MARI CEK
                   </button>
                 </Link>

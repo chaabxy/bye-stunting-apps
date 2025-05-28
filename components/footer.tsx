@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer>
-      <div className="container mx-auto px-4 md:px-6 text-center text-black bg-foreground py-8 md:py-10">
+      <div className="container mx-auto px-4 md:px-6 text-center text-black bg-card py-8 md:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
           {/* Kolom 1: Logo dan Deskripsi */}
           <div className="text-center sm:text-left">
