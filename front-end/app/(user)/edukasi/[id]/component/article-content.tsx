@@ -162,9 +162,9 @@ export function ArticleContent({
   // Table of contents component to reuse
   const TableOfContents = ({ className = "" }: { className?: string }) => (
     <div
-      className={`bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6 ${className}`}
+      className={`bg-white -800 rounded-3xl shadow-sm p-6 ${className}`}
     >
-      <h2 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">
+      <h2 className="text-lg font-bold mb-4 text-gray-900 ">
         Daftar Isi
       </h2>
       <ul className="space-y-3">
@@ -177,17 +177,17 @@ export function ArticleContent({
                   console.log("Button clicked for:", section.id); // Debug log
                   handleScrollToSection(section.id);
                 }}
-                className={`flex items-center w-full text-left transition-all duration-300 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                className={`flex items-center w-full text-left transition-all duration-300 p-3 rounded-lg hover:bg-gray-50 -gray-700 ${
                   isActive
-                    ? "text-secondary dark:text-blue-400 bg-foreground dark:bg-blue-900/30 font-semibold shadow-sm"
-                    : "text-gray-700 dark:text-muted-foreground hover:text-secondary dark:hover:text-blue-400"
+                    ? "text-secondary -400 bg-foreground -900/30 font-semibold shadow-sm"
+                    : "text-gray-700 -foreground hover:text-secondary -blue-400"
                 }`}
               >
                 <div
                   className={`w-7 h-7 rounded-full flex items-center justify-center mr-3 text-sm font-bold transition-all duration-300 ${
                     isActive
                       ? "bg-secondary text-white shadow-md scale-110"
-                      : "bg-gray-100 dark:bg-gray-700 text-muted-foreground dark:text-gray-400"
+                      : "bg-gray-100 -700 text-muted-foreground -400"
                   }`}
                 >
                   {section.number}
@@ -206,7 +206,7 @@ export function ArticleContent({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-8">
-        <article className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm overflow-hidden">
+        <article className="bg-white -800 rounded-3xl shadow-sm overflow-hidden">
           {/* Article Header */}
           <div className="relative w-full h-72 md:h-96 overflow-hidden">
             <Image
@@ -218,7 +218,7 @@ export function ArticleContent({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"></div>
             <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full">
-              <Badge className="mb-4 bg-secondary hover:bg-[#2A6CB0] dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-3 py-1 rounded-full">
+              <Badge className="mb-4 bg-secondary hover:bg-[#2A6CB0] -700 -blue-800 text-white px-3 py-1 rounded-full">
                 {article.category}
               </Badge>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white">
@@ -239,14 +239,14 @@ export function ArticleContent({
 
           {/* Article Content */}
           <div className="p-6 md:p-8 ">
-            <div className="prose prose-blue max-w-none dark:prose-invert">
-              <div className="flex flex-wrap items-center gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-gray-700">
+            <div className="prose prose-blue max-w-none ">
+              <div className="flex flex-wrap items-center gap-4 mb-6 pb-6 border-b border-gray-100 -700">
                 <Button
                   variant="outline"
                   size="sm"
-                  className={`rounded-full border-gray-200 dark:border-gray-700 gap-2 transition-all duration-200 ${
+                  className={`rounded-full border-gray-200 -700 gap-2 transition-all duration-200 ${
                     liked
-                      ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+                      ? "bg-red-50 -900/20 border-red-200 -800"
                       : ""
                   }`}
                   onClick={() => setLiked(!liked)}
@@ -261,9 +261,9 @@ export function ArticleContent({
                 <Button
                   variant="outline"
                   size="sm"
-                  className={`rounded-full border-gray-200 dark:border-gray-700 gap-2 transition-all duration-200 ${
+                  className={`rounded-full border-gray-200 -700 gap-2 transition-all duration-200 ${
                     bookmarked
-                      ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
+                      ? "bg-blue-50 -900/20 border-blue-200 -800"
                       : ""
                   }`}
                   onClick={() => setBookmarked(!bookmarked)}
@@ -280,7 +280,7 @@ export function ArticleContent({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-full border-gray-200 dark:border-gray-700 gap-2"
+                  className="rounded-full border-gray-200 -700 gap-2"
                   onClick={() => handleScrollToSection("comments")}
                 >
                   <MessageCircle className="h-4 w-4 text-green-500" />
@@ -288,15 +288,15 @@ export function ArticleContent({
                 </Button>
               </div>
 
-              <p className="font-medium text-lg mb-6 text-gray-700 dark:text-muted-foreground leading-relaxed">
+              <p className="font-medium text-lg mb-6 text-gray-700 -foreground leading-relaxed">
                 {article.excerpt}
               </p>
 
               {/* Mobile Table of Contents - Only visible on md and below */}
               <div className="lg:hidden mb-8">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
+                <div className="bg-white -800 rounded-xl shadow-sm p-4 border border-gray-100 -700">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <h2 className="text-lg font-bold text-gray-900  flex items-center gap-2">
                       <List className="h-5 w-5 text-secondary" />
                       Daftar Isi
                     </h2>
@@ -318,17 +318,17 @@ export function ArticleContent({
                           <li key={section.id}>
                             <button
                               onClick={() => handleScrollToSection(section.id)}
-                              className={`flex items-center w-full text-left transition-all duration-300 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                              className={`flex items-center w-full text-left transition-all duration-300 p-2 rounded-lg hover:bg-gray-50 -gray-700 ${
                                 isActive
-                                  ? "text-secondary dark:text-blue-400 bg-foreground dark:bg-blue-900/30 font-semibold"
-                                  : "text-gray-700 dark:text-muted-foreground hover:text-secondary dark:hover:text-blue-400"
+                                  ? "text-secondary -400 bg-foreground -900/30 font-semibold"
+                                  : "text-gray-700 -foreground hover:text-secondary -blue-400"
                               }`}
                             >
                               <div
                                 className={`w-6 h-6 rounded-full flex items-center justify-center mr-2 text-xs font-bold transition-all duration-300 ${
                                   isActive
                                     ? "bg-secondary text-white shadow-md"
-                                    : "bg-gray-100 dark:bg-gray-700 text-muted-foreground dark:text-gray-400"
+                                    : "bg-gray-100 -700 text-muted-foreground -400"
                                 }`}
                               >
                                 {section.number}
@@ -348,20 +348,20 @@ export function ArticleContent({
               {/* First section with pull quote */}
               <div className="mb-8">
                 <div id="pengertian-stunting" className="scroll-mt-24">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white pt-4">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900  pt-4">
                     Pengertian Stunting
                   </h2>
                   {firstSection.map((paragraph: string, index: number) => (
                     <p
                       key={`first-${index}`}
-                      className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
+                      className="text-gray-700 -foreground mb-4 leading-relaxed text-justify"
                     >
                       {paragraph}
                     </p>
                   ))}
                 </div>
 
-                <div className="my-8 pl-6 border-l-4 border-secondary italic text-lg text-gray-700 dark:text-muted-foreground">
+                <div className="my-8 pl-6 border-l-4 border-secondary italic text-lg text-gray-700 -foreground">
                   Pencegahan stunting harus dimulai sejak 1.000 hari pertama
                   kehidupan, yaitu dari masa kehamilan hingga anak berusia 2
                   tahun.
@@ -371,7 +371,7 @@ export function ArticleContent({
               {/* Second section with highlight box */}
               <div className="mb-8">
                 <div id="penyebab-stunting" className="scroll-mt-24">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white pt-4">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900  pt-4">
                     Penyebab Stunting
                   </h2>
                   {secondSection
@@ -379,7 +379,7 @@ export function ArticleContent({
                     .map((paragraph: string, index: number) => (
                       <p
                         key={`second-a-${index}`}
-                        className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
+                        className="text-gray-700 -foreground mb-4 leading-relaxed text-justify"
                       >
                         {paragraph}
                       </p>
@@ -387,7 +387,7 @@ export function ArticleContent({
                 </div>
 
                 <div id="dampak-jangka-panjang" className="scroll-mt-24">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white pt-4">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900  pt-4">
                     Dampak Jangka Panjang
                   </h2>
                   {secondSection
@@ -395,15 +395,15 @@ export function ArticleContent({
                     .map((paragraph: string, index: number) => (
                       <p
                         key={`second-b-${index}`}
-                        className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
+                        className="text-gray-700 -foreground mb-4 leading-relaxed text-justify"
                       >
                         {paragraph}
                       </p>
                     ))}
                 </div>
 
-                <div className="my-8 p-6 bg-foreground dark:bg-blue-900/30 rounded-xl">
-                  <h4 className="font-bold text-lg mb-2 text-secondary dark:text-blue-400">
+                <div className="my-8 p-6 bg-foreground -900/30 rounded-xl">
+                  <h4 className="font-bold text-lg mb-2 text-secondary -400">
                     Poin Penting
                   </h4>
                   <ul className="list-disc pl-5 space-y-2">
@@ -429,7 +429,7 @@ export function ArticleContent({
               {/* Third section with image */}
               <div className="mb-8">
                 <div id="pencegahan-stunting" className="scroll-mt-24">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white pt-4">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900  pt-4">
                     Pencegahan Stunting
                   </h2>
                   <div className="relative w-full h-64 md:h-80 mb-6 rounded-xl overflow-hidden">
@@ -450,7 +450,7 @@ export function ArticleContent({
                     .map((paragraph: string, index: number) => (
                       <p
                         key={`third-${index}`}
-                        className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
+                        className="text-gray-700 -foreground mb-4 leading-relaxed text-justify"
                       >
                         {paragraph}
                       </p>
@@ -458,10 +458,10 @@ export function ArticleContent({
                 </div>
 
                 <div id="kesimpulan" className="scroll-mt-24">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white pt-4">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900  pt-4">
                     Kesimpulan
                   </h2>
-                  <p className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify">
+                  <p className="text-gray-700 -foreground mb-4 leading-relaxed text-justify">
                     {thirdSection[thirdSection.length - 1] ||
                       "Dengan mengenali tanda-tanda stunting sejak dini dan melakukan upaya pencegahan yang tepat, kita dapat membantu anak-anak Indonesia tumbuh dan berkembang secara optimal."}
                   </p>
@@ -470,17 +470,17 @@ export function ArticleContent({
             </div>
 
             {/* Article Footer */}
-            <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-700">
+            <div className="mt-10 pt-6 border-t border-gray-100 -700">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                  <h4 className="font-medium text-gray-900  mb-2">
                     Bagikan artikel ini:
                   </h4>
                   <div className="flex space-x-2">
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full border-gray-200 dark:border-gray-700 bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
+                      className="rounded-full border-gray-200 -700 bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
                       onClick={() => handleShare("facebook")}
                     >
                       <Facebook className="h-4 w-4" />
@@ -488,7 +488,7 @@ export function ArticleContent({
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full border-gray-200 dark:border-gray-700 bg-sky-500 text-white hover:bg-sky-600 transition-colors duration-200"
+                      className="rounded-full border-gray-200 -700 bg-sky-500 text-white hover:bg-sky-600 transition-colors duration-200"
                       onClick={() => handleShare("twitter")}
                     >
                       <Twitter className="h-4 w-4" />
@@ -496,7 +496,7 @@ export function ArticleContent({
                     <Button
                       variant="outline"
                       size="icon"
-                      className="rounded-full border-gray-200 dark:border-gray-700 bg-blue-700 text-white hover:bg-blue-800 transition-colors duration-200"
+                      className="rounded-full border-gray-200 -700 bg-blue-700 text-white hover:bg-blue-800 transition-colors duration-200"
                       onClick={() => handleShare("linkedin")}
                     >
                       <Linkedin className="h-4 w-4" />
@@ -504,15 +504,15 @@ export function ArticleContent({
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-sm text-gray-500 -400">
                     Apakah artikel ini bermanfaat?
                   </span>
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`rounded-full border-gray-200 dark:border-gray-700 transition-all duration-200 ${
+                    className={`rounded-full border-gray-200 -700 transition-all duration-200 ${
                       liked
-                        ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+                        ? "bg-red-50 -900/20 border-red-200 -800"
                         : ""
                     }`}
                     onClick={() => setLiked(!liked)}
@@ -531,9 +531,9 @@ export function ArticleContent({
         </article>
 
         {/* Author Box */}
-        <div className="mt-8 bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6 md:p-8">
+        <div className="mt-8 bg-white -800 rounded-3xl shadow-sm p-6 md:p-8">
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-            <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-forebg-foreground dark:border-blue-900">
+            <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-forebg-foreground -900">
               <Image
                 src="/placeholder.svg?height=200&width=200"
                 alt="Author"
@@ -542,10 +542,10 @@ export function ArticleContent({
               />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+              <h3 className="text-xl font-bold mb-2 text-gray-900 ">
                 Tim Konten ByeStunting
               </h3>
-              <p className="text-muted-foreground dark:text-muted-foreground mb-4">
+              <p className="text-muted-foreground -foreground mb-4">
                 Tim konten ByeStunting terdiri dari ahli gizi, dokter anak, dan
                 spesialis kesehatan yang berdedikasi untuk menyediakan informasi
                 terpercaya tentang pencegahan stunting.
@@ -560,9 +560,9 @@ export function ArticleContent({
         {/* Comments Section */}
         <div
           id="comments"
-          className="mt-8 bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6 md:p-8 scroll-mt-24"
+          className="mt-8 bg-white -800 rounded-3xl shadow-sm p-6 md:p-8 scroll-mt-24"
         >
-          <h3 className="text-xl font-bold mb-6 text-gray-900 dark:text-white">
+          <h3 className="text-xl font-bold mb-6 text-gray-900 ">
             Komentar (3)
           </h3>
 
@@ -579,7 +579,7 @@ export function ArticleContent({
               </div>
               <div className="flex-1">
                 <textarea
-                  className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-gray-900 dark:text-white transition-all duration-200"
+                  className="w-full p-3 border border-gray-200 -700 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary -900  transition-all duration-200"
                   placeholder="Tulis komentar Anda..."
                   rows={3}
                 ></textarea>
@@ -590,7 +590,7 @@ export function ArticleContent({
             </div>
 
             {/* Sample Comments */}
-            <div className="flex gap-4 pb-6 border-b border-gray-100 dark:border-gray-700">
+            <div className="flex gap-4 pb-6 border-b border-gray-100 -700">
               <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                 <Image
                   src="/placeholder.svg?height=100&width=100"
@@ -601,24 +601,24 @@ export function ArticleContent({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
+                  <h4 className="font-semibold text-gray-900 ">
                     Budi Santoso
                   </h4>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500 -400">
                     2 jam yang lalu
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-muted-foreground text-sm mb-2">
+                <p className="text-gray-700 -foreground text-sm mb-2">
                   Artikel yang sangat informatif! Saya baru tahu bahwa stunting
                   bisa berdampak jangka panjang pada perkembangan kognitif anak.
                 </p>
-                <button className="text-xs text-secondary dark:text-blue-400 font-medium hover:underline transition-all duration-200">
+                <button className="text-xs text-secondary -400 font-medium hover:underline transition-all duration-200">
                   Balas
                 </button>
               </div>
             </div>
 
-            <div className="flex gap-4 pb-6 border-b border-gray-100 dark:border-gray-700">
+            <div className="flex gap-4 pb-6 border-b border-gray-100 -700">
               <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                 <Image
                   src="/placeholder.svg?height=100&width=100"
@@ -629,18 +629,18 @@ export function ArticleContent({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
+                  <h4 className="font-semibold text-gray-900 ">
                     Siti Rahayu
                   </h4>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500 -400">
                     1 hari yang lalu
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-muted-foreground text-sm mb-2">
+                <p className="text-gray-700 -foreground text-sm mb-2">
                   Sebagai ibu dengan anak usia 1 tahun, artikel ini sangat
                   membantu. Saya akan lebih memperhatikan asupan gizi anak saya.
                 </p>
-                <button className="text-xs text-secondary dark:text-blue-400 font-medium hover:underline transition-all duration-200">
+                <button className="text-xs text-secondary -400 font-medium hover:underline transition-all duration-200">
                   Balas
                 </button>
               </div>
@@ -657,19 +657,19 @@ export function ArticleContent({
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
+                  <h4 className="font-semibold text-gray-900 ">
                     Ahmad Hidayat
                   </h4>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500 -400">
                     3 hari yang lalu
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-muted-foreground text-sm mb-2">
+                <p className="text-gray-700 -foreground text-sm mb-2">
                   Saya bekerja di Puskesmas dan artikel ini sangat bagus untuk
                   dibagikan kepada para ibu di daerah kami. Terima kasih
                   ByeStunting!
                 </p>
-                <button className="text-xs text-secondary dark:text-blue-400 font-medium hover:underline transition-all duration-200">
+                <button className="text-xs text-secondary -400 font-medium hover:underline transition-all duration-200">
                   Balas
                 </button>
               </div>
@@ -681,8 +681,8 @@ export function ArticleContent({
       <div className="lg:col-span-4">
         <div className="sticky top-24 space-y-8">
           {/* Table of Contents - Only visible on lg and above */}
-          <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6">
-            <h2 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">
+          <div className="hidden lg:block bg-white -800 rounded-3xl shadow-sm p-6">
+            <h2 className="text-lg font-bold mb-4 text-gray-900 ">
               Daftar Isi
             </h2>
             <ul className="space-y-3">
@@ -695,17 +695,17 @@ export function ArticleContent({
                         console.log("Button clicked for:", section.id); // Debug log
                         handleScrollToSection(section.id);
                       }}
-                      className={`flex items-center w-full text-left transition-all duration-300 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                      className={`flex items-center w-full text-left transition-all duration-300 p-3 rounded-lg hover:bg-gray-50 -gray-700 ${
                         isActive
-                          ? "text-secondary dark:text-blue-400 bg-foreground dark:bg-blue-900/30 font-semibold shadow-sm"
-                          : "text-gray-700 dark:text-muted-foreground hover:text-secondary dark:hover:text-blue-400"
+                          ? "text-secondary -400 bg-foreground -900/30 font-semibold shadow-sm"
+                          : "text-gray-700 -foreground hover:text-secondary -blue-400"
                       }`}
                     >
                       <div
                         className={`w-7 h-7 rounded-full flex items-center justify-center mr-3 text-sm font-bold transition-all duration-300 ${
                           isActive
                             ? "bg-secondary text-white shadow-md scale-110"
-                            : "bg-gray-100 dark:bg-gray-700 text-muted-foreground dark:text-gray-400"
+                            : "bg-gray-100 -700 text-muted-foreground -400"
                         }`}
                       >
                         {section.number}
@@ -721,8 +721,8 @@ export function ArticleContent({
           </div>
 
           {/* Related Articles */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6">
-            <div className="flex items-center gap-2 mb-4 text-secondary dark:text-blue-400">
+          <div className="bg-white -800 rounded-3xl shadow-sm p-6">
+            <div className="flex items-center gap-2 mb-4 text-secondary -400">
               <BookOpen className="h-5 w-5" />
               <h2 className="text-lg font-bold">Artikel Terkait</h2>
             </div>
@@ -734,7 +734,7 @@ export function ArticleContent({
                     key={relatedArticle.id}
                     className="block group"
                   >
-                    <Card className="overflow-hidden hover:shadow-md transition-all duration-300 border-0 bg-gray-50 dark:bg-gray-900">
+                    <Card className="overflow-hidden hover:shadow-md transition-all duration-300 border-0 bg-gray-50 -900">
                       <div className="flex">
                         <div className="relative h-24 w-24 flex-shrink-0">
                           <Image
@@ -753,11 +753,11 @@ export function ArticleContent({
                           <Badge variant="outline" className="mb-2 text-xs">
                             {relatedArticle.category}
                           </Badge>
-                          <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-400 transition-colors">
+                          <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-secondary :text-blue-400 transition-colors">
                             {relatedArticle.title}
                           </h3>
-                          <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                            <ChevronRight className="h-3 w-3 text-secondary dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity -ml-1 mr-1" />
+                          <div className="flex items-center text-xs text-gray-500 -400">
+                            <ChevronRight className="h-3 w-3 text-secondary -400 opacity-0 group-hover:opacity-100 transition-opacity -ml-1 mr-1" />
                             <span>Baca artikel</span>
                           </div>
                         </CardContent>
@@ -766,7 +766,7 @@ export function ArticleContent({
                   </Link>
                 ))
               ) : (
-                <p className="text-gray-500 dark:text-gray-400">
+                <p className="text-gray-500 -400">
                   Tidak ada artikel terkait
                 </p>
               )}
@@ -774,7 +774,7 @@ export function ArticleContent({
           </div>
 
           {/* CTA Box */}
-          <div className="bg-gradient-to-br from-secondary to-[#64B5F6] dark:from-blue-800 dark:to-blue-900 rounded-3xl shadow-sm p-6 text-white">
+          <div className="bg-gradient-to-br from-secondary to-[#64B5F6] -800 -900 rounded-3xl shadow-sm p-6 text-white">
             <h3 className="font-bold text-xl mb-3">Cek Risiko Stunting</h3>
             <p className="text-sm text-blue-100 mb-4">
               Masukkan data anak Anda untuk memeriksa risiko stunting dan
@@ -788,18 +788,18 @@ export function ArticleContent({
           </div>
 
           {/* Newsletter Box */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6">
-            <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white">
+          <div className="bg-white -800 rounded-3xl shadow-sm p-6">
+            <h3 className="font-bold text-lg mb-3 text-gray-900 ">
               Dapatkan Update Terbaru
             </h3>
-            <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground -foreground mb-4">
               Berlangganan newsletter kami untuk mendapatkan artikel dan tips
               terbaru tentang pencegahan stunting.
             </p>
             <div className="space-y-3">
               <Input
                 placeholder="Email Anda"
-                className="rounded-full border-gray-200 dark:border-gray-700 focus:ring-secondary transition-all duration-200"
+                className="rounded-full border-gray-200 -700 focus:ring-secondary transition-all duration-200"
               />
               <Button className="w-full bg-secondary hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
                 Berlangganan

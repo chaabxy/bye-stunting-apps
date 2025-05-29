@@ -80,13 +80,13 @@ export default async function ArticleDetailPage({
   const readingTime = Math.ceil(wordCount / 200);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-gray-950">
+    <div className="min-h-screen bg-[#F8FAFC] ">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Link href="/edukasi">
             <Button
               variant="ghost"
-              className="group flex items-center gap-2 px-4 py-2 text-[#317BC4] dark:text-blue-400 hover:bg-[#D7EBFC] dark:hover:bg-blue-900/20 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+              className="group flex items-center gap-2 px-4 py-2 text-[#317BC4]  hover:bg-[#D7EBFC]  rounded-full shadow-sm hover:shadow-md transition-all duration-200"
             >
               <ArrowLeft className="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" />
               <span className="font-semibold tracking-wide">

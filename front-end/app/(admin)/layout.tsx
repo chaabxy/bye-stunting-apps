@@ -11,14 +11,10 @@ import {
   LayoutDashboard,
   FileText,
   Database,
-  Bell,
   User,
   MessageCircle,
 } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -87,25 +83,17 @@ export default function AdminLayout({
   }
 
   if (pathname === "/admin/login") {
-    return (
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <div className="min-h-screen">{children}</div>
-      </ThemeProvider>
-    );
+    return <div className="min-h-screen">{children}</div>;
   }
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700 ">
+      <div className="p-6 border-b border-gray-200">
         <Link href="/dashboard" className="flex items-center space-x-3">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              ByeStunting
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Admin Panel
-            </p>
+            <h2 className="text-xl font-bold text-gray-900">ByeStunting</h2>
+            <p className="text-sm text-gray-500">Admin Panel</p>
           </div>
         </Link>
       </div>
@@ -122,7 +110,7 @@ export default function AdminLayout({
                 className={`group flex items-center p-3 rounded-xl transition-all duration-200 ${
                   isActive
                     ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                    : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                 }`}
                 onClick={() => setIsSidebarOpen(false)}
               >
@@ -130,16 +118,14 @@ export default function AdminLayout({
                   className={`w-5 h-5 mr-3 ${
                     isActive
                       ? "text-white"
-                      : "text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300"
+                      : "text-gray-500 group-hover:text-gray-700"
                   }`}
                 />
                 <div className="flex-1">
                   <p className="font-medium">{item.label}</p>
                   <p
                     className={`text-xs ${
-                      isActive
-                        ? "text-blue-100"
-                        : "text-gray-500 dark:text-gray-400"
+                      isActive ? "text-blue-100" : "text-gray-500"
                     }`}
                   >
                     {item.description}
@@ -154,96 +140,86 @@ export default function AdminLayout({
   );
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        {/* Mobile Sidebar */}
-        <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-          <SheetContent side="left" className="p-0 w-80">
-            <SidebarContent />
-          </SheetContent>
-        </Sheet>
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile Sidebar */}
+      <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+        <SheetContent side="left" className="p-0 w-80">
+          <SidebarContent />
+        </SheetContent>
+      </Sheet>
 
-        {/* Desktop Sidebar */}
-        <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
-            <SidebarContent />
-          </div>
-        </aside>
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white border-r border-gray-200">
+          <SidebarContent />
+        </div>
+      </aside>
 
-        {/* Main Content */}
-        <div className="lg:pl-80">
-          {/* Top Header */}
-          <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700 py-4">
-            <div className="px-4 sm:px-6 lg:px-8">
-              <div className="flex h-16 items-center justify-between">
-                <div className="flex items-center">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="lg:hidden"
-                    onClick={() => setIsSidebarOpen(true)}
-                  >
-                    <Menu className="h-6 w-6" />
-                  </Button>
-                  <div className="ml-4 lg:ml-0">
-                    <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {sidebarItems.find((item) => item.href === pathname)
-                        ?.label || "Admin Panel"}
-                    </h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {sidebarItems.find((item) => item.href === pathname)
-                        ?.description || "Kelola platform ByeStunting"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-4">
-                  <ThemeToggle />
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="h-10 w-10 rounded-full"
-                      >
-                        <User className="h-5 w-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      className="w-56"
-                      align="end"
-                      forceMount
-                    >
-                      <DropdownMenuLabel className="font-normal">
-                        <div className="flex flex-col space-y-1">
-                          <p className="text-sm font-medium leading-none">
-                            Admin
-                          </p>
-                          <p className="text-xs leading-none text-muted-foreground">
-                            admin@byestunting.com
-                          </p>
-                        </div>
-                      </DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleLogout}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Logout</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+      {/* Main Content */}
+      <div className="lg:pl-80">
+        {/* Top Header */}
+        <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-200 py-4">
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 items-center justify-between">
+              <div className="flex items-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="lg:hidden"
+                  onClick={() => setIsSidebarOpen(true)}
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
+                <div className="ml-4 lg:ml-0">
+                  <h1 className="text-lg font-semibold text-gray-900">
+                    {sidebarItems.find((item) => item.href === pathname)
+                      ?.label || "Admin Panel"}
+                  </h1>
+                  <p className="text-sm text-gray-500">
+                    {sidebarItems.find((item) => item.href === pathname)
+                      ?.description || "Kelola platform ByeStunting"}
+                  </p>
                 </div>
               </div>
-            </div>
-          </header>
 
-          {/* Page Content */}
-          <main className="py-8">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              {children}
+              <div className="flex items-center space-x-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-10 w-10 rounded-full">
+                      <User className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          Admin
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          admin@byestunting.com
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Logout</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="py-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </main>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }

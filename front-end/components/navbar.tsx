@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,8 +39,9 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-10">
         <div className={`flex h-16 items-center justify-between`}>
+          {/* Logo */}
           <div
-            className={`flex items-center px-2 md:px-5 ${
+            className={`flex items-center px-2 md:px-5 flex-1 ${
               scrolled ? "md:mt-0" : "md:mt-5"
             }`}
           >
@@ -50,31 +52,34 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav
-            className={`hidden md:flex items-center space-x-8 lg:space-x-12 ${
+            className={`hidden md:flex items-center space-x-8 lg:space-x-12 justify-center ${
               scrolled ? "md:mt-0" : "md:mt-5"
             }`}
           >
-            {navLinks.map((link, idx) => (
-              <Link
-                key={idx}
-                href={link.path}
-                className="text-sm font-semibold text-gray-800 hover:text-[#317BC4]"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link, idx) => {
+              const isActive = pathname === link.path;
+              return (
+                <Link
+                  key={idx}
+                  href={link.path}
+                  className={`text-sm font-semibold px-3 py-1 transition-all duration-200 ${
+                    isActive
+                      ? "text-white bg-secondary rounded-xl shadow-sm"
+                      : "text-text hover:text-[#0a0b0c]"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </nav>
 
+          {/* Theme Toggle & Mobile Menu Button */}
           <div
-            className={`flex items-center gap-4 ${
+            className={`flex items-center gap-4 md:ml-4 ${
               scrolled ? "md:mt-0" : "md:mt-5"
             }`}
           >
-            <div className="mr-2">
-              <ThemeToggle />
-            </div>
-
-            {/* Mobile Menu Button */}
             <button
               className="md:hidden flex items-center"
               onClick={toggleMobileMenu}
@@ -93,16 +98,23 @@ export default function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white shadow-lg rounded-b-lg py-4 px-6 absolute left-0 right-0 z-50">
             <nav className="flex flex-col space-y-4">
-              {navLinks.map((link, idx) => (
-                <Link
-                  key={idx}
-                  href={link.path}
-                  className="text-sm font-semibold text-gray-800 hover:text-[#317BC4] py-2 border-b border-gray-100 last:border-0"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {navLinks.map((link, idx) => {
+                const isActive = pathname === link.path;
+                return (
+                  <Link
+                    key={idx}
+                    href={link.path}
+                    className={`text-sm font-semibold py-2 px-3 border-b border-gray-100 last:border-0 ${
+                      isActive
+                        ? "text-white bg-[#317BC4] rounded-md"
+                        : "text-gray-800 hover:text-[#317BC4]"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         )}

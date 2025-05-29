@@ -228,11 +228,11 @@ export default function KelolaPesanUserPage() {
   const getStatusBadge = (status: UserMessage["status"]) => {
     const variants = {
       "Belum Dibaca":
-        "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
+        "bg-blue-100 text-blue-800 -900 -300",
       Dibaca:
-        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
+        "bg-yellow-100 text-yellow-800 -900 -300",
       Dibalas:
-        "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+        "bg-green-100 text-green-800 -900 -300",
     };
 
     const icons = {
@@ -259,13 +259,13 @@ export default function KelolaPesanUserPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-foreground from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 rounded-3xl p-6 mb-6 border border-purple-200 dark:border-purple-700">
+      <div className="bg-foreground from-purple-50 to-indigo-50 -900 -900 rounded-3xl p-6 mb-6 border border-purple-200 -700">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text dark:text-white">
+            <h1 className="text-3xl font-bold text-text ">
               Kelola Pesan User
             </h1>
-            <p className="text-muted-foreground dark:text-purple-300 mt-2">
+            <p className="text-muted-foreground  mt-2">
               Kelola dan tanggapi pesan dari pengguna aplikasi
             </p>
           </div>
@@ -281,14 +281,14 @@ export default function KelolaPesanUserPage() {
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 -900/50 -800/50 border-blue-200 -700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-md font-medium text-blue-700 dark:text-blue-300">
+                <p className="text-md font-medium text-blue-700 -300">
                   Total Pesan
                 </p>
-                <p className="mt-3 text-2xl font-bold text-blue-900 dark:text-blue-100">
+                <p className="mt-3 text-2xl font-bold text-blue-900 -100">
                   {stats.total}
                 </p>
               </div>
@@ -299,14 +299,14 @@ export default function KelolaPesanUserPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/50 dark:to-orange-800/50 border-orange-200 dark:border-orange-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 -900/50 -800/50 border-orange-200 -700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-md font-medium text-orange-700 dark:text-orange-300">
+                <p className="text-md font-medium text-orange-700 -300">
                   Belum Dibaca
                 </p>
-                <p className="text-2xl font-bold text-orange-900 dark:text-orange-100">
+                <p className="text-2xl font-bold text-orange-900 -100">
                   {stats.baru}
                 </p>
               </div>
@@ -317,14 +317,14 @@ export default function KelolaPesanUserPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/50 dark:to-yellow-800/50 border-yellow-200 dark:border-yellow-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 -900/50 -800/50 border-yellow-200 -700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-md font-medium text-yellow-700 dark:text-yellow-300">
+                <p className="text-md font-medium text-yellow-700 -300">
                   Dibaca
                 </p>
-                <p className="mt-3 text-2xl font-bold text-yellow-900 dark:text-yellow-100">
+                <p className="mt-3 text-2xl font-bold text-yellow-900 -100">
                   {stats.dibaca}
                 </p>
               </div>
@@ -335,14 +335,14 @@ export default function KelolaPesanUserPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 -900/50 -800/50 border-green-200 -700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-md font-medium text-green-700 dark:text-green-300">
+                <p className="text-md font-medium text-green-700 -300">
                   Dibalas
                 </p>
-                <p className="mt-3 text-2xl font-bold text-green-900 dark:text-green-100">
+                <p className="mt-3 text-2xl font-bold text-green-900 -100">
                   {stats.dibalas}
                 </p>
               </div>
@@ -355,7 +355,7 @@ export default function KelolaPesanUserPage() {
       </div>
 
       {/* Filters */}
-      <Card className="shadow-lg border-0 bg-white dark:bg-slate-800 mb-6">
+      <Card className="shadow-lg border-0 bg-white -800 mb-6">
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
@@ -365,13 +365,13 @@ export default function KelolaPesanUserPage() {
                   placeholder="Cari berdasarkan nama, email, subjek, atau pesan..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-slate-300 dark:border-slate-600 focus:border-purple-500 focus:ring-purple-500"
+                  className="pl-10 border-slate-300 -600 focus:border-purple-500 focus:ring-purple-500"
                 />
               </div>
             </div>
             <div className="flex gap-2">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="rounded-xl w-40 border-slate-300 dark:border-slate-600">
+                <SelectTrigger className="rounded-xl w-40 border-slate-300 -600">
                   <Filter className="w-4 h-4 mr-2" />
                   <SelectValue placeholder="Filter Status" />
                 </SelectTrigger>
@@ -388,9 +388,9 @@ export default function KelolaPesanUserPage() {
       </Card>
 
       {/* Messages Table */}
-      <Card className="shadow-lg border-0 bg-foreground dark:bg-slate-80">
-        <CardHeader className="bg-input from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
-          <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
+      <Card className="shadow-lg border-0 bg-foreground -80">
+        <CardHeader className="bg-input from-slate-50 to-slate-100 -800 -700 border-b border-slate-200 -600">
+          <CardTitle className="text-xl font-semibold text-slate-900 ">
             Daftar Pesan User
           </CardTitle>
         </CardHeader>
@@ -398,29 +398,29 @@ export default function KelolaPesanUserPage() {
           <div className="overflow-x-auto bg-white rounded-lg">
             <Table className="">
               <TableHeader>
-                <TableRow className="py-3 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600">
-                  <TableHead className="w-12 font-semibold text-slate-700 dark:text-slate-30 text-center text-text">
+                <TableRow className="py-3 bg-slate-50 -700 hover:bg-slate-100 -slate-600">
+                  <TableHead className="w-12 font-semibold text-slate-700 -30 text-center text-text">
                     No
                   </TableHead>
-                  <TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="font-semibold text-slate-700 -300 text-center text-text">
                     Nama Lengkap
                   </TableHead>
-                  <TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="font-semibold text-slate-700 -300 text-center text-text">
                     Email
                   </TableHead>
-                  <TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="font-semibold text-slate-700 -300 text-center text-text">
                     Subjek
                   </TableHead>
-                  <TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="font-semibold text-slate-700 -300 text-center text-text">
                     Pesan
                   </TableHead>
-                  <TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="font-semibold text-slate-700 -300 text-center text-text">
                     Tanggal Kirim
                   </TableHead>
-                  <TableHead className="font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="font-semibold text-slate-700 -300 text-center text-text">
                     Status
                   </TableHead>
-                  <TableHead className="w-32 font-semibold text-slate-700 dark:text-slate-300 text-center text-text">
+                  <TableHead className="w-32 font-semibold text-slate-700 -300 text-center text-text">
                     Aksi
                   </TableHead>
                 </TableRow>
@@ -430,7 +430,7 @@ export default function KelolaPesanUserPage() {
                 {filteredMessages.map((message, index) => (
                   <TableRow
                     key={message.id}
-                    className="bg-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                    className="bg-white hover:bg-slate-50 -slate-700 transition-colors"
                   >
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell className="font-medium">
@@ -439,7 +439,7 @@ export default function KelolaPesanUserPage() {
                     <TableCell>
                       <a
                         href={`mailto:${message.email}`}
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                        className="text-blue-600 hover:text-blue-800 -400 -blue-300"
                       >
                         {message.email}
                       </a>
@@ -480,7 +480,7 @@ export default function KelolaPesanUserPage() {
                                   <Label className="text-sm font-medium">
                                     Nama Lengkap
                                   </Label>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  <p className="text-sm text-gray-600 -400">
                                     {selectedMessage.namaLengkap}
                                   </p>
                                 </div>
@@ -488,7 +488,7 @@ export default function KelolaPesanUserPage() {
                                   <Label className="text-sm font-medium">
                                     Email
                                   </Label>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  <p className="text-sm text-gray-600 -400">
                                     {selectedMessage.email}
                                   </p>
                                 </div>
@@ -496,7 +496,7 @@ export default function KelolaPesanUserPage() {
                                   <Label className="text-sm font-medium">
                                     Subjek
                                   </Label>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  <p className="text-sm text-gray-600 -400">
                                     {selectedMessage.subjek}
                                   </p>
                                 </div>
@@ -504,7 +504,7 @@ export default function KelolaPesanUserPage() {
                                   <Label className="text-sm font-medium">
                                     Tanggal Kirim
                                   </Label>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  <p className="text-sm text-gray-600 -400">
                                     {selectedMessage.tanggalKirim}
                                   </p>
                                 </div>
@@ -514,7 +514,7 @@ export default function KelolaPesanUserPage() {
                                 <Label className="text-sm font-medium">
                                   Pesan
                                 </Label>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <p className="text-sm text-gray-600 -400 mt-1 p-3 bg-gray-50 -800 rounded-lg">
                                   {selectedMessage.pesan}
                                 </p>
                               </div>
@@ -524,7 +524,7 @@ export default function KelolaPesanUserPage() {
                                   <Label className="text-sm font-medium">
                                     Balasan
                                   </Label>
-                                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                  <p className="text-sm text-gray-600 -400 mt-1 p-3 bg-green-50 -900/20 rounded-lg">
                                     {selectedMessage.balasan}
                                   </p>
                                   <p className="text-xs text-gray-500 mt-1">
@@ -579,10 +579,10 @@ export default function KelolaPesanUserPage() {
         <Card>
           <CardContent className="p-8 text-center">
             <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 className="text-lg font-medium text-gray-900  mb-2">
               Tidak ada pesan ditemukan
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 -400">
               {searchTerm || statusFilter !== "semua"
                 ? "Coba ubah filter atau kata kunci pencarian"
                 : "Belum ada pesan dari pengguna"}

@@ -48,13 +48,13 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-cyan-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-12 px-4">
-      <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-2xl rounded-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-cyan-100    py-12 px-4">
+      <Card className="w-full max-w-md bg-white/80 backdrop-blur-lg shadow-2xl rounded-lg">
         <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-3xl font-extrabold text-primary dark:text-blue-400">
+          <CardTitle className="text-3xl font-extrabold text-primary ">
             Admin <span className="text-secondary">Login</span>
           </CardTitle>
-          <CardDescription className="text-muted-foreground dark:text-gray-400">
+          <CardDescription className="text-muted-foreground ">
             Kelola konten edukasi di Dashboard Admin
           </CardDescription>
         </CardHeader>

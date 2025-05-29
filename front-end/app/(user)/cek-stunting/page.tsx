@@ -367,7 +367,7 @@ export default function CekStunting() {
         <h1 className="text-2xl md:text-4xl font-bold mb-3 bg-text from-blue-600 to-cyan-500 bg-clip-text text-primary">
           Cek Risiko <span className="text-secondary">Stunting</span>
         </h1>
-        <p className="text-md text-muted-foreground dark:text-gray-400 max-w-2xl mx-auto">
+        <p className="text-md text-muted-foreground -400 max-w-2xl mx-auto">
           Masukkan data anak Anda untuk memeriksa risiko stunting dan dapatkan
           rekomendasi yang sesuai untuk tumbuh kembang optimal
         </p>
@@ -384,9 +384,9 @@ export default function CekStunting() {
         <TabsContent value="form">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <Card className="overflow-hidden shadow-md border-blue-100 dark:border-blue-900">
-                <CardHeader className="text-center bg-input from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border-b border-blue-100 dark:border-blue-900">
-                  <CardTitle className="text-primary dark:text-blue-300">
+              <Card className="overflow-hidden shadow-md border-blue-100 -900">
+                <CardHeader className="text-center bg-input from-blue-50 to-cyan-50 -950/50 -950/50 border-b border-blue-100 -900">
+                  <CardTitle className="text-primary -300">
                     Input Data <span className="text-secondary">Anak</span>
                   </CardTitle>
                   <CardDescription>
@@ -430,7 +430,7 @@ export default function CekStunting() {
                             <Button
                               variant="outline"
                               className={cn(
-                                "w-full justify-start text-left font-normal border-blue-200 hover:bg-blue-50 dark:hover:bg-blue-950/50 bg-input",
+                                "w-full justify-start text-left font-normal border-blue-200 hover:bg-blue-50 -blue-950/50 bg-input",
                                 !formData.tanggalLahir &&
                                   "text-muted-foreground"
                               )}
@@ -501,7 +501,7 @@ export default function CekStunting() {
                                       className={cn(
                                         "h-10",
                                         selectedMonth === month &&
-                                          "bg-input dark:bg-blue-800"
+                                          "bg-input -800"
                                       )}
                                     >
                                       {format(new Date(2000, month, 1), "MMM", {
@@ -525,7 +525,7 @@ export default function CekStunting() {
                                       className={cn(
                                         "h-10",
                                         selectedYear === year &&
-                                          "bg-input dark:bg-blue-800"
+                                          "bg-input -800"
                                       )}
                                     >
                                       {year}
@@ -554,7 +554,7 @@ export default function CekStunting() {
                           required
                         >
                           {/* Laki-laki */}
-                          <div className="bg-input flex items-center space-x-2 rounded-md border border-blue-200 p-2 hover:bg-blue-50 dark:hover:bg-blue-950/30">
+                          <div className="bg-input flex items-center space-x-2 rounded-md border border-blue-200 p-2 hover:bg-blue-50 -blue-950/30">
                             <RadioGroupItem value="laki-laki" id="laki-laki" />
                             <Label
                               htmlFor="laki-laki"
@@ -565,7 +565,7 @@ export default function CekStunting() {
                           </div>
 
                           {/* Perempuan */}
-                          <div className="bg-input flex items-center space-x-2 rounded-md border border-blue-200 p-2 hover:bg-blue-50 dark:hover:bg-blue-950/30">
+                          <div className="bg-input flex items-center space-x-2 rounded-md border border-blue-200 p-2 hover:bg-blue-50 -blue-950/30">
                             <RadioGroupItem value="perempuan" id="perempuan" />
                             <Label
                               htmlFor="perempuan"
@@ -745,9 +745,9 @@ export default function CekStunting() {
             </div>
 
             <div className="lg:col-span-1">
-              <Card className="bg-input from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30 border-blue-100 dark:border-blue-900 shadow-md h-full">
+              <Card className="bg-input from-blue-50 to-cyan-50 -950/30 -950/30 border-blue-100 -900 shadow-md h-full">
                 <CardHeader>
-                  <CardTitle className=" text-center text-lg text-primary dark:text-blue-300">
+                  <CardTitle className=" text-center text-lg text-primary -300">
                     Mengapa Cek Stunting{" "}
                     <span className="text-secondary">Penting?</span>
                   </CardTitle>
@@ -755,7 +755,7 @@ export default function CekStunting() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-5 w-5 text-secondary dark:text-blue-400 mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-secondary -400 mt-0.5" />
                       <p className="text-sm">
                         <span className="font-medium">Deteksi Dini:</span>{" "}
                         Mengenali tanda-tanda stunting sejak awal memungkinkan
@@ -763,7 +763,7 @@ export default function CekStunting() {
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-5 w-5 text-secondary dark:text-blue-400 mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-secondary -400 mt-0.5" />
                       <p className="text-sm">
                         <span className="font-medium">
                           Mencegah Dampak Jangka Panjang:
@@ -773,7 +773,7 @@ export default function CekStunting() {
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-5 w-5 text-secondary dark:text-blue-400 mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-secondary -400 mt-0.5" />
                       <p className="text-sm">
                         <span className="font-medium">Rekomendasi Tepat:</span>{" "}
                         Dapatkan saran nutrisi dan perawatan yang sesuai dengan
@@ -799,24 +799,24 @@ export default function CekStunting() {
         <TabsContent value="result">
           {result && (
             <div className="space-y-8">
-              <Card className="shadow-lg border-blue-100 dark:border-blue-900 overflow-hidden">
+              <Card className="shadow-lg border-blue-100 -900 overflow-hidden">
                 <CardHeader
                   className={cn(
                     "border-b",
                     result.status === "normal"
-                      ? "bg-foreground from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/30 border-green-100 dark:border-green-800"
+                      ? "bg-foreground from-green-50 to-green-100 -950/30 -900/30 border-green-100 -800"
                       : result.status === "berisiko"
-                      ? "bg-foreground from-yellow-50 to-yellow-100 dark:from-yellow-950/30 dark:to-yellow-900/30 border-yellow-100 dark:border-yellow-800"
-                      : "bg-foreground from-red-50 to-red-100 dark:from-red-950/30 dark:to-red-900/30 border-red-100 dark:border-red-800"
+                      ? "bg-foreground from-yellow-50 to-yellow-100 -950/30 -900/30 border-yellow-100 -800"
+                      : "bg-foreground from-red-50 to-red-100 -950/30 -900/30 border-red-100 -800"
                   )}
                 >
                   <CardTitle
                     className={
                       result.status === "normal"
-                        ? "text-green-700 dark:text-green-400"
+                        ? "text-green-700 -400"
                         : result.status === "berisiko"
-                        ? "text-yellow-700 dark:text-yellow-400"
-                        : "text-red-700 dark:text-red-400"
+                        ? "text-yellow-700 -400"
+                        : "text-red-700 -400"
                     }
                   >
                     {result.status === "normal"
@@ -833,7 +833,7 @@ export default function CekStunting() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="md:col-span-2">
                       <div className="mb-6">
-                        <h3 className="font-semibold text-lg mb-2 text-secondary dark:text-blue-300">
+                        <h3 className="font-semibold text-lg mb-2 text-secondary -300">
                           Hasil Analisis
                         </h3>
                         <p className="mb-4">{result.message}</p>
@@ -845,16 +845,16 @@ export default function CekStunting() {
                             <span
                               className={
                                 result.status === "normal"
-                                  ? "text-green-600 dark:text-green-400"
+                                  ? "text-green-600 -400"
                                   : result.status === "berisiko"
-                                  ? "text-yellow-600 dark:text-yellow-400"
-                                  : "text-red-600 dark:text-red-400"
+                                  ? "text-yellow-600 -400"
+                                  : "text-red-600 -400"
                               }
                             >
                               {result.score}%
                             </span>
                           </div>
-                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                          <div className="w-full bg-gray-200 -700 rounded-full h-2.5">
                             <div
                               className={`h-2.5 rounded-full ${
                                 result.status === "normal"
@@ -867,16 +867,16 @@ export default function CekStunting() {
                             ></div>
                           </div>
                         </div>
-                        <h3 className="font-semibold mb-2 text-secondary dark:text-blue-300">
+                        <h3 className="font-semibold mb-2 text-secondary -300">
                           Rekomendasi :
                         </h3>
-                        <ul className="space-y-2 border border-gray-200 dark:border-blue-800 rounded-md p-1 dark:bg-blue-950/20">
+                        <ul className="space-y-2 border border-gray-200 -800 rounded-md p-1 -950/20">
                           {result.recommendations.map((rec, index) => (
                             <li
                               key={index}
-                              className="flex items-start space-x-2 bg-white dark:bg-blue-950/30 p-3 rounded-md"
+                              className="flex items-start space-x-2 bg-white -950/30 p-3 rounded-md"
                             >
-                              <span className="h-5 w-5 flex items-center justify-center font-semibold text-text dark:text-blue-400 mt-0.5 flex-shrink-0">
+                              <span className="h-5 w-5 flex items-center justify-center font-semibold text-text -400 mt-0.5 flex-shrink-0">
                                 {index + 1}.
                               </span>
                               <span>{rec}</span>
@@ -887,7 +887,7 @@ export default function CekStunting() {
                     </div>
 
                     <div>
-                      <h3 className="font-semibold text-lg mb-4 text-secondary dark:text-blue-300">
+                      <h3 className="font-semibold text-lg mb-4 text-secondary -300">
                         Artikel Rekomendasi
                       </h3>
                       <div className="space-y-5">
@@ -896,14 +896,14 @@ export default function CekStunting() {
                             href={`/edukasi/${article.id}`}
                             key={article.id}
                           >
-                            <div className="bg-foreground p-3 border border-blue-100 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors cursor-pointer shadow-sm hover:shadow-md mb-3">
+                            <div className="bg-foreground p-3 border border-blue-100 -800 rounded-lg hover:bg-blue-50 -blue-900/20 transition-colors cursor-pointer shadow-sm hover:shadow-md mb-3">
                               <div className="flex items-center justify-between">
-                                <h4 className="font-medium text-text dark:text-blue-400">
+                                <h4 className="font-medium text-text -400">
                                   {article.title}
                                 </h4>
-                                <ArrowRight className="h-6 w-6 text-secondary dark:text-blue-400" />
+                                <ArrowRight className="h-6 w-6 text-secondary -400" />
                               </div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              <p className="text-xs text-gray-500 -400 mt-1">
                                 {article.category}
                               </p>
                             </div>
@@ -913,12 +913,12 @@ export default function CekStunting() {
                     </div>
                   </div>
                 </CardContent>
-                <CardFooter className="bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800 p-4 flex flex-wrap gap-2 justify-center mb-5">
+                <CardFooter className="bg-gray-50 -900/50 border-t border-gray-100 -800 p-4 flex flex-wrap gap-2 justify-center mb-5">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setActiveTab("form")}
-                    className="bg-secondary border-blue-200 text-white hover:bg-blue-50 dark:hover:bg-blue-950/50"
+                    className="bg-secondary border-blue-200 text-white hover:bg-blue-50 -blue-950/50"
                   >
                     Kembali ke Form
                   </Button>
@@ -926,7 +926,7 @@ export default function CekStunting() {
                     variant="outline"
                     size="sm"
                     onClick={handlePrintReport}
-                    className="bg-white border-blue-200 text-secondary hover:bg-blue-50 dark:hover:bg-blue-950/50"
+                    className="bg-white border-blue-200 text-secondary hover:bg-blue-50 -blue-950/50"
                   >
                     <Printer className="h-4 w-4 mr-2" />
                     Cetak Laporan
@@ -935,7 +935,7 @@ export default function CekStunting() {
                     variant="outline"
                     size="sm"
                     onClick={handleShareWhatsApp}
-                    className="bg-green-500 border-green-200 text-white hover:bg-green-50 dark:hover:bg-green-950/50"
+                    className="bg-green-500 border-green-200 text-white hover:bg-green-50 -green-950/50"
                   >
                     <Share2 className="h-4 w-4 mr-2" />
                     Bagikan via WhatsApp
@@ -944,9 +944,9 @@ export default function CekStunting() {
               </Card>
 
               {/* WHO Chart */}
-              <Card className="shadow-lg border-blue-100 dark:border-blue-900 overflow-hidden">
-                <CardHeader className="bg-foreground from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border-b border-blue-100 dark:border-blue-900">
-                  <CardTitle className="text-text dark:text-blue-300">
+              <Card className="shadow-lg border-blue-100 -900 overflow-hidden">
+                <CardHeader className="bg-foreground from-blue-50 to-cyan-50 -950/50 -950/50 border-b border-blue-100 -900">
+                  <CardTitle className="text-text -300">
                     Kurva Pertumbuhan{" "}
                     <span className="text-secondary">WHO</span>
                   </CardTitle>
@@ -1053,7 +1053,7 @@ export default function CekStunting() {
                           </LineChart>
                         </ResponsiveContainer>
                       </div>
-                      <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-md text-sm space-y-2">
+                      <div className="mt-6 p-4 bg-blue-50 -950/30 rounded-md text-sm space-y-2">
                         <h4 className="font-semibold mb-2">
                           Keterangan Kurva Persentil:
                         </h4>
@@ -1098,14 +1098,14 @@ export default function CekStunting() {
                         </ul>
                       </div>
 
-                      <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-md">
+                      <div className="mt-4 p-4 bg-blue-50 -950/30 rounded-md">
                         <p className="text-sm">
                           <span className="font-medium">
                             Persentil Berat Badan:
                           </span>{" "}
                           {weightPercentile.toFixed(1)}
                           <br />
-                          <span className="text-xs text-muted-foreground dark:text-gray-400">
+                          <span className="text-xs text-muted-foreground -400">
                             Persentil menunjukkan posisi anak Anda dibandingkan
                             dengan anak-anak lain seusianya. Persentil 50 adalah
                             median (rata-rata).
@@ -1118,7 +1118,7 @@ export default function CekStunting() {
                       <h3 className="text-lg font-semibold mb-2 text-center">
                         Interpretasi Hasil
                       </h3>
-                      <div className="p-4 rounded-md bg-blue-50 dark:bg-gray-900/50 text-sm leading-relaxed">
+                      <div className="p-4 rounded-md bg-blue-50 -900/50 text-sm leading-relaxed">
                         <p>
                           Berdasarkan kurva pertumbuhan WHO:
                           <br />
@@ -1211,11 +1211,11 @@ export default function CekStunting() {
                           )}
                         </p>
 
-                        <hr className="my-4 border-t border-gray-300 dark:border-gray-700" />
+                        <hr className="my-4 border-t border-gray-300 -700" />
 
                         <p className="text-base font-semibold">
                           ✅{" "}
-                          <span className="text-secondary dark:text-blue-300">
+                          <span className="text-secondary -300">
                             Kesimpulan:
                           </span>{" "}
                           {heightPercentile < 3

@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -8,8 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FileText, Film, Database, TrendingUp, Plus, Map } from "lucide-react";
-import Link from "next/link";
+import { FileText, Database, TrendingUp, Plus } from "lucide-react";
+import { ProvinceStatsCard } from "@/components/province-stats-card";
+import WHOStatisticsCharts  from "@/components/who-statistics-charts";
 
 interface StatCardProps {
   title: string;
@@ -27,12 +30,12 @@ const StatCard = ({
   icon: Icon,
   color,
 }: StatCardProps) => (
-  <Card className="bg-input relative overflow-hidden group hover:shadow-lg transition-all duration-300">
+  <Card className="relative overflow-hidden group hover:shadow-lg transition-all duration-300">
     <div
-      className={`absolute inset-0 bg-input  ${color} opacity-5 group-hover:opacity-10 transition-opacity`}
+      className={`absolute inset-0 bg-input ${color} opacity-5 group-hover:opacity-10 transition-opacity`}
     />
     <CardHeader className="flex flex-row items-center justify-between pb-2">
-      <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+      <CardTitle className="text-sm font-medium text-gray-600">
         {title}
       </CardTitle>
       <div className={`p-2 rounded-lg bg-gradient-to-br ${color}`}>
@@ -40,10 +43,8 @@ const StatCard = ({
       </div>
     </CardHeader>
     <CardContent>
-      <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-        {value}
-      </div>
-      <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
+      <div className="text-3xl font-bold text-gray-900 mb-1">{value}</div>
+      <p className="text-sm text-gray-500">{description}</p>
     </CardContent>
   </Card>
 );
@@ -167,93 +168,58 @@ export default function AdminDashboard() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Artikel Terpopuler */}
-            <div className="text-center p-4 bg-foreground dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <div className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-1">
+            <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="text-lg font-semibold text-blue-600 mb-1">
                 Artikel Terpopuler
               </div>
-              <div className="text-sm text-blue-700 dark:text-blue-300">
+              <div className="text-sm text-blue-700">
                 "Tips Mencegah Stunting"
               </div>
-              <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                1,234 views
-              </div>
+              <div className="text-xs text-blue-600 mt-1">1,234 views</div>
             </div>
             {/* Pesan Baru */}
-            <div className="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
-              <div className="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-1">
+            <div className="text-center p-4 bg-orange-50 rounded-lg border border-orange-200">
+              <div className="text-lg font-semibold text-orange-600 mb-1">
                 Pesan Baru
               </div>
-              <div className="text-sm text-orange-700 dark:text-orange-300">
+              <div className="text-sm text-orange-700">
                 5 pesan belum dibaca
               </div>
-              <div className="text-xs text-orange-600 dark:text-orange-400 mt-1">
-                Hari ini
-              </div>
+              <div className="text-xs text-orange-600 mt-1">Hari ini</div>
             </div>
             {/* Data Terbaru */}
-            <div className="text-center p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-              <div className="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
+            <div className="text-center p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+              <div className="text-lg font-semibold text-emerald-600 mb-1">
                 Data Terbaru
               </div>
-              <div className="text-sm text-emerald-700 dark:text-emerald-300">
+              <div className="text-sm text-emerald-700">
                 Pemeriksaan terakhir
               </div>
-              <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
-                2 jam lalu
-              </div>
+              <div className="text-xs text-emerald-600 mt-1">2 jam lalu</div>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <StatCard
-          title="Provinsi"
-          value={stats.articles}
-          description="Data Stunting Per Provinsi"
-          icon={Map}
-          color="from-blue-500 to-blue-600"
-          className="bg-input"
-        />
-        <StatCard
-          title="Provinsi"
-          value={stats.articles}
-          description="Data Stunting Per Provinsi"
-          icon={Map}
-          color="from-blue-500 to-blue-600"
-          className="bg-input"
-        />
-        <StatCard
-          title="Total Video"
-          value={stats.videos}
-          description="video edukasi tersedia"
-          icon={Film}
-          color="from-purple-500 to-purple-600"
-          className="bg-input"
-        />
-        <StatCard
-          title="Data Kesehatan"
-          value={stats.healthData}
-          description="data stunting tersimpan"
-          icon={Database}
-          color="from-green-500 to-green-600"
-          className="bg-input"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+        {/* Province mengambil 1 kolom */}
+        <div>
+          <ProvinceStatsCard />
+        </div>
       </div>
-
       <Card>
-        <CardHeader className="bg-input">
-          <CardTitle className="flex items-center space-x-2 ">
+        <CardHeader className="bg-green-50">
+          <CardTitle className="flex items-center space-x-2">
             <Plus className="h-5 w-5" />
             <span>Statistik Data Stunting</span>
           </CardTitle>
           <CardDescription>
-            Statistik Seluruh Data Stunting Berdasarkan standar WHO Chart{" "}
+            Statistik Seluruh Data Stunting Berdasarkan standar WHO Chart
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-7"></div>
+        <CardContent className="bg-green-50">
+          <WHOStatisticsCharts />
         </CardContent>
       </Card>
     </div>

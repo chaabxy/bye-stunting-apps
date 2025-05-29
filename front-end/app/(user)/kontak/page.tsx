@@ -18,16 +18,16 @@ export default function Kontak() {
         <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-primary from-blue-600 to-cyan-500 bg-clip-text text-transparent">
           Kontak <span className="text-secondary">Kami</span>
         </h1>
-        <p className="text-muted-foreground dark:text-gray-400 text-sm mx-auto px-5">
+        <p className="text-muted-foreground -400 text-sm mx-auto px-5">
           Punya pertanyaan atau saran? Jangan ragu untuk menghubungi kami. Tim
           kami siap membantu Anda dalam upaya pencegahan stunting.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 shadow-md border-blue-100 dark:border-blue-900">
-          <CardHeader className="bg-input from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border-b border-blue-100 dark:border-blue-900">
-            <CardTitle className=" text-primary dark:text-blue-300 flex items-center gap-2">
+        <Card className="lg:col-span-2 shadow-md border-blue-100 -900">
+          <CardHeader className="bg-input from-blue-50 to-cyan-50 -950/50 -950/50 border-b border-blue-100 -900">
+            <CardTitle className=" text-primary -300 flex items-center gap-2">
               <MessageSquare className="h-5 w-5" /> Kirim <span className="text-secondary">Pesan</span>
             </CardTitle>
             <CardDescription>
@@ -84,7 +84,7 @@ export default function Kontak() {
         </Card>
 
         <div className="space-y-8">
-          <Card className="shadow-md border-blue-100 dark:border-blue-900 overflow-hidden ">
+          <Card className="shadow-md border-blue-100 -900 overflow-hidden ">
             <div className="h-16 lg:h-24 bg-secondary from-secondary to-cyan-500 relative">
               <div className="absolute inset-0 opacity-20"></div>
               <div className="absolute inset-0 flex items-center justify-center">
@@ -95,14 +95,14 @@ export default function Kontak() {
             </div>
             <CardContent className="p-6 space-y-6 mb-10 bg-input">
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
-                  <MapPin className="h-5 w-5 text-secondary dark:text-blue-400" />
+                <div className="bg-blue-100 -900/50 p-3 rounded-full">
+                  <MapPin className="h-5 w-5 text-secondary -400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2 text-secondary dark:text-blue-300">
+                  <h3 className="font-semibold mb-2 text-secondary -300">
                     Alamat
                   </h3>
-                  <p className="text-muted-foreground dark:text-gray-400 text-sm">
+                  <p className="text-muted-foreground -400 text-sm">
                     Jl. Kesehatan No. 123
                     <br />
                     Jakarta Pusat, 10110
@@ -113,28 +113,28 @@ export default function Kontak() {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
-                  <Phone className="h-5 w-5 text-secondary dark:text-blue-400" />
+                <div className="bg-blue-100 -900/50 p-3 rounded-full">
+                  <Phone className="h-5 w-5 text-secondary -400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2 text-secondary dark:text-blue-300">
+                  <h3 className="font-semibold mb-2 text-secondary -300">
                     Telepon
                   </h3>
-                  <p className="text-muted-foreground dark:text-gray-400 text-sm">
+                  <p className="text-muted-foreground -400 text-sm">
                     +62 123 4567 890
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
-                  <Mail className="h-5 w-5 text-secondary dark:text-blue-400" />
+                <div className="bg-blue-100 -900/50 p-3 rounded-full">
+                  <Mail className="h-5 w-5 text-secondary -400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2 text-secondary dark:text-blue-300">
+                  <h3 className="font-semibold mb-2 text-secondary -300">
                     Email
                   </h3>
-                  <p className="text-muted-foreground dark:text-gray-400 text-sm">
+                  <p className="text-muted-foreground -400 text-sm">
                     info@byestunting.id
                     <br />
                     support@byestunting.id
@@ -143,14 +143,14 @@ export default function Kontak() {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
-                  <Clock className="h-5 w-5 text-secondary dark:text-blue-400" />
+                <div className="bg-blue-100 -900/50 p-3 rounded-full">
+                  <Clock className="h-5 w-5 text-secondary -400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2 text-secondary dark:text-blue-300">
+                  <h3 className="font-semibold mb-2 text-secondary -300">
                     Jam Operasional
                   </h3>
-                  <p className="text-muted-foreground dark:text-gray-400 text-sm">
+                  <p className="text-muted-foreground -400 text-sm">
                     Senin - Jumat: 08.00 - 17.00
                     <br />
                     Sabtu: 09.00 - 14.00
@@ -164,14 +164,14 @@ export default function Kontak() {
         </div>
       </div>
       <div className="mt-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary dark:text-blue-300 mb-4 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary -300 mb-4 text-center">
           Lokasi <span className="text-secondary">Kami</span>
         </h1>
-        <p className="text-muted-foreground dark:text-gray-400 text-sm md:text-lg text-center mx-auto px-5 mb-10">
+        <p className="text-muted-foreground -400 text-sm md:text-lg text-center mx-auto px-5 mb-10">
           Kunjungi lokasi kami untuk mengetahui lebih lanjut tentang upaya
           pencegahan stunting yang kami lakukan.
         </p>
-        <div className="rounded-lg overflow-hidden shadow-md border border-blue-100 dark:border-blue-900">
+        <div className="rounded-lg overflow-hidden shadow-md border border-blue-100 -900">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6664672948397!2d106.82496851476883!3d-6.175392395532956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1653971234567!5m2!1sid!2sid"
             width="100%"

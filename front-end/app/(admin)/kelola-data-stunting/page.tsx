@@ -327,13 +327,13 @@ export default function KelolaDataStunting() {
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="bg-foreground from-emerald-50 to-teal-50 dark:from-emerald-900 dark:to-teal-900 rounded-3xl p-6 mb-6 border border-emerald-200 dark:border-emerald-700">
+      <div className="bg-foreground from-emerald-50 to-teal-50 rounded-3xl p-6 mb-6 border border-emerald-200 ">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text dark:text-white">
+            <h1 className="text-3xl font-bold text-text ">
               Kelola Data Stunting
             </h1>
-            <p className="text-muted-foreground dark:text-emerald-300 mt-2">
+            <p className="text-muted-foreground  mt-2">
               Kelola dan analisis data pemeriksaan stunting
             </p>
           </div>
@@ -515,11 +515,11 @@ export default function KelolaDataStunting() {
 
       {/* Alert Messages */}
       {successMessage && (
-        <Alert className="bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-900 shadow-sm">
-          <AlertTitle className="text-green-800 dark:text-green-200">
+        <Alert className="bg-green-50 border-green-200 900/20 900 shadow-sm">
+          <AlertTitle className="text-green-800 200">
             Berhasil
           </AlertTitle>
-          <AlertDescription className="text-green-700 dark:text-green-300">
+          <AlertDescription className="text-green-700 300">
             {successMessage}
           </AlertDescription>
         </Alert>
@@ -534,13 +534,13 @@ export default function KelolaDataStunting() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-blue-50 to-blue-100 900/50 800/50 border-blue-200 700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
             <div>
-              <CardTitle className="text-md font-medium text-blue-700 dark:text-blue-300">
+              <CardTitle className="text-md font-medium text-blue-700 ">
                 Total Data
               </CardTitle>
-              <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+              <div className="text-2xl font-bold text-blue-900 100">
                 {filteredData.length}
               </div>
             </div>
@@ -550,13 +550,13 @@ export default function KelolaDataStunting() {
           </CardHeader>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-green-50 to-green-100 900/50 800/50 border-green-200 700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div>
-              <CardTitle className="text-md font-medium text-green-700 dark:text-green-300">
+              <CardTitle className="text-md font-medium text-green-700 ">
                 Status Normal
               </CardTitle>
-              <div className="text-2xl font-bold text-green-900 dark:text-green-100">
+              <div className="text-2xl font-bold text-green-900 ">
                 {filteredData.filter((d) => d.status === "normal").length}
               </div>
             </div>
@@ -566,13 +566,13 @@ export default function KelolaDataStunting() {
           </CardHeader>
         </Card>
 
-        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/50 dark:to-yellow-800/50 border-yellow-200 dark:border-yellow-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 900/50 800/50 border-yellow-200 700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div>
-              <CardTitle className="text-md font-medium text-yellow-700 dark:text-yellow-300">
+              <CardTitle className="text-md font-medium text-yellow-700 ">
                 Berisiko
               </CardTitle>
-              <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">
+              <div className="text-2xl font-bold text-yellow-900 ">
                 {filteredData.filter((d) => d.status === "berisiko").length}
               </div>
             </div>
@@ -582,13 +582,13 @@ export default function KelolaDataStunting() {
           </CardHeader>
         </Card>
 
-        <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/50 dark:to-red-800/50 border-red-200 dark:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200">
+        <Card className="bg-gradient-to-br from-red-50 to-red-100  border-red-200 700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div>
-              <CardTitle className="text-md font-medium text-red-700 dark:text-red-300">
+              <CardTitle className="text-md font-medium text-red-700 ">
                 Stunting
               </CardTitle>
-              <div className="text-2xl font-bold text-red-900 dark:text-red-100">
+              <div className="text-2xl font-bold text-red-900 ">
                 {filteredData.filter((d) => d.status === "stunting").length}
               </div>
             </div>
@@ -600,14 +600,14 @@ export default function KelolaDataStunting() {
       </div>
 
       {/* Filters Section */}
-      <Card className="shadow-lg border-0 bg-white dark:bg-slate-800 mb-6">
+      <Card className="shadow-lg border-0 bg-white  mb-6">
         <CardContent className="p-6">
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
-              <div className="p-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
-                <Filter className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+              <div className="p-2 bg-slate-100 700 rounded-lg">
+                <Filter className="h-4 w-4 text-slate-600 " />
               </div>
-              <span className="font-semibold text-slate-700 dark:text-slate-300">
+              <span className="font-semibold text-slate-700">
                 Filter Data
               </span>
             </div>
@@ -713,9 +713,9 @@ export default function KelolaDataStunting() {
       </Card>
 
       {/* Data Table */}
-      <Card className="bg-foreground shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-        <CardHeader className="bg-input from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
-          <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
+      <Card className="bg-foreground shadow-lg rounded-lg border border-gray-200 700 900">
+        <CardHeader className="bg-input from-slate-50 to-slate-100 800 700 border-b border-slate-200 600">
+          <CardTitle className="text-xl font-semibold text-slate-900 ">
             Daftar Data Stunting
           </CardTitle>
         </CardHeader>
@@ -723,7 +723,7 @@ export default function KelolaDataStunting() {
           <div className="rounded-lg border-0 overflow-x-auto">
             <Table className="bg-input rounded-lg">
               <TableHeader>
-                <TableRow className="bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 ">
+                <TableRow className="bg-slate-50 700 hover:bg-slate-100 slate-600 ">
                   <TableHead className="font-semibold py-3 px-4 rounded-l-lg text-center text-text">
                     No
                   </TableHead>
@@ -780,7 +780,7 @@ export default function KelolaDataStunting() {
                     <TableCell colSpan={16} className="text-center py-12">
                       <div className="flex flex-col items-center space-y-3">
                         <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-                        <span className="text-gray-500 dark:text-gray-400">
+                        <span className="text-gray-500 ">
                           Memuat data...
                         </span>
                       </div>
@@ -790,7 +790,7 @@ export default function KelolaDataStunting() {
                   filteredData.map((item, index) => (
                     <TableRow
                       key={item.id}
-                      className="bg-white dark:bg-gray-800 rounded-lg mb-2 shadow-sm hover:shadow-md transition-shadow"
+                      className="bg-white 800 rounded-lg mb-2 shadow-sm hover:shadow-md transition-shadow"
                     >
                       <TableCell className="font-medium px-4 py-3">
                         {index + 1}
@@ -830,10 +830,10 @@ export default function KelolaDataStunting() {
                           variant="outline"
                           className={`rounded-full px-3 py-1 text-sm font-semibold ${
                             item.status === "normal"
-                              ? "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800"
+                              ? "bg-green-100 text-green-700 border-green-200 900/20 300 800"
                               : item.status === "berisiko"
-                              ? "bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-300 dark:border-yellow-800"
-                              : "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800"
+                              ? "bg-yellow-100 text-yellow-700 border-yellow-200 900/20 300 800"
+                              : "bg-red-100 text-red-700 border-red-200 900/20 300 800"
                           }`}
                         >
                           {item.status === "normal"
@@ -1163,10 +1163,10 @@ export default function KelolaDataStunting() {
                       <div className="flex flex-col items-center space-y-3">
                         <Users className="h-12 w-12 text-gray-400" />
                         <div>
-                          <p className="text-gray-500 dark:text-gray-400 font-medium">
+                          <p className="text-gray-500 400 font-medium">
                             Tidak ada data yang ditemukan
                           </p>
-                          <p className="text-sm text-gray-400 dark:text-gray-500">
+                          <p className="text-sm text-gray-400 500">
                             Coba ubah filter atau kata kunci pencarian
                           </p>
                         </div>

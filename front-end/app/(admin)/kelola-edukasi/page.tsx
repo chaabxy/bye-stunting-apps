@@ -427,13 +427,13 @@ export default function KelolaEdukasi() {
 
   return (
     <div className="container mx-auto px-0">
-      <div className="bg-foreground from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 rounded-3xl p-6 mb-6 border border-blue-200 dark:border-blue-700">
+      <div className="bg-foreground from-blue-50 to-indigo-50   rounded-3xl p-6 mb-6 border border-blue-200 ">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text dark:text-blue-100">
+            <h1 className="text-3xl font-bold text-text ">
               Kelola Edukasi
             </h1>
-            <p className="text-muted-foreground dark:text-blue-300 mt-2">
+            <p className="text-muted-foreground  mt-2">
               Kelola dan analisis konten edukasi stunting
             </p>
           </div>
@@ -1004,14 +1004,14 @@ export default function KelolaEdukasi() {
       </div>
 
       {/* Search and Filter Section */}
-      <Card className="mb-6 shadow-lg border-0 bg-white dark:bg-slate-800">
+      <Card className="mb-6 shadow-lg border-0 bg-white ">
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search Input */}
             <div className="lg:col-span-2">
               <Label
                 htmlFor="search"
-                className=" ml-2 text-md font-medium text-slate-700 dark:text-slate-300"
+                className=" ml-2 text-md font-medium text-slate-700 "
               >
                 Cari Edukasi
               </Label>
@@ -1026,7 +1026,7 @@ export default function KelolaEdukasi() {
 
             {/* Category Filter */}
             <div>
-              <Label className="ml-1 text-md font-medium text-slate-700 dark:text-slate-300">
+              <Label className="ml-1 text-md font-medium text-slate-700 ">
                 Kategori
               </Label>
               <Select
@@ -1049,7 +1049,7 @@ export default function KelolaEdukasi() {
 
             {/* Status Filter */}
             <div>
-              <Label className="text-md ml-1 font-medium text-slate-700 dark:text-slate-300">
+              <Label className="text-md ml-1 font-medium text-slate-700 ">
                 Status
               </Label>
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
@@ -1079,22 +1079,22 @@ export default function KelolaEdukasi() {
         </CardContent>
       </Card>
 
-      <Card className="shadow-lg border-0 bg-foreground dark:bg-slate-800">
-        <CardHeader className="bg-input from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
-          <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
+      <Card className="shadow-lg border-0 bg-foreground ">
+        <CardHeader className="bg-input from-slate-50 to-slate-100   border-b border-slate-200 ">
+          <CardTitle className="text-xl font-semibold text-slate-900 ">
             Daftar Edukasi
           </CardTitle>
         </CardHeader>
         <CardContent className="px-2 m-5">
           {isLoading ? (
             <div className="flex justify-center items-center py-12">
-              <div className="text-slate-500 dark:text-slate-400">
+              <div className="text-slate-500 ">
                 Memuat data...
               </div>
             </div>
           ) : filteredEdukasiList.length === 0 ? (
             <div className="flex justify-center items-center py-12">
-              <div className="text-slate-500 dark:text-slate-400">
+              <div className="text-slate-500 ">
                 {edukasiList.length === 0
                   ? "Belum ada data edukasi"
                   : "Tidak ada Edukasi yang sesuai dengan filter"}
@@ -1104,29 +1104,29 @@ export default function KelolaEdukasi() {
             <div className="rounded-lg border-0 overflow-x-auto mt-3">
               <Table className="bg-input p-5">
                 <TableHeader>
-                  <TableRow className="bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600">
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300 w-12">
+                  <TableRow className="bg-slate-50  hover:bg-slate-100 -600">
+                    <TableHead className="text-center font-semibold text-text  w-12">
                       No
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Judul
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Kategori
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Tanggal Publikasi
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Likes
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Views
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Status
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text ">
                       Aksi
                     </TableHead>
                   </TableRow>
@@ -1135,21 +1135,21 @@ export default function KelolaEdukasi() {
                   {filteredEdukasiList.map((edukasi, index) => (
                     <TableRow
                       key={edukasi.id}
-                      className="bg-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                      className="bg-white hover:bg-slate-50 -700 transition-colors"
                     >
                       <TableCell className="text-center font-medium">
                         {index + 1}
                       </TableCell>
                       <TableCell className="font-medium max-w-xs">
                         <div
-                          className="truncate text-slate-900 dark:text-slate-100"
+                          className="truncate text-slate-900 "
                           title={edukasi.title}
                         >
                           {edukasi.title}
                         </div>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                        <Badge className="bg-green-100 text-green-800  ">
                           {edukasi.category}
                         </Badge>
                       </TableCell>

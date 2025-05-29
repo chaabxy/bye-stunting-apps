@@ -12,8 +12,8 @@ const TableOfContents = () => {
   ];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6">
-      <h2 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">
+    <div className="bg-white -800 rounded-3xl shadow-sm p-6">
+      <h2 className="text-lg font-bold mb-4 text-gray-900 ">
         Daftar Isi
       </h2>
       <ul className="space-y-3">
@@ -27,14 +27,14 @@ const TableOfContents = () => {
                 className={`flex items-center transition-colors duration-200 ${
                   isActive
                     ? "text-[#317BC4] font-bold"
-                    : "text-gray-700 dark:text-gray-300 hover:text-[#317BC4] dark:hover:text-blue-400"
+                    : "text-gray-700 -300 hover:text-[#317BC4] -blue-400"
                 }`}
               >
                 <div
                   className={`w-6 h-6 rounded-full flex items-center justify-center mr-2 text-sm transition-colors duration-200 ${
                     isActive
                       ? "bg-[#D7EBFC] text-[#317BC4] font-bold"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium"
+                      : "bg-gray-100 -700 text-gray-700 -300 font-medium"
                   }`}
                 >
                   {section.number}
