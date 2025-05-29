@@ -330,10 +330,10 @@ export default function KelolaDataStunting() {
       <div className="bg-foreground from-emerald-50 to-teal-50 dark:from-emerald-900 dark:to-teal-900 rounded-3xl p-6 mb-6 border border-emerald-200 dark:border-emerald-700">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-emerald-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-text dark:text-white">
               Kelola Data Stunting
             </h1>
-            <p className="text-emerald-700 dark:text-emerald-300 mt-2">
+            <p className="text-muted-foreground dark:text-emerald-300 mt-2">
               Kelola dan analisis data pemeriksaan stunting
             </p>
           </div>
@@ -345,7 +345,7 @@ export default function KelolaDataStunting() {
               <DialogTrigger asChild>
                 <Button
                   variant="outline"
-                  className="bg-white border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400 shadow-md transition-all duration-200"
+                  className="rounded-xl bg-white border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400 shadow-md transition-all duration-200"
                 >
                   <BarChart3 className="mr-2 h-4 w-4" />
                   Lihat Grafik WHO
@@ -504,7 +504,7 @@ export default function KelolaDataStunting() {
 
             <Button
               onClick={handleDownloadExcel}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+              className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Download className="mr-2 h-4 w-4" />
               Download Excel
@@ -535,94 +535,67 @@ export default function KelolaDataStunting() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-              Total Data
-            </CardTitle>
-            <div className="p-2 bg-blue-500 rounded-lg">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
+            <div>
+              <CardTitle className="text-md font-medium text-blue-700 dark:text-blue-300">
+                Total Data
+              </CardTitle>
+              <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">
+                {filteredData.length}
+              </div>
+            </div>
+            <div className="p-3 bg-blue-500 rounded-full">
               <Users className="h-4 w-4 text-white" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-blue-900 dark:text-blue-100">
-              {filteredData.length}
-            </div>
-            <p className="text-xs text-blue-600 dark:text-blue-400">
-              dari {data.length} total data
-            </p>
-          </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-semibold text-green-700 dark:text-green-300">
-              Status Normal
-            </CardTitle>
-            <div className="p-2 bg-green-500 rounded-lg">
+            <div>
+              <CardTitle className="text-md font-medium text-green-700 dark:text-green-300">
+                Status Normal
+              </CardTitle>
+              <div className="text-2xl font-bold text-green-900 dark:text-green-100">
+                {filteredData.filter((d) => d.status === "normal").length}
+              </div>
+            </div>
+            <div className="p-3 bg-green-500 rounded-full">
               <div className="h-4 w-4 bg-white rounded-full"></div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-green-900 dark:text-green-100">
-              {filteredData.filter((d) => d.status === "normal").length}
-            </div>
-            <p className="text-xs text-green-600 dark:text-green-400">
-              {(
-                (filteredData.filter((d) => d.status === "normal").length /
-                  filteredData.length) *
-                  100 || 0
-              ).toFixed(1)}
-              %
-            </p>
-          </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/50 dark:to-yellow-800/50 border-yellow-200 dark:border-yellow-700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-semibold text-yellow-700 dark:text-yellow-300">
-              Berisiko
-            </CardTitle>
-            <div className="p-2 bg-yellow-500 rounded-lg">
-              <div className="h-4 w-4 bg-white rounded-full"></div>
+            <div>
+              <CardTitle className="text-md font-medium text-yellow-700 dark:text-yellow-300">
+                Berisiko
+              </CardTitle>
+              <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">
+                {filteredData.filter((d) => d.status === "berisiko").length}
+              </div>
+            </div>
+            <div className="p-3 bg-yellow-500 rounded-full">
+              <div className="h-4 w-4 bg-white rounded-full" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-yellow-900 dark:text-yellow-100">
-              {filteredData.filter((d) => d.status === "berisiko").length}
-            </div>
-            <p className="text-xs text-yellow-600 dark:text-yellow-400">
-              {(
-                (filteredData.filter((d) => d.status === "berisiko").length /
-                  filteredData.length) *
-                  100 || 0
-              ).toFixed(1)}
-              %
-            </p>
-          </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/50 dark:to-red-800/50 border-red-200 dark:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-semibold text-red-700 dark:text-red-300">
-              Stunting
-            </CardTitle>
-            <div className="p-2 bg-red-500 rounded-lg">
-              <div className="h-4 w-4 bg-white rounded-full"></div>
+            <div>
+              <CardTitle className="text-md font-medium text-red-700 dark:text-red-300">
+                Stunting
+              </CardTitle>
+              <div className="text-2xl font-bold text-red-900 dark:text-red-100">
+                {filteredData.filter((d) => d.status === "stunting").length}
+              </div>
+            </div>
+            <div className="p-3 bg-red-500 rounded-full">
+              <div className="h-4 w-4 bg-white rounded-full" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-red-900 dark:text-red-100">
-              {filteredData.filter((d) => d.status === "stunting").length}
-            </div>
-            <p className="text-xs text-red-600 dark:text-red-400">
-              {(
-                (filteredData.filter((d) => d.status === "stunting").length /
-                  filteredData.length) *
-                  100 || 0
-              ).toFixed(1)}
-              %
-            </p>
-          </CardContent>
         </Card>
       </div>
 
@@ -654,7 +627,7 @@ export default function KelolaDataStunting() {
                 value={selectedProvinsi}
                 onValueChange={setSelectedProvinsi}
               >
-                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500 rounded-xl">
                   <SelectValue placeholder="Semua Provinsi" />
                 </SelectTrigger>
                 <SelectContent>
@@ -672,7 +645,7 @@ export default function KelolaDataStunting() {
                 onValueChange={setSelectedKabupaten}
                 disabled={selectedProvinsi === "all"}
               >
-                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500 rounded-xl">
                   <SelectValue placeholder="Semua Kabupaten" />
                 </SelectTrigger>
                 <SelectContent>
@@ -690,7 +663,7 @@ export default function KelolaDataStunting() {
                 onValueChange={setSelectedKecamatan}
                 disabled={selectedKabupaten === "all"}
               >
-                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500 rounded-xl">
                   <SelectValue placeholder="Semua Kecamatan" />
                 </SelectTrigger>
                 <SelectContent>
@@ -708,7 +681,7 @@ export default function KelolaDataStunting() {
                 onValueChange={setSelectedDesa}
                 disabled={selectedKecamatan === "all"}
               >
-                <SelectTrigger className="focus:ring-2 focus:ring-purple-500">
+                <SelectTrigger className="focus:ring-2 focus:ring-purple-500 rounded-xl">
                   <SelectValue placeholder="Semua Desa" />
                 </SelectTrigger>
                 <SelectContent>
@@ -730,7 +703,7 @@ export default function KelolaDataStunting() {
                   setSelectedKecamatan("all");
                   setSelectedDesa("all");
                 }}
-                className="w-full"
+                className="w-full rounded-xl"
               >
                 Reset Filter
               </Button>
@@ -740,61 +713,63 @@ export default function KelolaDataStunting() {
       </Card>
 
       {/* Data Table */}
-      <Card className="shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-        <CardTitle className="text-2xl font-bold text-slate-900 dark:text-white mb-4 px-6 pt-6">
-          Daftar Data Stunting
-        </CardTitle>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <Table className="min-w-full border-separate border-spacing-y-2 px-6">
+      <Card className="bg-foreground shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+        <CardHeader className="bg-input from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
+          <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
+            Daftar Data Stunting
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0 m-5">
+          <div className="rounded-lg border-0 overflow-x-auto">
+            <Table className="bg-input rounded-lg">
               <TableHeader>
-                <TableRow className="bg-foreground dark:bg-purple-800 text-white rounded-t-lg">
-                  <TableHead className="font-semibold py-3 px-4 rounded-l-lg">
+                <TableRow className="bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 ">
+                  <TableHead className="font-semibold py-3 px-4 rounded-l-lg text-center text-text">
                     No
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Nama Anak
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Nama Ibu
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Tanggal Lahir
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Jenis Kelamin
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Berat (kg)
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Tinggi (cm)
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Provinsi
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Kabupaten/Kota
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Kecamatan
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Desa
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Status
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Risiko (%)
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     Tanggal Pengecekan
                   </TableHead>
-                  <TableHead className="font-semibold py-3 px-4">
+                  <TableHead className="font-semibold py-3 px-4 text-center text-text">
                     WHO Chart
                   </TableHead>
-                  <TableHead className="text-right font-semibold py-3 px-4 rounded-r-lg">
+                  <TableHead className="font-semibold py-3 px-4 rounded-r-lg text-center text-text">
                     Aksi
                   </TableHead>
                 </TableRow>
@@ -903,7 +878,7 @@ export default function KelolaDataStunting() {
                                 setSelectedData(item);
                                 setIsChartDialogOpen(true);
                               }}
-                              className="text-blue-600 hover:text-blue-700"
+                              className="text-white hover:text-blue-700"
                             >
                               <BarChart3 className="h-4 w-4" />
                             </Button>

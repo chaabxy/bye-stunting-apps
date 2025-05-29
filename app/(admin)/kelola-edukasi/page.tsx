@@ -441,7 +441,7 @@ export default function KelolaEdukasi() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-secondary hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+                <Button className="rounded-xl bg-secondary hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
                   <Plus className="h-4 w-4 mr-2" />
                   Tambah Edukasi
                 </Button>
@@ -937,11 +937,8 @@ export default function KelolaEdukasi() {
                 <p className="text-md text-secondary font-medium">
                   Total Edukasi
                 </p>
-                <p className="text-2xl font-bold text-secondary">
+                <p className="mt-3 text-2xl font-bold text-secondary">
                   {edukasiList.length}
-                </p>
-                <p className="text-sm text-blue-600 mt-1">
-                  dari {edukasiList.length} total Edukasi
                 </p>
               </div>
               <div className="bg-blue-500 p-3 rounded-full">
@@ -961,15 +958,6 @@ export default function KelolaEdukasi() {
                 <p className="text-2xl font-bold text-green-900">
                   {edukasiList.filter((item) => item.isPopular).length}
                 </p>
-                <p className="text-sm text-green-600 mt-1">
-                  {edukasiList.length > 0
-                    ? `${(
-                        (edukasiList.filter((item) => item.isPopular).length /
-                          edukasiList.length) *
-                        100
-                      ).toFixed(1)}%`
-                    : "0%"}
-                </p>
               </div>
               <div className="bg-green-500 p-3 rounded-full">
                 <Heart className="h-6 w-6 text-white" />
@@ -985,20 +973,8 @@ export default function KelolaEdukasi() {
                 <p className="text-md text-amber-700 font-medium">
                   Total Views
                 </p>
-                <p className="text-2xl font-bold text-amber-900">
+                <p className="mt-3 text-2xl font-bold text-amber-900">
                   {edukasiList.reduce((total, item) => total + item.views, 0)}
-                </p>
-                <p className="text-sm text-amber-600 mt-1">
-                  rata-rata{" "}
-                  {edukasiList.length > 0
-                    ? Math.round(
-                        edukasiList.reduce(
-                          (total, item) => total + item.views,
-                          0
-                        ) / edukasiList.length
-                      )
-                    : 0}{" "}
-                  per Edukasi
                 </p>
               </div>
               <div className="bg-amber-500 p-3 rounded-full">
@@ -1015,20 +991,8 @@ export default function KelolaEdukasi() {
                 <p className="text-md text-purple-700 font-medium">
                   Total Likes
                 </p>
-                <p className="text-2xl font-bold text-purple-900">
+                <p className="mt-3 text-2xl font-bold text-purple-900">
                   {edukasiList.reduce((total, item) => total + item.likes, 0)}
-                </p>
-                <p className="text-sm text-purple-600 mt-1">
-                  rata-rata{" "}
-                  {edukasiList.length > 0
-                    ? Math.round(
-                        edukasiList.reduce(
-                          (total, item) => total + item.likes,
-                          0
-                        ) / edukasiList.length
-                      )
-                    : 0}{" "}
-                  per Edukasi
                 </p>
               </div>
               <div className="bg-purple-500 p-3 rounded-full">
@@ -1069,7 +1033,7 @@ export default function KelolaEdukasi() {
                 value={selectedCategory}
                 onValueChange={setSelectedCategory}
               >
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="mt-1 rounded-xl">
                   <SelectValue placeholder="Semua Kategori" />
                 </SelectTrigger>
                 <SelectContent>
@@ -1089,7 +1053,7 @@ export default function KelolaEdukasi() {
                 Status
               </Label>
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="mt-1 rounded-xl">
                   <SelectValue placeholder="Semua Status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -1105,7 +1069,7 @@ export default function KelolaEdukasi() {
               <Button
                 variant="outline"
                 onClick={clearFilters}
-                className="text-sm bg-secondary text-white w-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
+                className="rounded-xl text-sm bg-secondary text-white w-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
               >
                 <X className="h-4 w-4 mr-2" />
                 Reset Filter
@@ -1121,7 +1085,7 @@ export default function KelolaEdukasi() {
             Daftar Edukasi
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-2">
+        <CardContent className="px-2 m-5">
           {isLoading ? (
             <div className="flex justify-center items-center py-12">
               <div className="text-slate-500 dark:text-slate-400">
@@ -1141,28 +1105,28 @@ export default function KelolaEdukasi() {
               <Table className="bg-input p-5">
                 <TableHeader>
                   <TableRow className="bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600">
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300 w-12">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300 w-12">
                       No
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Judul
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Kategori
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Tanggal Publikasi
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Likes
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Views
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Status
                     </TableHead>
-                    <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300">
+                    <TableHead className="text-center font-semibold text-text dark:text-slate-300">
                       Aksi
                     </TableHead>
                   </TableRow>
@@ -1171,7 +1135,7 @@ export default function KelolaEdukasi() {
                   {filteredEdukasiList.map((edukasi, index) => (
                     <TableRow
                       key={edukasi.id}
-                      className="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                      className="bg-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                     >
                       <TableCell className="text-center font-medium">
                         {index + 1}
