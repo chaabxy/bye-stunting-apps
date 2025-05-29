@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 const articles = [
   {
     id: 1,
-    title: "Mengenal Stunting dan Dampaknya pada Anak",
+    title: "Mengenal Stunting dan Dampaknya pada Anak dan pencegahan dan stunting dan tumbuh dan agar dan sayang dan cinta",
     excerpt:
       "Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis. Ketahui dampak jangka panjangnya pada perkembangan anak.",
     content:

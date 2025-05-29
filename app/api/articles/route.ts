@@ -1,10 +1,13 @@
+// yang sesuai dengan tampilan user
+
+
 import { NextResponse } from "next/server";
 
 // Data dummy artikel yang sesuai dengan struktur tampilan user
 const articles = [
   {
     id: 1,
-    title: "Mengenal Stunting dan Dampaknya pada Anak",
+    title: "Mengenal Stunting dan Dampaknya pada Anak dan pencegahan dan stunting dan tumbuh dan agar dan sayang dan cinta",
     excerpt:
       "Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis. Ketahui dampak jangka panjangnya pada perkembangan anak.",
     content:
@@ -32,7 +35,7 @@ const articles = [
   },
   {
     id: 3,
-    title: "Resep MPASI Bergizi untuk Bayi 6-12 Bulan",
+    title: "Resep MPASI Bergizi untuk Bayi 6-12 Bulan Mengenal Stunting dan Dampaknya pada Anak dan pencegahan dan stunting dan tumbuh dan agar dan sayang dan cinta",
     excerpt:
       "Kumpulan resep MPASI bergizi yang mudah dibuat dan aman untuk bayi usia 6-12 bulan sebagai makanan pendamping ASI.",
     content:

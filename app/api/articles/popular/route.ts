@@ -6,7 +6,7 @@ export async function GET() {
   const data = [
     {
       id: "1",
-      title: "Pentingnya ASI Eksklusif untuk Cegah Stunting",
+      title: "Mengenal Stunting dan Dampaknya pada Anak dan pencegahan dan stunting dan tumbuh dan agar dan sayang dan cinta",
       views: 1250,
     },
     { id: "2", title: "Menu MPASI Bergizi untuk Anak 6-12 Bulan", views: 980 },

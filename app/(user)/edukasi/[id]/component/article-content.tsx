@@ -179,15 +179,15 @@ export function ArticleContent({
                 }}
                 className={`flex items-center w-full text-left transition-all duration-300 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 ${
                   isActive
-                    ? "text-[#317BC4] dark:text-blue-400 bg-[#D7EBFC] dark:bg-blue-900/30 font-semibold shadow-sm"
-                    : "text-gray-700 dark:text-gray-300 hover:text-[#317BC4] dark:hover:text-blue-400"
+                    ? "text-secondary dark:text-blue-400 bg-foreground dark:bg-blue-900/30 font-semibold shadow-sm"
+                    : "text-gray-700 dark:text-muted-foreground hover:text-secondary dark:hover:text-blue-400"
                 }`}
               >
                 <div
                   className={`w-7 h-7 rounded-full flex items-center justify-center mr-3 text-sm font-bold transition-all duration-300 ${
                     isActive
-                      ? "bg-[#317BC4] text-white shadow-md scale-110"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                      ? "bg-secondary text-white shadow-md scale-110"
+                      : "bg-gray-100 dark:bg-gray-700 text-muted-foreground dark:text-gray-400"
                   }`}
                 >
                   {section.number}
@@ -218,7 +218,7 @@ export function ArticleContent({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"></div>
             <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full">
-              <Badge className="mb-4 bg-[#317BC4] hover:bg-[#2A6CB0] dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-3 py-1 rounded-full">
+              <Badge className="mb-4 bg-secondary hover:bg-[#2A6CB0] dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-3 py-1 rounded-full">
                 {article.category}
               </Badge>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white">
@@ -271,8 +271,8 @@ export function ArticleContent({
                   <Bookmark
                     className={`h-4 w-4 transition-all duration-200 ${
                       bookmarked
-                        ? "fill-[#317BC4] text-[#317BC4]"
-                        : "text-[#317BC4]"
+                        ? "fill-secondary text-secondary"
+                        : "text-secondary"
                     }`}
                   />
                   <span>{bookmarked ? "Tersimpan" : "Simpan"}</span>
@@ -288,7 +288,7 @@ export function ArticleContent({
                 </Button>
               </div>
 
-              <p className="font-medium text-lg mb-6 text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="font-medium text-lg mb-6 text-gray-700 dark:text-muted-foreground leading-relaxed">
                 {article.excerpt}
               </p>
 
@@ -297,13 +297,13 @@ export function ArticleContent({
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                      <List className="h-5 w-5 text-[#317BC4]" />
+                      <List className="h-5 w-5 text-secondary" />
                       Daftar Isi
                     </h2>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-[#317BC4] hover:text-[#2A6CB0] p-1 h-auto"
+                      className="text-secondary hover:text-[#2A6CB0] p-1 h-auto"
                       onClick={() => setMobileTableVisible(!mobileTableVisible)}
                     >
                       {mobileTableVisible ? "Sembunyikan" : "Tampilkan"}
@@ -320,15 +320,15 @@ export function ArticleContent({
                               onClick={() => handleScrollToSection(section.id)}
                               className={`flex items-center w-full text-left transition-all duration-300 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 ${
                                 isActive
-                                  ? "text-[#317BC4] dark:text-blue-400 bg-[#D7EBFC] dark:bg-blue-900/30 font-semibold"
-                                  : "text-gray-700 dark:text-gray-300 hover:text-[#317BC4] dark:hover:text-blue-400"
+                                  ? "text-secondary dark:text-blue-400 bg-foreground dark:bg-blue-900/30 font-semibold"
+                                  : "text-gray-700 dark:text-muted-foreground hover:text-secondary dark:hover:text-blue-400"
                               }`}
                             >
                               <div
                                 className={`w-6 h-6 rounded-full flex items-center justify-center mr-2 text-xs font-bold transition-all duration-300 ${
                                   isActive
-                                    ? "bg-[#317BC4] text-white shadow-md"
-                                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                                    ? "bg-secondary text-white shadow-md"
+                                    : "bg-gray-100 dark:bg-gray-700 text-muted-foreground dark:text-gray-400"
                                 }`}
                               >
                                 {section.number}
@@ -354,14 +354,14 @@ export function ArticleContent({
                   {firstSection.map((paragraph: string, index: number) => (
                     <p
                       key={`first-${index}`}
-                      className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-justify"
+                      className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
                     >
                       {paragraph}
                     </p>
                   ))}
                 </div>
 
-                <div className="my-8 pl-6 border-l-4 border-[#317BC4] italic text-lg text-gray-700 dark:text-gray-300">
+                <div className="my-8 pl-6 border-l-4 border-secondary italic text-lg text-gray-700 dark:text-muted-foreground">
                   Pencegahan stunting harus dimulai sejak 1.000 hari pertama
                   kehidupan, yaitu dari masa kehamilan hingga anak berusia 2
                   tahun.
@@ -379,7 +379,7 @@ export function ArticleContent({
                     .map((paragraph: string, index: number) => (
                       <p
                         key={`second-a-${index}`}
-                        className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-justify"
+                        className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
                       >
                         {paragraph}
                       </p>
@@ -395,15 +395,15 @@ export function ArticleContent({
                     .map((paragraph: string, index: number) => (
                       <p
                         key={`second-b-${index}`}
-                        className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-justify"
+                        className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
                       >
                         {paragraph}
                       </p>
                     ))}
                 </div>
 
-                <div className="my-8 p-6 bg-[#D7EBFC] dark:bg-blue-900/30 rounded-xl">
-                  <h4 className="font-bold text-lg mb-2 text-[#317BC4] dark:text-blue-400">
+                <div className="my-8 p-6 bg-foreground dark:bg-blue-900/30 rounded-xl">
+                  <h4 className="font-bold text-lg mb-2 text-secondary dark:text-blue-400">
                     Poin Penting
                   </h4>
                   <ul className="list-disc pl-5 space-y-2">
@@ -450,7 +450,7 @@ export function ArticleContent({
                     .map((paragraph: string, index: number) => (
                       <p
                         key={`third-${index}`}
-                        className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-justify"
+                        className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify"
                       >
                         {paragraph}
                       </p>
@@ -461,7 +461,7 @@ export function ArticleContent({
                   <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white pt-4">
                     Kesimpulan
                   </h2>
-                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-justify">
+                  <p className="text-gray-700 dark:text-muted-foreground mb-4 leading-relaxed text-justify">
                     {thirdSection[thirdSection.length - 1] ||
                       "Dengan mengenali tanda-tanda stunting sejak dini dan melakukan upaya pencegahan yang tepat, kita dapat membantu anak-anak Indonesia tumbuh dan berkembang secara optimal."}
                   </p>
@@ -533,7 +533,7 @@ export function ArticleContent({
         {/* Author Box */}
         <div className="mt-8 bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6 md:p-8">
           <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-            <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-[#D7EBFC] dark:border-blue-900">
+            <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-forebg-foreground dark:border-blue-900">
               <Image
                 src="/placeholder.svg?height=200&width=200"
                 alt="Author"
@@ -545,12 +545,12 @@ export function ArticleContent({
               <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
                 Tim Konten ByeStunting
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <p className="text-muted-foreground dark:text-muted-foreground mb-4">
                 Tim konten ByeStunting terdiri dari ahli gizi, dokter anak, dan
                 spesialis kesehatan yang berdedikasi untuk menyediakan informasi
                 terpercaya tentang pencegahan stunting.
               </p>
-              <Button className="bg-[#317BC4] hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
+              <Button className="bg-secondary hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
                 Lihat Semua Artikel
               </Button>
             </div>
@@ -579,11 +579,11 @@ export function ArticleContent({
               </div>
               <div className="flex-1">
                 <textarea
-                  className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#317BC4] dark:bg-gray-900 dark:text-white transition-all duration-200"
+                  className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary dark:bg-gray-900 dark:text-white transition-all duration-200"
                   placeholder="Tulis komentar Anda..."
                   rows={3}
                 ></textarea>
-                <Button className="mt-2 bg-[#317BC4] hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
+                <Button className="mt-2 bg-secondary hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
                   Kirim Komentar
                 </Button>
               </div>
@@ -608,11 +608,11 @@ export function ArticleContent({
                     2 jam yang lalu
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+                <p className="text-gray-700 dark:text-muted-foreground text-sm mb-2">
                   Artikel yang sangat informatif! Saya baru tahu bahwa stunting
                   bisa berdampak jangka panjang pada perkembangan kognitif anak.
                 </p>
-                <button className="text-xs text-[#317BC4] dark:text-blue-400 font-medium hover:underline transition-all duration-200">
+                <button className="text-xs text-secondary dark:text-blue-400 font-medium hover:underline transition-all duration-200">
                   Balas
                 </button>
               </div>
@@ -636,11 +636,11 @@ export function ArticleContent({
                     1 hari yang lalu
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+                <p className="text-gray-700 dark:text-muted-foreground text-sm mb-2">
                   Sebagai ibu dengan anak usia 1 tahun, artikel ini sangat
                   membantu. Saya akan lebih memperhatikan asupan gizi anak saya.
                 </p>
-                <button className="text-xs text-[#317BC4] dark:text-blue-400 font-medium hover:underline transition-all duration-200">
+                <button className="text-xs text-secondary dark:text-blue-400 font-medium hover:underline transition-all duration-200">
                   Balas
                 </button>
               </div>
@@ -664,12 +664,12 @@ export function ArticleContent({
                     3 hari yang lalu
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">
+                <p className="text-gray-700 dark:text-muted-foreground text-sm mb-2">
                   Saya bekerja di Puskesmas dan artikel ini sangat bagus untuk
                   dibagikan kepada para ibu di daerah kami. Terima kasih
                   ByeStunting!
                 </p>
-                <button className="text-xs text-[#317BC4] dark:text-blue-400 font-medium hover:underline transition-all duration-200">
+                <button className="text-xs text-secondary dark:text-blue-400 font-medium hover:underline transition-all duration-200">
                   Balas
                 </button>
               </div>
@@ -697,15 +697,15 @@ export function ArticleContent({
                       }}
                       className={`flex items-center w-full text-left transition-all duration-300 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 ${
                         isActive
-                          ? "text-[#317BC4] dark:text-blue-400 bg-[#D7EBFC] dark:bg-blue-900/30 font-semibold shadow-sm"
-                          : "text-gray-700 dark:text-gray-300 hover:text-[#317BC4] dark:hover:text-blue-400"
+                          ? "text-secondary dark:text-blue-400 bg-foreground dark:bg-blue-900/30 font-semibold shadow-sm"
+                          : "text-gray-700 dark:text-muted-foreground hover:text-secondary dark:hover:text-blue-400"
                       }`}
                     >
                       <div
                         className={`w-7 h-7 rounded-full flex items-center justify-center mr-3 text-sm font-bold transition-all duration-300 ${
                           isActive
-                            ? "bg-[#317BC4] text-white shadow-md scale-110"
-                            : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                            ? "bg-secondary text-white shadow-md scale-110"
+                            : "bg-gray-100 dark:bg-gray-700 text-muted-foreground dark:text-gray-400"
                         }`}
                       >
                         {section.number}
@@ -722,7 +722,7 @@ export function ArticleContent({
 
           {/* Related Articles */}
           <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6">
-            <div className="flex items-center gap-2 mb-4 text-[#317BC4] dark:text-blue-400">
+            <div className="flex items-center gap-2 mb-4 text-secondary dark:text-blue-400">
               <BookOpen className="h-5 w-5" />
               <h2 className="text-lg font-bold">Artikel Terkait</h2>
             </div>
@@ -753,11 +753,11 @@ export function ArticleContent({
                           <Badge variant="outline" className="mb-2 text-xs">
                             {relatedArticle.category}
                           </Badge>
-                          <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-[#317BC4] dark:group-hover:text-blue-400 transition-colors">
+                          <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-400 transition-colors">
                             {relatedArticle.title}
                           </h3>
                           <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                            <ChevronRight className="h-3 w-3 text-[#317BC4] dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity -ml-1 mr-1" />
+                            <ChevronRight className="h-3 w-3 text-secondary dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity -ml-1 mr-1" />
                             <span>Baca artikel</span>
                           </div>
                         </CardContent>
@@ -774,14 +774,14 @@ export function ArticleContent({
           </div>
 
           {/* CTA Box */}
-          <div className="bg-gradient-to-br from-[#317BC4] to-[#64B5F6] dark:from-blue-800 dark:to-blue-900 rounded-3xl shadow-sm p-6 text-white">
+          <div className="bg-gradient-to-br from-secondary to-[#64B5F6] dark:from-blue-800 dark:to-blue-900 rounded-3xl shadow-sm p-6 text-white">
             <h3 className="font-bold text-xl mb-3">Cek Risiko Stunting</h3>
             <p className="text-sm text-blue-100 mb-4">
               Masukkan data anak Anda untuk memeriksa risiko stunting dan
               dapatkan rekomendasi yang sesuai.
             </p>
             <Link href="/cek-stunting">
-              <Button className="w-full bg-white hover:bg-gray-100 text-[#317BC4] hover:text-[#2A6CB0] border-0 rounded-full transition-colors duration-200">
+              <Button className="w-full bg-white hover:bg-gray-100 text-secondary hover:text-[#2A6CB0] border-0 rounded-full transition-colors duration-200">
                 Cek Sekarang
               </Button>
             </Link>
@@ -792,16 +792,16 @@ export function ArticleContent({
             <h3 className="font-bold text-lg mb-3 text-gray-900 dark:text-white">
               Dapatkan Update Terbaru
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-4">
               Berlangganan newsletter kami untuk mendapatkan artikel dan tips
               terbaru tentang pencegahan stunting.
             </p>
             <div className="space-y-3">
               <Input
                 placeholder="Email Anda"
-                className="rounded-full border-gray-200 dark:border-gray-700 focus:ring-[#317BC4] transition-all duration-200"
+                className="rounded-full border-gray-200 dark:border-gray-700 focus:ring-secondary transition-all duration-200"
               />
-              <Button className="w-full bg-[#317BC4] hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
+              <Button className="w-full bg-secondary hover:bg-[#2A6CB0] text-white rounded-full transition-colors duration-200">
                 Berlangganan
               </Button>
             </div>

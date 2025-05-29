@@ -734,7 +734,7 @@ export default function CekStunting() {
 
                     <Button
                       type="submit"
-                      className="w-full bg-secondary from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all"
+                      className="rounded-xl w-full bg-secondary from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all"
                       disabled={isLoading}
                     >
                       {isLoading ? "Memproses..." : "Cek Status Stunting"}
