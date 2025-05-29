@@ -1,0 +1,32 @@
+{
+  "name": "stunting-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Stunting Prevention App",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.3.2",
+    "@hapi/joi": "^17.1.1",
+    "@hapi/boom": "^10.0.1",
+    "@hapi/inert": "^7.1.0",
+    "@hapi/vision": "^7.0.3",
+    "hapi-swagger": "^17.2.0",
+    "knex": "^3.0.1",
+    "pg": "^8.11.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "@types/node": "^20.8.0",
+    "jest": "^29.7.0"
+  }
+}
