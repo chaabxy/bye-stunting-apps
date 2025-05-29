@@ -327,7 +327,7 @@ export default function KelolaDataStunting() {
   return (
     <div className="space-y-6">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900 dark:to-teal-900 rounded-xl p-6 mb-6 border border-emerald-200 dark:border-emerald-700">
+      <div className="bg-foreground from-emerald-50 to-teal-50 dark:from-emerald-900 dark:to-teal-900 rounded-3xl p-6 mb-6 border border-emerald-200 dark:border-emerald-700">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-emerald-900 dark:text-white">

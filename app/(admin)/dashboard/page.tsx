@@ -167,7 +167,7 @@ export default function AdminDashboard() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Artikel Terpopuler */}
-            <div className="text-center p-4 bg-card dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div className="text-center p-4 bg-foreground dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
               <div className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-1">
                 Artikel Terpopuler
               </div>
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
           </div>
         </CardContent>
       </Card>
-      
+
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <StatCard
@@ -242,43 +242,20 @@ export default function AdminDashboard() {
         />
       </div>
 
-      {/* Quick Actions
       <Card>
         <CardHeader className="bg-input">
           <CardTitle className="flex items-center space-x-2 ">
             <Plus className="h-5 w-5" />
-            <span>Menu Utama</span>
+            <span>Statistik Data Stunting</span>
           </CardTitle>
-          <CardDescription>Akses fitur pengelolaan platform</CardDescription>
+          <CardDescription>
+            Statistik Seluruh Data Stunting Berdasarkan standar WHO Chart{" "}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-7">
-            {quickActions.map(
-              ({ label, href, icon: Icon, color, description }) => (
-                <Link key={label} href={href}>
-                  <div className="bg-input group p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:shadow-md">
-                    <div className="flex flex-col items-center text-center space-y-4 ">
-                      <div
-                        className={`p-4 rounded-lg bg-gradient-to-br ${color}`}
-                      >
-                        <Icon className="h-8 w-8 text-white" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-lg">
-                          {label}
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          {description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              )
-            )}
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-7"></div>
         </CardContent>
-      </Card> */}
+      </Card>
     </div>
   );
 }

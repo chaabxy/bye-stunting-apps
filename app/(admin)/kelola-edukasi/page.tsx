@@ -377,7 +377,7 @@ export default function KelolaEdukasi() {
   };
 
   const handleDelete = async (id: number) => {
-    if (confirm("Apakah Anda yakin ingin menghapus artikel ini?")) {
+    if (confirm("Apakah Anda yakin ingin menghapus Edukasi ini?")) {
       try {
         const response = await fetch(`/api/articles/${id}`, {
           method: "DELETE",
@@ -386,20 +386,20 @@ export default function KelolaEdukasi() {
         if (response.ok) {
           toast({
             title: "Berhasil",
-            description: "Artikel berhasil dihapus",
+            description: "Edukasi berhasil dihapus",
           });
           fetchEdukasi();
         } else {
           toast({
             title: "Error",
-            description: "Gagal menghapus artikel",
+            description: "Gagal menghapus Edukasi",
             variant: "destructive",
           });
         }
       } catch (error) {
         toast({
           title: "Error",
-          description: "Terjadi kesalahan saat menghapus artikel",
+          description: "Terjadi kesalahan saat menghapus Edukasi",
           variant: "destructive",
         });
       }
@@ -427,13 +427,13 @@ export default function KelolaEdukasi() {
 
   return (
     <div className="container mx-auto px-0">
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 rounded-xl p-6 mb-6 border border-blue-200 dark:border-blue-700">
+      <div className="bg-foreground from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 rounded-3xl p-6 mb-6 border border-blue-200 dark:border-blue-700">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-blue-900 dark:text-blue-100">
+            <h1 className="text-3xl font-bold text-text dark:text-blue-100">
               Kelola Edukasi
             </h1>
-            <p className="text-blue-700 dark:text-blue-300 mt-2">
+            <p className="text-muted-foreground dark:text-blue-300 mt-2">
               Kelola dan analisis konten edukasi stunting
             </p>
           </div>
@@ -441,12 +441,12 @@ export default function KelolaEdukasi() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+                <Button className="bg-secondary hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
                   <Plus className="h-4 w-4 mr-2" />
                   Tambah Edukasi
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+              <DialogContent className="bg-input max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
                 <DialogHeader className="flex-shrink-0">
                   <DialogTitle>
                     {editingEdukasi ? "Edit" : "Tambah"} Edukasi
@@ -466,7 +466,7 @@ export default function KelolaEdukasi() {
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="title">Judul Artikel *</Label>
+                          <Label htmlFor="title">Judul Edukasi *</Label>
                           <Input
                             id="title"
                             value={formData.title}
@@ -476,7 +476,7 @@ export default function KelolaEdukasi() {
                                 title: e.target.value,
                               }))
                             }
-                            placeholder="Masukkan judul artikel"
+                            placeholder="Masukkan judul Edukasi"
                             required
                           />
                         </div>
@@ -508,7 +508,7 @@ export default function KelolaEdukasi() {
                                   />
                                 </label>
                               </div>
-                              <p className="text-xs text-gray-500">
+                              <p className="text-xs text-muted-foreground">
                                 PNG, JPG, GIF hingga 10MB
                               </p>
                             </div>
@@ -551,7 +551,7 @@ export default function KelolaEdukasi() {
                             </Select>
                           </div>
 
-                          <div className="space-y-2">
+                          <div className="space-y-2 ">
                             <Label htmlFor="publishDate">
                               Tanggal Publikasi *
                             </Label>
@@ -603,7 +603,7 @@ export default function KelolaEdukasi() {
                                 excerpt: e.target.value,
                               }))
                             }
-                            placeholder="Masukkan ringkasan singkat artikel yang akan ditampilkan di halaman utama"
+                            placeholder="Masukkan ringkasan singkat Edukasi yang akan ditampilkan di halaman utama"
                             rows={3}
                             required
                           />
@@ -614,7 +614,7 @@ export default function KelolaEdukasi() {
                     {/* Content Sections */}
                     <Card>
                       <CardHeader>
-                        <CardTitle>Konten Artikel</CardTitle>
+                        <CardTitle>Konten Edukasi</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         {formData.content.map((section, index) => (
@@ -623,7 +623,7 @@ export default function KelolaEdukasi() {
                             className="border rounded-lg p-4 space-y-4"
                           >
                             <div className="flex justify-between items-center">
-                              <h4 className="font-medium">
+                              <h4 className="font-semibold text-xl">
                                 Konten {index + 1}
                               </h4>
                               <div className="flex gap-2">
@@ -876,7 +876,7 @@ export default function KelolaEdukasi() {
                                 },
                               }))
                             }
-                            placeholder="Masukkan kesimpulan artikel"
+                            placeholder="Masukkan kesimpulan Edukasi"
                             rows={4}
                             required
                           />
@@ -915,7 +915,7 @@ export default function KelolaEdukasi() {
                       </Button>
                       <Button
                         type="submit"
-                        className="bg-[#317BC4] hover:bg-[#2A6CB0]"
+                        className="bg-secondary hover:bg-[#2A6CB0]"
                       >
                         {editingEdukasi ? "Update" : "Simpan"} Edukasi
                       </Button>
@@ -934,12 +934,14 @@ export default function KelolaEdukasi() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-700 font-medium">Total Artikel</p>
-                <p className="text-3xl font-bold text-blue-900">
+                <p className="text-md text-secondary font-medium">
+                  Total Edukasi
+                </p>
+                <p className="text-2xl font-bold text-secondary">
                   {edukasiList.length}
                 </p>
                 <p className="text-sm text-blue-600 mt-1">
-                  dari {edukasiList.length} total artikel
+                  dari {edukasiList.length} total Edukasi
                 </p>
               </div>
               <div className="bg-blue-500 p-3 rounded-full">
@@ -953,8 +955,10 @@ export default function KelolaEdukasi() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-green-700 font-medium">Artikel Populer</p>
-                <p className="text-3xl font-bold text-green-900">
+                <p className="text-md text-green-700 font-medium">
+                  Edukasi Populer
+                </p>
+                <p className="text-2xl font-bold text-green-900">
                   {edukasiList.filter((item) => item.isPopular).length}
                 </p>
                 <p className="text-sm text-green-600 mt-1">
@@ -978,8 +982,10 @@ export default function KelolaEdukasi() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-amber-700 font-medium">Total Views</p>
-                <p className="text-3xl font-bold text-amber-900">
+                <p className="text-md text-amber-700 font-medium">
+                  Total Views
+                </p>
+                <p className="text-2xl font-bold text-amber-900">
                   {edukasiList.reduce((total, item) => total + item.views, 0)}
                 </p>
                 <p className="text-sm text-amber-600 mt-1">
@@ -992,7 +998,7 @@ export default function KelolaEdukasi() {
                         ) / edukasiList.length
                       )
                     : 0}{" "}
-                  per artikel
+                  per Edukasi
                 </p>
               </div>
               <div className="bg-amber-500 p-3 rounded-full">
@@ -1006,8 +1012,10 @@ export default function KelolaEdukasi() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-purple-700 font-medium">Total Likes</p>
-                <p className="text-3xl font-bold text-purple-900">
+                <p className="text-md text-purple-700 font-medium">
+                  Total Likes
+                </p>
+                <p className="text-2xl font-bold text-purple-900">
                   {edukasiList.reduce((total, item) => total + item.likes, 0)}
                 </p>
                 <p className="text-sm text-purple-600 mt-1">
@@ -1020,7 +1028,7 @@ export default function KelolaEdukasi() {
                         ) / edukasiList.length
                       )
                     : 0}{" "}
-                  per artikel
+                  per Edukasi
                 </p>
               </div>
               <div className="bg-purple-500 p-3 rounded-full">
@@ -1039,9 +1047,9 @@ export default function KelolaEdukasi() {
             <div className="lg:col-span-2">
               <Label
                 htmlFor="search"
-                className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                className=" ml-2 text-md font-medium text-slate-700 dark:text-slate-300"
               >
-                Cari Artikel
+                Cari Edukasi
               </Label>
               <Input
                 id="search"
@@ -1054,7 +1062,7 @@ export default function KelolaEdukasi() {
 
             {/* Category Filter */}
             <div>
-              <Label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              <Label className="ml-1 text-md font-medium text-slate-700 dark:text-slate-300">
                 Kategori
               </Label>
               <Select
@@ -1077,7 +1085,7 @@ export default function KelolaEdukasi() {
 
             {/* Status Filter */}
             <div>
-              <Label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              <Label className="text-md ml-1 font-medium text-slate-700 dark:text-slate-300">
                 Status
               </Label>
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
@@ -1097,7 +1105,7 @@ export default function KelolaEdukasi() {
               <Button
                 variant="outline"
                 onClick={clearFilters}
-                className="w-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
+                className="text-sm bg-secondary text-white w-full hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
               >
                 <X className="h-4 w-4 mr-2" />
                 Reset Filter
@@ -1107,8 +1115,8 @@ export default function KelolaEdukasi() {
         </CardContent>
       </Card>
 
-      <Card className="shadow-lg border-0 bg-gradient-to-r dark:bg-slate-800">
-        <CardHeader className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
+      <Card className="shadow-lg border-0 bg-foreground dark:bg-slate-800">
+        <CardHeader className="bg-input from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 border-b border-slate-200 dark:border-slate-600">
           <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
             Daftar Edukasi
           </CardTitle>
@@ -1125,12 +1133,12 @@ export default function KelolaEdukasi() {
               <div className="text-slate-500 dark:text-slate-400">
                 {edukasiList.length === 0
                   ? "Belum ada data edukasi"
-                  : "Tidak ada artikel yang sesuai dengan filter"}
+                  : "Tidak ada Edukasi yang sesuai dengan filter"}
               </div>
             </div>
           ) : (
-            <div className="rounded-md border-0 overflow-x-auto">
-              <Table>
+            <div className="rounded-lg border-0 overflow-x-auto mt-3">
+              <Table className="bg-input p-5">
                 <TableHeader>
                   <TableRow className="bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600">
                     <TableHead className="text-center font-semibold text-slate-700 dark:text-slate-300 w-12">
@@ -1225,7 +1233,7 @@ export default function KelolaEdukasi() {
                             variant="outline"
                             size="sm"
                             onClick={() => handleEdit(edukasi)}
-                            title="Edit artikel"
+                            title="Edit Edukasi"
                             className="hover:bg-amber-50 hover:border-amber-300 hover:text-amber-600 transition-all duration-200"
                           >
                             <Edit className="h-4 w-4" />
@@ -1234,7 +1242,7 @@ export default function KelolaEdukasi() {
                             variant="outline"
                             size="sm"
                             onClick={() => handleDelete(edukasi.id)}
-                            title="Hapus artikel"
+                            title="Hapus Edukasi"
                             className="hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-all duration-200"
                           >
                             <Trash2 className="h-4 w-4" />
