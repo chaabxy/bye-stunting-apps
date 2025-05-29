@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer>
-      <div className="container mx-auto px-4 md:px-6 text-center text-black bg-card py-8 md:py-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
+      <div className="container mx-auto px-4 md:px-6 text-center justify-center text-black bg-card py-8 md:py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-items-center md:ml-10 lg:ml-14">
           {/* Kolom 1: Logo dan Deskripsi */}
           <div className="text-center sm:text-left">
             <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">
@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
 
           {/* Kolom 3: Kontak */}
-          <div className="text-center sm:text-left">
+          <div className="text-center sm:text-left lg:ml-5">
             <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
               Kontak
             </h3>
@@ -50,11 +50,11 @@ export default function Footer() {
           </div>
 
           {/* Kolom 4: Sosial Media */}
-          <div className="text-center sm:text-left">
-            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
+          <div className="text-center sm:text-left lg:ml-10">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 ">
               Ikuti Kami
             </h3>
-            <div className="flex justify-center sm:justify-start space-x-4">
+            <div className="flex justify-center sm:justify-start">
               {[
                 { href: "#", label: "Facebook", iconPath: "M18 2h-3a5..." },
                 { href: "#", label: "Twitter", iconPath: "M22 4s-.7..." },
