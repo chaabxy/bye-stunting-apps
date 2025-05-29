@@ -49,12 +49,12 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-cyan-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-12 px-4">
-      <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-2xl rounded-2xl">
+      <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-2xl rounded-lg">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-3xl font-extrabold text-primary dark:text-blue-400">
             Admin <span className="text-secondary">Login</span>
           </CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-400">
+          <CardDescription className="text-muted-foreground dark:text-gray-400">
             Kelola konten edukasi di Dashboard Admin
           </CardDescription>
         </CardHeader>
@@ -76,15 +76,15 @@ export default function AdminLogin() {
                 required
                 value={credentials.email}
                 onChange={handleChange}
-                className="rounded-lg"
+                className="rounded-xl"
               />
             </div>
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <a href="#" className="text-sm text-blue-500 hover:underline">
+                {/* <a href="#" className="text-sm text-blue-500 hover:underline">
                   Lupa password?
-                </a>
+                </a> */}
               </div>
               <Input
                 id="password"
@@ -94,11 +94,11 @@ export default function AdminLogin() {
                 required
                 value={credentials.password}
                 onChange={handleChange}
-                className="rounded-lg"
+                className="rounded-xl"
               />
             </div>
             <Button
-              className="w-full bg-blue-600 hover:bg-blue-700 transition-colors duration-200 text-white font-semibold py-2 px-4 rounded-lg"
+              className="w-full bg-secondary hover:bg-blue-700 transition-colors duration-200 text-white font-semibold py-2 px-4 rounded-xl"
               disabled={isLoading}
               type="submit"
             >
