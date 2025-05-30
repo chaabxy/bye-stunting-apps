@@ -16,8 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { provinces } from "@/lib/location-data";
 import { Progress } from "@/components/ui/progress";
+import { fetchProvinces } from "@/lib/location-data";
 
 interface ProvinceStatsCardProps {
   className?: string;
@@ -30,7 +30,13 @@ interface StuntingData {
   totalChildren: number;
 }
 
+interface Province {
+  id: string;
+  name: string;
+}
+
 export function ProvinceStatsCard({ className }: ProvinceStatsCardProps) {
+  const [provinces, setProvinces] = useState<Province[]>([]);
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [stuntingData, setStuntingData] = useState<StuntingData>({
     normal: 0,
@@ -39,6 +45,12 @@ export function ProvinceStatsCard({ className }: ProvinceStatsCardProps) {
     totalChildren: 0,
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchProvinces()
+      .then((data) => setProvinces(data))
+      .catch((error) => console.error("Gagal memuat provinsi:", error));
+  }, []);
 
   useEffect(() => {
     if (selectedProvince) {

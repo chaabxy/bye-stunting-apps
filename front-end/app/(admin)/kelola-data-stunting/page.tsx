@@ -351,7 +351,7 @@ export default function KelolaDataStunting() {
                   Lihat Grafik WHO
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+              <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-input">
                 <DialogHeader>
                   <DialogTitle>Grafik WHO - Semua Data</DialogTitle>
                   <DialogDescription>
@@ -883,7 +883,7 @@ export default function KelolaDataStunting() {
                               <BarChart3 className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-input">
                             <DialogHeader>
                               <DialogTitle>
                                 Grafik WHO - {item.namaAnak}
