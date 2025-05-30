@@ -125,10 +125,10 @@ export default function Edukasi() {
           </div>
           <div className="relative z-10 flex flex-col md:flex-row items-center p-6 md:p-12">
             <div className="md:w-1/2 mb-6 md:mb-0 md:pr-8 text-center md:text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
+              <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-4 text-white">
                 Edukasi <span className="text-primary">Stunting</span>
               </h1>
-              <p className="text-base md:text-lg opacity-90 mb-6 text-white">
+              <p className="text-xs md:text-md opacity-90 mb-6 text-white">
                 Pelajari informasi penting tentang stunting, nutrisi, dan tips
                 praktis untuk mendukung pertumbuhan optimal anak Anda.
               </p>
@@ -148,7 +148,7 @@ export default function Edukasi() {
               </div>
             </div>
             <div className="md:w-1/2 flex justify-center">
-              <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-300 lg:h-300">
+              <div className="relative max-sm:-mt-10 w-48 h-48 md:w-64 md:h-64 lg:w-300 lg:h-300">
                 <Image
                   src="/edukasi.png"
                   alt="Edukasi Stunting"
@@ -162,41 +162,45 @@ export default function Edukasi() {
         </div>
 
         {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
-          <div className="relative w-full md:w-64">
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-8">
+          {/* Pencarian */}
+          <div className="relative w-full lg:w-64">
             <Search className="absolute left-3 top-3 h-5 w-5 text-secondary" />
             <Input
               placeholder="Cari artikel..."
-              className="pl-10 h-12 rounded-full border-fourbg-foreground -700 bg-white -800 shadow-sm focus-visible:ring-secondary"
+              className="pl-10 h-12 rounded-full border border-foreground bg-white shadow-sm focus-visible:ring-secondary"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
-          <Tabs
-            defaultValue="all"
-            value={activeCategory}
-            onValueChange={setActiveCategory}
-            className="w-full md:w-auto overflow-x-auto"
-          >
-            <TabsList className="flex w-full md:w-auto bg-foreground -800 p-1 rounded-full">
-              <TabsTrigger
-                value="all"
-                className="flex-shrink-0 rounded-full text-black  data-[state=active]:bg-white state=active]:bg-gray-700 data-[state=active]:text-secondary state=active]:text-blue-400 data-[state=active]:shadow-sm"
-              >
-                Semua
-              </TabsTrigger>
-              {categories.map((category) => (
+          {/* Tab Kategori (Scroll + BG fix) */}
+          <div className="w-full overflow-x-auto lg:w-auto p-1 rounded-full ">
+            <Tabs
+              defaultValue="all"
+              value={activeCategory}
+              onValueChange={setActiveCategory}
+              className="min-w-max"
+            >
+              <TabsList className="flex gap-2 bg-foreground justify-evenly">
                 <TabsTrigger
-                  key={category}
-                  value={category}
-                  className="flex-shrink-0 rounded-full text-black  data-[state=active]:bg-white state=active]:bg-gray-700 data-[state=active]:text-secondary state=active]:text-blue-400 data-[state=active]:shadow-sm"
+                  value="all"
+                  className="flex-shrink-0 rounded-full text-black data-[state=active]:bg-white data-[state=active]:text-secondary data-[state=active]:shadow-sm"
                 >
-                  {category}
+                  Semua
                 </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="flex-shrink-0 rounded-full text-black data-[state=active]:bg-white data-[state=active]:text-secondary data-[state=active]:shadow-sm"
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
         </div>
 
         {isLoading ? (
@@ -248,7 +252,7 @@ export default function Edukasi() {
                         <p className="text-gray-600 -300 mb-4 md:mb-6 line-clamp-2 md:line-clamp-3 text-sm md:text-base">
                           {featuredArticle.excerpt}
                         </p>
-                        <Button className="w-fit bg-secondary hover:bg-[#2A6CB0] text-white rounded-xl group">
+                        <Button className=" w-fit bg-secondary hover:bg-[#2A6CB0] text-white rounded-xl group">
                           Baca Selengkapnya
                           <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Button>
@@ -273,7 +277,7 @@ export default function Edukasi() {
                     className="block h-full group"
                   >
                     <Card className="overflow-hidden h-full border-0 bg-white -800 shadow-sm hover:shadow-lg transition-all duration-300 rounded-lg">
-                      <div className="relative h-40 sm:h-48 w-full overflow-hidden">
+                      <div className="relative h-48 sm:h-60 w-full overflow-hidden">
                         <Image
                           src={
                             article.image ||

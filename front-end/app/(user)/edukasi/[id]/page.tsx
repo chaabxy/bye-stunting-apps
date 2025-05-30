@@ -86,7 +86,7 @@ export default async function ArticleDetailPage({
           <Link href="/edukasi">
             <Button
               variant="ghost"
-              className="group flex items-center gap-2 px-4 py-2 text-[#317BC4]  hover:bg-[#D7EBFC]  rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+              className="group flex items-center gap-2 px-4 py-2 text-text bg-foreground  hover:bg-white  rounded-full shadow-sm hover:shadow-md transition-all duration-200"
             >
               <ArrowLeft className="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" />
               <span className="font-semibold tracking-wide">

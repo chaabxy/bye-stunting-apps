@@ -28,7 +28,8 @@ export default function Kontak() {
         <Card className="lg:col-span-2 shadow-md border-blue-100 -900">
           <CardHeader className="bg-input from-blue-50 to-cyan-50 -950/50 -950/50 border-b border-blue-100 -900">
             <CardTitle className=" text-primary -300 flex items-center gap-2">
-              <MessageSquare className="h-5 w-5" /> Kirim <span className="text-secondary">Pesan</span>
+              <MessageSquare className="h-5 w-5" /> Kirim{" "}
+              <span className="text-secondary">Pesan</span>
             </CardTitle>
             <CardDescription>
               Isi formulir di bawah ini dan tim kami akan merespons dalam 1-2
@@ -103,11 +104,8 @@ export default function Kontak() {
                     Alamat
                   </h3>
                   <p className="text-muted-foreground -400 text-sm">
-                    Jl. Kesehatan No. 123
-                    <br />
-                    Jakarta Pusat, 10110
-                    <br />
-                    Indonesia
+                    Jl. Otista, Tarogong, Kec. Tarogong Kidul, Kabupaten Garut,
+                    Jawa Barat 44151
                   </p>
                 </div>
               </div>
@@ -121,7 +119,7 @@ export default function Kontak() {
                     Telepon
                   </h3>
                   <p className="text-muted-foreground -400 text-sm">
-                    +62 123 4567 890
+                    +62 8532 331 0772
                   </p>
                 </div>
               </div>
@@ -135,9 +133,7 @@ export default function Kontak() {
                     Email
                   </h3>
                   <p className="text-muted-foreground -400 text-sm">
-                    info@byestunting.id
-                    <br />
-                    support@byestunting.id
+                    byestunting@gmail.com
                   </p>
                 </div>
               </div>
@@ -173,7 +169,7 @@ export default function Kontak() {
         </p>
         <div className="rounded-lg overflow-hidden shadow-md border border-blue-100 -900">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6664672948397!2d106.82496851476883!3d-6.175392395532956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1653971234567!5m2!1sid!2sid"
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3958.405019954178!2d107.88682700000001!3d-7.194542999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zN8KwMTEnNDAuNCJTIDEwN8KwNTMnMTIuNiJF!5e0!3m2!1sid!2sid!4v1748594030096!5m2!1sid!2sid"
             width="100%"
             height="450"
             style={{ border: 0 }}

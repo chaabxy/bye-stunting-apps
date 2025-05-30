@@ -56,10 +56,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  provinces,
-  getRegenciesByProvinceId,
-  getDistrictsByRegencyId,
-  getVillagesByDistrictId,
+  fetchProvinces,
+  fetchRegencies,
+  fetchDistricts,
+  fetchVillages,
 } from "@/lib/location-data";
 import {
   getWeightForAgeData,
@@ -122,6 +122,7 @@ export default function CekStunting() {
   );
 
   // State untuk dropdown lokasi
+  const [provinsis, setProvinsis] = useState<any[]>([]);
   const [kabupatens, setKabupatens] = useState<any[]>([]);
   const [kecamatans, setKecamatans] = useState<any[]>([]);
   const [desas, setDesas] = useState<any[]>([]);
@@ -139,38 +140,72 @@ export default function CekStunting() {
     }
   }, [formData.tanggalLahir]);
 
+  // Fetch provinsi saat komponen pertama kali mount
+  useEffect(() => {
+    async function loadProvinces() {
+      try {
+        const provincesList = await fetchProvinces(); // Fungsi fetch yang harus kamu buat
+        setProvinsis(provincesList);
+      } catch (error) {
+        console.error("Gagal fetch provinsi:", error);
+      }
+    }
+    loadProvinces();
+  }, []);
+
   // Update kabupaten saat provinsi berubah
   useEffect(() => {
     if (formData.provinsiId) {
-      const kabupatenList = getRegenciesByProvinceId(formData.provinsiId);
-      setKabupatens(kabupatenList);
-      setFormData((prev) => ({
-        ...prev,
-        kabupatenId: "",
-        kecamatanId: "",
-        desaId: "",
-      }));
-      setKecamatans([]);
-      setDesas([]);
+      async function loadRegencies() {
+        try {
+          const kabupatenList = await fetchRegencies(formData.provinsiId);
+          setKabupatens(kabupatenList);
+          setFormData((prev) => ({
+            ...prev,
+            kabupatenId: "",
+            kecamatanId: "",
+            desaId: "",
+          }));
+          setKecamatans([]);
+          setDesas([]);
+        } catch (error) {
+          console.error("Gagal fetch kabupaten:", error);
+        }
+      }
+      loadRegencies();
     }
   }, [formData.provinsiId]);
 
   // Update kecamatan saat kabupaten berubah
   useEffect(() => {
     if (formData.kabupatenId) {
-      const kecamatanList = getDistrictsByRegencyId(formData.kabupatenId);
-      setKecamatans(kecamatanList);
-      setFormData((prev) => ({ ...prev, kecamatanId: "", desaId: "" }));
-      setDesas([]);
+      async function loadDistricts() {
+        try {
+          const kecamatanList = await fetchDistricts(formData.kabupatenId);
+          setKecamatans(kecamatanList);
+          setFormData((prev) => ({ ...prev, kecamatanId: "", desaId: "" }));
+          setDesas([]);
+        } catch (error) {
+          console.error("Gagal fetch kecamatan:", error);
+        }
+      }
+      loadDistricts();
     }
   }, [formData.kabupatenId]);
 
   // Update desa saat kecamatan berubah
   useEffect(() => {
     if (formData.kecamatanId) {
-      const desaList = getVillagesByDistrictId(formData.kecamatanId);
-      setDesas(desaList);
-      setFormData((prev) => ({ ...prev, desaId: "" }));
+      async function loadVillages() {
+        try {
+          const desaList = await fetchVillages(formData.kecamatanId);
+          setDesas(desaList);
+          setFormData((prev) => ({ ...prev, desaId: "" }));
+        } catch (error) {
+          console.error("Gagal fetch desa:", error);
+        }
+      }
+      loadVillages();
     }
   }, [formData.kecamatanId]);
 
@@ -302,7 +337,7 @@ export default function CekStunting() {
         tinggiBadan: Number.parseFloat(formData.tinggiBadan),
         alamat: {
           provinsi:
-            provinces.find((p) => p.id === formData.provinsiId)?.name || "",
+            provinsis.find((p) => p.id === formData.provinsiId)?.name || "",
           kabupaten:
             kabupatens.find((k) => k.id === formData.kabupatenId)?.name || "",
           kecamatan:
@@ -332,7 +367,7 @@ export default function CekStunting() {
         tinggiBadan: Number.parseFloat(formData.tinggiBadan),
         alamat: {
           provinsi:
-            provinces.find((p) => p.id === formData.provinsiId)?.name || "",
+            provinsis.find((p) => p.id === formData.provinsiId)?.name || "",
           kabupaten:
             kabupatens.find((k) => k.id === formData.kabupatenId)?.name || "",
           kecamatan:
@@ -431,8 +466,9 @@ export default function CekStunting() {
                               variant="outline"
                               className={cn(
                                 "w-full justify-start text-left font-normal border-blue-200 hover:bg-blue-50 -blue-950/50 bg-input",
-                                !formData.tanggalLahir &&
-                                  "text-muted-foreground"
+                                !formData.tanggalLahir
+                                  ? "text-black"
+                                  : "text-muted-foreground"
                               )}
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -500,8 +536,7 @@ export default function CekStunting() {
                                       onClick={() => handleMonthSelect(month)}
                                       className={cn(
                                         "h-10",
-                                        selectedMonth === month &&
-                                          "bg-input -800"
+                                        selectedMonth === month && "bg-input "
                                       )}
                                     >
                                       {format(new Date(2000, month, 1), "MMM", {
@@ -524,8 +559,7 @@ export default function CekStunting() {
                                       onClick={() => handleYearSelect(year)}
                                       className={cn(
                                         "h-10",
-                                        selectedYear === year &&
-                                          "bg-input -800"
+                                        selectedYear === year && "bg-input -800"
                                       )}
                                     >
                                       {year}
@@ -537,7 +571,7 @@ export default function CekStunting() {
                           </PopoverContent>
                         </Popover>
                         {formData.usia && (
-                          <p className="text-xs text-primary mt-1">
+                          <p className="text-xs text-text mt-1">
                             Usia: {formData.usia} bulan
                           </p>
                         )}
@@ -637,7 +671,6 @@ export default function CekStunting() {
                           required
                         />
                       </div>
-
                       <div className="space-y-2">
                         <Label htmlFor="provinsi">Provinsi</Label>
                         <Select
@@ -646,12 +679,16 @@ export default function CekStunting() {
                             handleSelectChange("provinsiId", value)
                           }
                         >
-                          <SelectTrigger className="border-blue-200 bg-input">
+                          <SelectTrigger className="border-blue-200 bg-input text-black">
                             <SelectValue placeholder="Pilih provinsi" />
                           </SelectTrigger>
                           <SelectContent>
-                            {provinces.map((province) => (
-                              <SelectItem key={province.id} value={province.id}>
+                            {provinsis.map((province) => (
+                              <SelectItem
+                                key={province.id}
+                                value={province.id}
+                                className="text-black"
+                              >
                                 {province.name}
                               </SelectItem>
                             ))}
@@ -668,7 +705,7 @@ export default function CekStunting() {
                           }
                           disabled={!formData.provinsiId}
                         >
-                          <SelectTrigger className="border-blue-200 bg-input">
+                          <SelectTrigger className="text-text border-blue-200 bg-input">
                             <SelectValue placeholder="Pilih kabupaten/kota" />
                           </SelectTrigger>
                           <SelectContent>
@@ -693,7 +730,7 @@ export default function CekStunting() {
                           }
                           disabled={!formData.kabupatenId}
                         >
-                          <SelectTrigger className="border-blue-200 bg-input">
+                          <SelectTrigger className="text-text border-blue-200 bg-input">
                             <SelectValue placeholder="Pilih kecamatan" />
                           </SelectTrigger>
                           <SelectContent>
@@ -718,7 +755,7 @@ export default function CekStunting() {
                           }
                           disabled={!formData.kecamatanId}
                         >
-                          <SelectTrigger className="border-blue-200 bg-input">
+                          <SelectTrigger className="text-text border-blue-200 bg-input">
                             <SelectValue placeholder="Pilih desa/kelurahan" />
                           </SelectTrigger>
                           <SelectContent>
@@ -1113,6 +1150,8 @@ export default function CekStunting() {
                         </p>
                       </div>
                     </div>
+
+                    
 
                     <div className="mt-6">
                       <h3 className="text-lg font-semibold mb-2 text-center">
