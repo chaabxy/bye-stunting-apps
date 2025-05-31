@@ -1,36 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Search,
-  Loader2,
-  BookOpen,
-  Clock,
-  Calendar,
-  ArrowRight,
-} from "lucide-react";
-import { motion } from "framer-motion";
-
-interface Article {
-  id: number;
-  title: string;
-  excerpt: string;
-  content: string;
-  image: string;
-  date: string;
-  category: string;
-}
+import { Search, Loader2, BookOpen, Clock } from "lucide-react";
+import Image from "next/image";
+import { ArticleCard } from "@/components/article-card";
+import { getAllCategories } from "@/lib/articles-data";
+import type { EducationWithDetails } from "@/lib/types/education";
 
 export default function Edukasi() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<EducationWithDetails[]>([]);
+  const [filteredArticles, setFilteredArticles] = useState<
+    EducationWithDetails[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
@@ -49,12 +33,16 @@ export default function Edukasi() {
         setFilteredArticles(data);
 
         // Extract unique categories
-        const uniqueCategories = Array.from(
-          new Set(data.map((article: Article) => article.category))
-        );
+        const uniqueCategories = getAllCategories();
         setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching articles:", error);
+        // Fallback to local data if API fails
+        import("@/lib/articles-data").then(({ articlesData }) => {
+          setArticles(articlesData);
+          setFilteredArticles(articlesData);
+          setCategories(getAllCategories());
+        });
       } finally {
         setIsLoading(false);
       }
@@ -104,7 +92,7 @@ export default function Edukasi() {
   const featuredArticle = filteredArticles[0];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] -950 px-5">
+    <div className="min-h-screen bg-[#F8FAFC] px-5">
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-secondary to-[#64B5F6] mb-12 shadow-xl">
@@ -150,7 +138,7 @@ export default function Edukasi() {
             <div className="md:w-1/2 flex justify-center">
               <div className="relative max-sm:-mt-10 w-48 h-48 md:w-64 md:h-64 lg:w-300 lg:h-300">
                 <Image
-                  src="/edukasi.png"
+                  src="/edukasi.png?height=500&width=500"
                   alt="Edukasi Stunting"
                   width={500}
                   height={500}
@@ -175,7 +163,7 @@ export default function Edukasi() {
           </div>
 
           {/* Tab Kategori (Scroll + BG fix) */}
-          <div className="w-full overflow-x-auto lg:w-auto p-1 rounded-full ">
+          <div className="w-full overflow-x-auto lg:w-auto p-1 rounded-full">
             <Tabs
               defaultValue="all"
               value={activeCategory}
@@ -217,49 +205,7 @@ export default function Edukasi() {
                 transition={{ duration: 0.5 }}
                 className="mb-8 md:mb-12"
               >
-                <Link href={`/edukasi/${featuredArticle.id}`} className="block">
-                  <div className="relative overflow-hidden rounded-lg bg-white -800 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="flex flex-col md:flex-row">
-                      <div className="relative h-56 md:h-auto md:w-1/2">
-                        <Image
-                          src={
-                            featuredArticle.image ||
-                            "/placeholder.svg?height=600&width=800"
-                          }
-                          alt={featuredArticle.title}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-secondary hover:bg-[#2A6CB0] text-white px-3 py-1 text-sm rounded-full">
-                            Artikel Pilihan
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="p-5 md:p-6 lg:p-8 md:w-1/2 flex flex-col justify-center">
-                        <div className="flex flex-wrap items-center gap-3 mb-3">
-                          <Badge className="bg-foreground text-secondary hover:bg-[#C4E0FA] -900 -300 px-3 py-1 rounded-full">
-                            {featuredArticle.category}
-                          </Badge>
-                          <span className="text-sm text-gray-500 -400 flex items-center">
-                            <Calendar className="h-4 w-4 mr-1" />
-                            {featuredArticle.date}
-                          </span>
-                        </div>
-                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-3 md:mb-4 text-gray-900 ">
-                          {featuredArticle.title}
-                        </h2>
-                        <p className="text-gray-600 -300 mb-4 md:mb-6 line-clamp-2 md:line-clamp-3 text-sm md:text-base">
-                          {featuredArticle.excerpt}
-                        </p>
-                        <Button className=" w-fit bg-secondary hover:bg-[#2A6CB0] text-white rounded-xl group">
-                          Baca Selengkapnya
-                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+                <ArticleCard article={featuredArticle} featured={true} />
               </motion.div>
             )}
 
@@ -272,61 +218,20 @@ export default function Edukasi() {
             >
               {filteredArticles.slice(1).map((article) => (
                 <motion.div key={article.id} variants={item}>
-                  <Link
-                    href={`/edukasi/${article.id}`}
-                    className="block h-full group"
-                  >
-                    <Card className="overflow-hidden h-full border-0 bg-white -800 shadow-sm hover:shadow-lg transition-all duration-300 rounded-lg">
-                      <div className="relative h-48 sm:h-60 w-full overflow-hidden">
-                        <Image
-                          src={
-                            article.image ||
-                            "/placeholder.svg?height=400&width=600"
-                          }
-                          alt={article.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div className="absolute top-3 left-3">
-                          <Badge className="bg-secondary hover:bg-[#2A6CB0] -700 -blue-800 text-white px-3 py-1 rounded-full">
-                            {article.category}
-                          </Badge>
-                        </div>
-                      </div>
-                      <CardContent className="p-4 md:p-6">
-                        <div className="flex items-center text-sm text-gray-500 -400 mb-2 md:mb-3">
-                          <Calendar className="h-4 w-4 mr-1" />
-                          <span>{article.date}</span>
-                        </div>
-                        <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-gray-900  line-clamp-2 group-hover:text-secondary :text-blue-400 transition-colors">
-                          {article.title}
-                        </h3>
-                        <p className="text-gray-600 -300 text-sm line-clamp-2 md:line-clamp-3 mb-4">
-                          {article.excerpt}
-                        </p>
-                        <Button
-                          variant="outline"
-                          className="rounded-xl w-full bg-secondary border-secondary text-white hover:bg-foreground -400 -400 -foreground group-hover:bg-foreground group-hover:text-primary transition-colors"
-                        >
-                          Baca Selengkapnya
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Link>
+                  <ArticleCard article={article} />
                 </motion.div>
               ))}
             </motion.div>
           </>
         ) : (
-          <div className="text-center py-20 bg-white -800 rounded-xl shadow-sm">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-foreground -900 mb-4">
-              <Search className="h-8 w-8 text-secondary -400" />
+          <div className="text-center py-20 bg-white rounded-xl shadow-sm">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-foreground mb-4">
+              <Search className="h-8 w-8 text-secondary" />
             </div>
             <h3 className="text-xl font-semibold mb-2">
               Tidak ada artikel yang ditemukan
             </h3>
-            <p className="text-gray-600 -400 max-w-md mx-auto">
+            <p className="text-gray-600 max-w-md mx-auto">
               Coba gunakan kata kunci lain atau pilih kategori yang berbeda
             </p>
           </div>

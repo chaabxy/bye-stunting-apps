@@ -140,10 +140,10 @@ export default function AdminDashboard() {
       <div className="bg-secondary from-blue-600 via-blue-700 to-indigo-700 rounded-3xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">
+            <h1 className="max-sm:text-center text-2xl md:text-3xl font-bold mb-2">
               Dashboard Admin ByeStunting 👋
             </h1>
-            <p className="text-blue-100 text-lg">
+            <p className="text-blue-100 max-sm:text-center text-md md:text-lg">
               Kelola platform pencegahan stunting dengan mudah
             </p>
           </div>

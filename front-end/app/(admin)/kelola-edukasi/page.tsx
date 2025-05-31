@@ -430,10 +430,10 @@ export default function KelolaEdukasi() {
       <div className="bg-foreground from-blue-50 to-indigo-50   rounded-3xl p-6 mb-6 border border-blue-200 ">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text ">
+            <h1 className="max-sm:text-center text-2xl md:text-3xl font-bold text-text ">
               Kelola Edukasi
             </h1>
-            <p className="text-muted-foreground  mt-2">
+            <p className="text-muted-foreground max-sm:text-center text-md md:text-lg mt-2">
               Kelola dan analisis konten edukasi stunting
             </p>
           </div>
@@ -1088,9 +1088,7 @@ export default function KelolaEdukasi() {
         <CardContent className="px-2 m-5">
           {isLoading ? (
             <div className="flex justify-center items-center py-12">
-              <div className="text-slate-500 ">
-                Memuat data...
-              </div>
+              <div className="text-slate-500 ">Memuat data...</div>
             </div>
           ) : filteredEdukasiList.length === 0 ? (
             <div className="flex justify-center items-center py-12">

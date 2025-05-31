@@ -262,16 +262,16 @@ export default function KelolaPesanUserPage() {
       <div className="bg-foreground from-purple-50 to-indigo-50 -900 -900 rounded-3xl p-6 mb-6 border border-purple-200 -700">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text ">
+            <h1 className="max-sm:text-center text-2xl md:text-3xl font-bold text-text ">
               Kelola Pesan User
             </h1>
-            <p className="text-muted-foreground  mt-2">
+            <p className="text-muted-foreground max-sm:text-center text-md md:text-lg mt-2">
               Kelola dan tanggapi pesan dari pengguna aplikasi
             </p>
           </div>
           <Button
             onClick={handleDownloadData}
-            className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2"
+            className="max-sm:mx-auto max-sm:w-fit bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
             Download Data
@@ -371,7 +371,7 @@ export default function KelolaPesanUserPage() {
             </div>
             <div className="flex gap-2">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="rounded-xl w-40 border-slate-300 -600">
+                <SelectTrigger className="rounded-xl md:w-40 border-slate-300 -600">
                   <Filter className="w-4 h-4 mr-2" />
                   <SelectValue placeholder="Filter Status" />
                 </SelectTrigger>

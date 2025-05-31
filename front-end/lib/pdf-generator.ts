@@ -511,15 +511,15 @@ export function shareViaWhatsApp(
 ): void {
   const statusText =
     result.status === "normal"
-      ? "Normal ✅"
+      ? "Normal"
       : result.status === "berisiko"
-      ? "Berisiko Stunting ⚠️"
-      : "Stunting ❌";
+      ? "Berisiko Stunting"
+      : "Stunting";
 
   const message = `
-🏥 *HASIL PEMERIKSAAN STUNTING*
+HASIL PEMERIKSAAN STUNTING
 
-👶 *Data Anak:*
+Data Anak:
 • Nama: ${childData.nama}
 • Ibu: ${childData.namaIbu}
 • Usia: ${childData.usia} bulan
@@ -529,27 +529,27 @@ export function shareViaWhatsApp(
     childData.alamat.kabupaten
   }
 
-📊 *Status: ${statusText}*
-🎯 Tingkat Risiko: ${result.score}%
+Status: ${statusText}
+Tingkat Risiko: ${result.score}%
 
-💬 ${result.message}
+${result.message}
 
-💡 *Rekomendasi Utama:*
+Rekomendasi Utama:
 ${result.recommendations
   .slice(0, 3)
   .map((rec, index) => `${index + 1}. ${rec}`)
   .join("\n")}
 
-📚 *Artikel Edukasi:*
+Artikel Edukasi:
 ${result.recommendedArticles
   .slice(0, 2)
   .map((article) => `• ${article.title}`)
   .join("\n")}
 
 ---
-🌐 Cek lengkap di website ByeStunting
-📱 Download laporan PDF untuk detail lengkap
-🏥 Konsultasi ke dokter untuk penanganan lanjutan
+Cek lengkap di website ByeStunting
+Download laporan PDF untuk detail lengkap
+Konsultasi ke dokter untuk penanganan lanjutan
 
 #ByeStunting #CegahStunting #AnakSehat
   `;

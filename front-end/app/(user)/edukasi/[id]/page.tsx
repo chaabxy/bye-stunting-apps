@@ -2,91 +2,44 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { ArticleContent } from "./component/article-content";
-
-// Fungsi untuk mendapatkan artikel berdasarkan ID
-async function getArticleById(id: number) {
-  try {
-    // Dalam implementasi nyata, ini akan memanggil API atau database
-    const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-      }/api/articles/${id}`,
-      {
-        cache: "no-store",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch article");
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error fetching article:", error);
-    return null;
-  }
-}
-
-// Fungsi untuk mendapatkan artikel terkait
-async function getRelatedArticles(category: string, currentId: number) {
-  try {
-    // Dalam implementasi nyata, ini akan memanggil API atau database
-    const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-      }/api/articles?category=${category}`,
-      {
-        cache: "no-store",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch related articles");
-    }
-
-    const articles = await response.json();
-    // Filter artikel saat ini dan batasi hanya 3 artikel terkait
-    return articles
-      .filter((article: any) => article.id !== currentId)
-      .slice(0, 3);
-  } catch (error) {
-    console.error("Error fetching related articles:", error);
-    return [];
-  }
-}
+import { ArticleContent } from "@/components/article-content";
+import {
+  getArticleById,
+  getRelatedArticles,
+  updateArticleViews,
+} from "@/lib/articles-data";
 
 export default async function ArticleDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const articleId = Number.parseInt(params.id);
-
-  if (isNaN(articleId)) {
-    notFound();
-  }
-
-  const article = await getArticleById(articleId);
+  const { id } = await params;
+  const article = getArticleById(id);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = await getRelatedArticles(article.category, articleId);
+  // Update view count
+  updateArticleViews(id);
 
-  // Estimate reading time (1 word = 0.2 seconds)
-  const wordCount = article.content.split(/\s+/).length;
-  const readingTime = Math.ceil(wordCount / 200);
+  const relatedArticles = getRelatedArticles(article.category, article.id, 3);
+
+  // Estimate reading time (200 words per minute)
+  const totalWords = article.content_sections.reduce((total, section) => {
+    return total + section.paragraph.split(/\s+/).length;
+  }, 0);
+  const readingTime = Math.ceil(totalWords / 200);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] ">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <Link href="/edukasi">
             <Button
               variant="ghost"
-              className="group flex items-center gap-2 px-4 py-2 text-text bg-foreground  hover:bg-white  rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+              className="group flex items-center gap-2 px-4 py-2 text-gray-700 bg-white hover:bg-gray-50 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
             >
               <ArrowLeft className="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-1" />
               <span className="font-semibold tracking-wide">
@@ -104,4 +57,9 @@ export default async function ArticleDetailPage({
       </div>
     </div>
   );
+}
+
+// Generate static params untuk artikel yang tersedia
+export async function generateStaticParams() {
+  return [{ id: "1" }, { id: "2" }, { id: "3" }];
 }

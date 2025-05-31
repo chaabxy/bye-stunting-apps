@@ -330,14 +330,14 @@ export default function KelolaDataStunting() {
       <div className="bg-foreground from-emerald-50 to-teal-50 rounded-3xl p-6 mb-6 border border-emerald-200 ">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-text ">
+            <h1 className="max-sm:text-center text-2xl md:text-3xl font-bold text-text ">
               Kelola Data Stunting
             </h1>
-            <p className="text-muted-foreground  mt-2">
+            <p className="text-muted-foreground mt-2 max-sm:text-center text-md md:text-lg">
               Kelola dan analisis data pemeriksaan stunting
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col md:flex-row gap-3">
             <Dialog
               open={isChartDialogOpen}
               onOpenChange={setIsChartDialogOpen}
@@ -516,9 +516,7 @@ export default function KelolaDataStunting() {
       {/* Alert Messages */}
       {successMessage && (
         <Alert className="bg-green-50 border-green-200 900/20 900 shadow-sm">
-          <AlertTitle className="text-green-800 200">
-            Berhasil
-          </AlertTitle>
+          <AlertTitle className="text-green-800 200">Berhasil</AlertTitle>
           <AlertDescription className="text-green-700 300">
             {successMessage}
           </AlertDescription>
@@ -607,9 +605,7 @@ export default function KelolaDataStunting() {
               <div className="p-2 bg-slate-100 700 rounded-lg">
                 <Filter className="h-4 w-4 text-slate-600 " />
               </div>
-              <span className="font-semibold text-slate-700">
-                Filter Data
-              </span>
+              <span className="font-semibold text-slate-700">Filter Data</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
@@ -780,9 +776,7 @@ export default function KelolaDataStunting() {
                     <TableCell colSpan={16} className="text-center py-12">
                       <div className="flex flex-col items-center space-y-3">
                         <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
-                        <span className="text-gray-500 ">
-                          Memuat data...
-                        </span>
+                        <span className="text-gray-500 ">Memuat data...</span>
                       </div>
                     </TableCell>
                   </TableRow>
