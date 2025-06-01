@@ -32,13 +32,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  format,
-  differenceInMonths,
-  subYears,
-  setYear,
-  setMonth,
-} from "date-fns";
+import { format, differenceInMonths, addMonths } from "date-fns";
 import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -132,10 +126,39 @@ export default function CekStunting() {
   const [weightPercentile, setWeightPercentile] = useState<number>(0);
   const [heightPercentile, setHeightPercentile] = useState<number>(0);
 
+  // Helper function untuk menghitung usia dalam bulan dengan validasi
+  const calculateAgeInMonths = (birthDate: Date): number => {
+    return differenceInMonths(new Date(), birthDate);
+  };
+
+  // Helper function untuk validasi usia
+  const isValidAge = (ageInMonths: number): boolean => {
+    return ageInMonths >= 0 && ageInMonths <= 60;
+  };
+
   // Menghitung usia dalam bulan saat tanggal lahir berubah
   useEffect(() => {
     if (formData.tanggalLahir) {
-      const usiaBulan = differenceInMonths(new Date(), formData.tanggalLahir);
+      const usiaBulan = calculateAgeInMonths(formData.tanggalLahir);
+
+      // Validasi usia: harus antara 0-60 bulan (0-5 tahun)
+      if (usiaBulan < 0) {
+        // Jika tanggal lahir di masa depan, reset ke kosong
+        setFormData((prev) => ({ ...prev, tanggalLahir: undefined, usia: "" }));
+        alert("Tanggal lahir tidak boleh di masa depan!");
+        return;
+      }
+
+      // Perubahan di sini: menggunakan > 60 bukan >= 60
+      if (usiaBulan > 60) {
+        // Jika usia lebih dari 60 bulan (5 tahun), reset ke kosong
+        setFormData((prev) => ({ ...prev, tanggalLahir: undefined, usia: "" }));
+        alert(
+          "Usia anak tidak boleh lebih dari 60 bulan (5 tahun)! Maksimal usia yang diperbolehkan adalah 60 bulan."
+        );
+        return;
+      }
+
       setFormData((prev) => ({ ...prev, usia: usiaBulan.toString() }));
     }
   }, [formData.tanggalLahir]);
@@ -226,16 +249,54 @@ export default function CekStunting() {
   };
 
   const handleDateSelect = (date: Date | undefined) => {
-    setFormData((prev) => ({ ...prev, tanggalLahir: date }));
+    if (date) {
+      const ageInMonths = calculateAgeInMonths(date);
+
+      // Check if age would be more than 60 months
+      if (ageInMonths > 60) {
+        alert(
+          "⚠️ Peringatan: Aplikasi ini hanya dapat digunakan untuk anak usia maksimal 60 bulan (5 tahun). Usia yang Anda masukkan adalah " +
+            ageInMonths +
+            " bulan. Silakan pilih tanggal lahir yang lebih baru."
+        );
+        return; // Don't set the date
+      }
+
+      // Check if date is in the future
+      if (ageInMonths < 0) {
+        alert("⚠️ Peringatan: Tanggal lahir tidak boleh di masa depan!");
+        return; // Don't set the date
+      }
+
+      setFormData((prev) => ({ ...prev, tanggalLahir: date }));
+    } else {
+      setFormData((prev) => ({ ...prev, tanggalLahir: date }));
+    }
     setCalendarView("days");
   };
 
   const handleMonthSelect = (month: number) => {
-    if (formData.tanggalLahir) {
-      const newDate = setMonth(formData.tanggalLahir, month);
-      setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
-    } else {
-      const newDate = setMonth(new Date(), month);
+    const newDate = new Date(selectedYear, month, 1);
+
+    // Check age validation before setting the date
+    const ageInMonths = calculateAgeInMonths(newDate);
+
+    if (ageInMonths > 60) {
+      alert(
+        "⚠️ Peringatan: Aplikasi ini hanya dapat digunakan untuk anak usia maksimal 60 bulan (5 tahun). Usia yang akan dihasilkan adalah " +
+          ageInMonths +
+          " bulan. Silakan pilih bulan yang lebih baru."
+      );
+      return; // Don't proceed with date selection
+    }
+
+    if (ageInMonths < 0) {
+      alert("⚠️ Peringatan: Tanggal lahir tidak boleh di masa depan!");
+      return; // Don't proceed with date selection
+    }
+
+    // Pastikan tanggal tidak melebihi batas maksimal dan minimal
+    if (newDate <= maxDate && newDate >= minDate) {
       setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
     }
     setSelectedMonth(month);
@@ -243,11 +304,27 @@ export default function CekStunting() {
   };
 
   const handleYearSelect = (year: number) => {
-    if (formData.tanggalLahir) {
-      const newDate = setYear(formData.tanggalLahir, year);
-      setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
-    } else {
-      const newDate = setYear(new Date(), year);
+    const newDate = new Date(year, selectedMonth, 1);
+
+    // Check age validation before setting the date
+    const ageInMonths = calculateAgeInMonths(newDate);
+
+    if (ageInMonths > 60) {
+      alert(
+        "⚠️ Peringatan: Aplikasi ini hanya dapat digunakan untuk anak usia maksimal 60 bulan (5 tahun). Usia yang akan dihasilkan adalah " +
+          ageInMonths +
+          " bulan. Silakan pilih tahun yang lebih baru."
+      );
+      return; // Don't proceed with date selection
+    }
+
+    if (ageInMonths < 0) {
+      alert("⚠️ Peringatan: Tanggal lahir tidak boleh di masa depan!");
+      return; // Don't proceed with date selection
+    }
+
+    // Pastikan tanggal tidak melebihi batas maksimal dan minimal
+    if (newDate <= maxDate && newDate >= minDate) {
       setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
     }
     setSelectedYear(year);
@@ -384,8 +461,10 @@ export default function CekStunting() {
 
   // Tanggal maksimal adalah hari ini
   const maxDate = new Date();
+
   // Tanggal minimal adalah 5 tahun yang lalu dari hari ini
-  const minDate = subYears(new Date(), 5);
+  // Menggunakan addMonths untuk memastikan tepat 60 bulan (bukan 5 tahun)
+  const minDate = addMonths(new Date(), -60);
 
   // Buat array tahun untuk pemilihan tahun
   const years = Array.from(
@@ -395,6 +474,9 @@ export default function CekStunting() {
 
   // Buat array bulan untuk pemilihan bulan
   const months = Array.from({ length: 12 }, (_, i) => i);
+
+  // Tanggal untuk usia tepat 60 bulan
+  const exactSixtyMonthsDate = addMonths(new Date(), -60);
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
@@ -506,11 +588,26 @@ export default function CekStunting() {
                                   mode="single"
                                   selected={formData.tanggalLahir}
                                   onSelect={handleDateSelect}
-                                  disabled={(date) =>
-                                    date > maxDate || date < minDate
-                                  }
+                                  disabled={(date) => {
+                                    // Memastikan tanggal tidak lebih dari hari ini
+                                    if (date > maxDate) return true;
+
+                                    // Memastikan tanggal tidak lebih dari 60 bulan yang lalu
+                                    // Tapi memperbolehkan tepat 60 bulan
+                                    const ageInMonths =
+                                      calculateAgeInMonths(date);
+                                    return ageInMonths > 60;
+                                  }}
                                   initialFocus
                                   locale={id}
+                                  month={
+                                    formData.tanggalLahir ||
+                                    new Date(selectedYear, selectedMonth)
+                                  }
+                                  onMonthChange={(date) => {
+                                    setSelectedYear(date.getFullYear());
+                                    setSelectedMonth(date.getMonth());
+                                  }}
                                 />
                               </div>
                             )}
@@ -528,22 +625,42 @@ export default function CekStunting() {
                                   </Button>
                                 </div>
                                 <div className="grid grid-cols-3 gap-2">
-                                  {months.map((month) => (
-                                    <Button
-                                      key={month}
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => handleMonthSelect(month)}
-                                      className={cn(
-                                        "h-10",
-                                        selectedMonth === month && "bg-input "
-                                      )}
-                                    >
-                                      {format(new Date(2000, month, 1), "MMM", {
-                                        locale: id,
-                                      })}
-                                    </Button>
-                                  ))}
+                                  {months.map((month) => {
+                                    // Cek apakah bulan ini akan menghasilkan usia > 60 bulan
+                                    const testDate = new Date(
+                                      selectedYear,
+                                      month,
+                                      1
+                                    );
+                                    const ageInMonths =
+                                      calculateAgeInMonths(testDate);
+                                    const isDisabled =
+                                      ageInMonths > 60 || testDate > maxDate;
+
+                                    return (
+                                      <Button
+                                        key={month}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleMonthSelect(month)}
+                                        className={cn(
+                                          "h-10",
+                                          selectedMonth === month && "bg-input",
+                                          isDisabled &&
+                                            "opacity-50 cursor-not-allowed"
+                                        )}
+                                        disabled={isDisabled}
+                                      >
+                                        {format(
+                                          new Date(2000, month, 1),
+                                          "MMM",
+                                          {
+                                            locale: id,
+                                          }
+                                        )}
+                                      </Button>
+                                    );
+                                  })}
                                 </div>
                               </div>
                             )}
@@ -551,29 +668,77 @@ export default function CekStunting() {
                             {calendarView === "years" && (
                               <div className="p-3">
                                 <div className="grid grid-cols-3 gap-2">
-                                  {years.map((year) => (
-                                    <Button
-                                      key={year}
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => handleYearSelect(year)}
-                                      className={cn(
-                                        "h-10",
-                                        selectedYear === year && "bg-input -800"
-                                      )}
-                                    >
-                                      {year}
-                                    </Button>
-                                  ))}
+                                  {years.map((year) => {
+                                    // Cek apakah tahun ini akan menghasilkan usia > 60 bulan
+                                    const testDate = new Date(
+                                      year,
+                                      selectedMonth,
+                                      1
+                                    );
+                                    const ageInMonths =
+                                      calculateAgeInMonths(testDate);
+                                    const isDisabled =
+                                      ageInMonths > 60 || testDate > maxDate;
+
+                                    return (
+                                      <Button
+                                        key={year}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleYearSelect(year)}
+                                        className={cn(
+                                          "h-10",
+                                          selectedYear === year &&
+                                            "bg-input -800",
+                                          isDisabled &&
+                                            "opacity-50 cursor-not-allowed"
+                                        )}
+                                        disabled={isDisabled}
+                                      >
+                                        {year}
+                                      </Button>
+                                    );
+                                  })}
                                 </div>
                               </div>
                             )}
                           </PopoverContent>
                         </Popover>
-                        {formData.usia && (
-                          <p className="text-xs text-text mt-1">
-                            Usia: {formData.usia} bulan
+                        <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                          <p className="text-xs text-blue-700">
+                            <strong>ℹ️ Informasi:</strong> Aplikasi ini
+                            dirancang untuk anak usia 0-60 bulan (0-5 tahun).
+                            Pemeriksaan stunting paling efektif dilakukan pada
+                            rentang usia ini sesuai standar WHO.
                           </p>
+                          <p className="text-xs text-blue-700 mt-1">
+                            <strong>Tanggal untuk usia tepat 60 bulan:</strong>{" "}
+                            {format(exactSixtyMonthsDate, "dd MMMM yyyy", {
+                              locale: id,
+                            })}
+                          </p>
+                        </div>
+                        {formData.usia && (
+                          <div className="text-xs mt-1">
+                            <p className="text-text">
+                              Usia: {formData.usia} bulan
+                            </p>
+                            {Number.parseInt(formData.usia) > 60 && (
+                              <div className="bg-red-50 border border-red-200 rounded-md p-2 mt-1">
+                                <p className="text-red-600 font-medium text-xs">
+                                  ⚠️ Peringatan: Usia {formData.usia} bulan
+                                  melebihi batas maksimal 60 bulan (5 tahun)
+                                </p>
+                              </div>
+                            )}
+                            {Number.parseInt(formData.usia) <= 60 &&
+                              Number.parseInt(formData.usia) >= 0 && (
+                                <p className="text-green-600 text-xs">
+                                  ✅ Usia valid untuk pemeriksaan stunting
+                                  (maksimal 60 bulan)
+                                </p>
+                              )}
+                          </div>
                         )}
                       </div>
 
@@ -1150,8 +1315,6 @@ export default function CekStunting() {
                         </p>
                       </div>
                     </div>
-
-                    
 
                     <div className="mt-6">
                       <h3 className="text-lg font-semibold mb-2 text-center">
