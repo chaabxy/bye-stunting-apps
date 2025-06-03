@@ -18,7 +18,6 @@ import {
   ArrowRight,
   CheckCircle,
   CalendarIcon,
-  Info,
   ChevronDown,
   Share2,
   Printer,
@@ -32,22 +31,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  format,
-  differenceInMonths,
-  subYears,
-  setYear,
-  setMonth,
-} from "date-fns";
+import { format, differenceInMonths, addMonths } from "date-fns";
 import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   Select,
   SelectContent,
@@ -108,6 +95,19 @@ export default function CekStunting() {
     desaId: "",
   });
 
+  const [errors, setErrors] = useState({
+    nama: "",
+    namaIbu: "",
+    tanggalLahir: "",
+    jenisKelamin: "",
+    beratBadan: "",
+    tinggiBadan: "",
+    provinsiId: "",
+    kabupatenId: "",
+    kecamatanId: "",
+    desaId: "",
+  });
+
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("form");
@@ -132,10 +132,129 @@ export default function CekStunting() {
   const [weightPercentile, setWeightPercentile] = useState<number>(0);
   const [heightPercentile, setHeightPercentile] = useState<number>(0);
 
+  // Fungsi validasi
+  const validateField = (name: string, value: string | Date | undefined) => {
+    let error = "";
+
+    switch (name) {
+      case "nama":
+      case "namaIbu":
+        if (!value || (typeof value === "string" && value.trim().length < 2)) {
+          error = `${
+            name === "nama" ? "Nama anak" : "Nama ibu"
+          } minimal 2 huruf`;
+        }
+        break;
+      case "tanggalLahir":
+        if (!value) {
+          error = "Tanggal lahir wajib dipilih";
+        }
+        break;
+      case "jenisKelamin":
+        if (!value) {
+          error = "Jenis kelamin wajib dipilih";
+        }
+        break;
+      case "beratBadan":
+        if (
+          !value ||
+          (typeof value === "string" &&
+            (!value.trim() || Number.parseFloat(value) <= 0))
+        ) {
+          error = "Berat badan wajib diisi dengan nilai yang valid";
+        }
+        break;
+      case "tinggiBadan":
+        if (
+          !value ||
+          (typeof value === "string" &&
+            (!value.trim() || Number.parseFloat(value) <= 0))
+        ) {
+          error = "Tinggi badan wajib diisi dengan nilai yang valid";
+        }
+        break;
+      case "provinsiId":
+        if (!value) {
+          error = "Provinsi wajib dipilih";
+        }
+        break;
+      case "kabupatenId":
+        if (!value) {
+          error = "Kabupaten/Kota wajib dipilih";
+        }
+        break;
+      case "kecamatanId":
+        if (!value) {
+          error = "Kecamatan wajib dipilih";
+        }
+        break;
+      case "desaId":
+        if (!value) {
+          error = "Desa/Kelurahan wajib dipilih";
+        }
+        break;
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
+    return error === "";
+  };
+
+  const validateAllFields = () => {
+    const fields = [
+      { name: "nama", value: formData.nama },
+      { name: "namaIbu", value: formData.namaIbu },
+      { name: "tanggalLahir", value: formData.tanggalLahir },
+      { name: "jenisKelamin", value: formData.jenisKelamin },
+      { name: "beratBadan", value: formData.beratBadan },
+      { name: "tinggiBadan", value: formData.tinggiBadan },
+      { name: "provinsiId", value: formData.provinsiId },
+      { name: "kabupatenId", value: formData.kabupatenId },
+      { name: "kecamatanId", value: formData.kecamatanId },
+      { name: "desaId", value: formData.desaId },
+    ];
+
+    let isValid = true;
+    fields.forEach((field) => {
+      const fieldValid = validateField(field.name, field.value);
+      if (!fieldValid) isValid = false;
+    });
+
+    return isValid;
+  };
+
+  // Helper function untuk menghitung usia dalam bulan dengan validasi
+  const calculateAgeInMonths = (birthDate: Date): number => {
+    return differenceInMonths(new Date(), birthDate);
+  };
+
+  // Helper function untuk validasi usia
+  const isValidAge = (ageInMonths: number): boolean => {
+    return ageInMonths >= 0 && ageInMonths <= 60;
+  };
+
   // Menghitung usia dalam bulan saat tanggal lahir berubah
   useEffect(() => {
     if (formData.tanggalLahir) {
-      const usiaBulan = differenceInMonths(new Date(), formData.tanggalLahir);
+      const usiaBulan = calculateAgeInMonths(formData.tanggalLahir);
+
+      // Validasi usia: harus antara 0-60 bulan (0-5 tahun)
+      if (usiaBulan < 0) {
+        // Jika tanggal lahir di masa depan, reset ke kosong
+        setFormData((prev) => ({ ...prev, tanggalLahir: undefined, usia: "" }));
+        alert("Tanggal lahir tidak boleh di masa depan!");
+        return;
+      }
+
+      // Perubahan di sini: menggunakan > 60 bukan >= 60
+      if (usiaBulan > 60) {
+        // Jika usia lebih dari 60 bulan (5 tahun), reset ke kosong
+        setFormData((prev) => ({ ...prev, tanggalLahir: undefined, usia: "" }));
+        alert(
+          "Usia anak tidak boleh lebih dari 60 bulan (5 tahun)! Maksimal usia yang diperbolehkan adalah 60 bulan."
+        );
+        return;
+      }
+
       setFormData((prev) => ({ ...prev, usia: usiaBulan.toString() }));
     }
   }, [formData.tanggalLahir]);
@@ -219,23 +338,69 @@ export default function CekStunting() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Validasi real-time
+    setTimeout(() => validateField(name, value), 300);
   };
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Validasi real-time
+    setTimeout(() => validateField(name, value), 100);
   };
 
   const handleDateSelect = (date: Date | undefined) => {
-    setFormData((prev) => ({ ...prev, tanggalLahir: date }));
+    if (date) {
+      const ageInMonths = calculateAgeInMonths(date);
+
+      if (ageInMonths > 60) {
+        setErrors((prev) => ({
+          ...prev,
+          tanggalLahir: "Usia maksimal 60 bulan (5 tahun)",
+        }));
+        return;
+      }
+
+      if (ageInMonths < 0) {
+        setErrors((prev) => ({
+          ...prev,
+          tanggalLahir: "Tanggal lahir tidak boleh di masa depan",
+        }));
+        return;
+      }
+
+      setFormData((prev) => ({ ...prev, tanggalLahir: date }));
+      validateField("tanggalLahir", date);
+    } else {
+      setFormData((prev) => ({ ...prev, tanggalLahir: date }));
+      validateField("tanggalLahir", date);
+    }
     setCalendarView("days");
   };
 
   const handleMonthSelect = (month: number) => {
-    if (formData.tanggalLahir) {
-      const newDate = setMonth(formData.tanggalLahir, month);
-      setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
-    } else {
-      const newDate = setMonth(new Date(), month);
+    const newDate = new Date(selectedYear, month, 1);
+
+    // Check age validation before setting the date
+    const ageInMonths = calculateAgeInMonths(newDate);
+
+    if (ageInMonths > 60) {
+      alert(
+        "⚠️ Peringatan: Aplikasi ini hanya dapat digunakan untuk anak usia maksimal 60 bulan (5 tahun). Usia yang akan dihasilkan adalah " +
+          ageInMonths +
+          " bulan. Silakan pilih bulan yang lebih baru."
+      );
+      return; // Don't proceed with date selection
+    }
+
+    if (ageInMonths < 0) {
+      alert("⚠️ Peringatan: Tanggal lahir tidak boleh di masa depan!");
+      return; // Don't proceed with date selection
+    }
+
+    // Pastikan tanggal tidak melebihi batas maksimal dan minimal
+    if (newDate <= maxDate && newDate >= minDate) {
       setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
     }
     setSelectedMonth(month);
@@ -243,11 +408,27 @@ export default function CekStunting() {
   };
 
   const handleYearSelect = (year: number) => {
-    if (formData.tanggalLahir) {
-      const newDate = setYear(formData.tanggalLahir, year);
-      setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
-    } else {
-      const newDate = setYear(new Date(), year);
+    const newDate = new Date(year, selectedMonth, 1);
+
+    // Check age validation before setting the date
+    const ageInMonths = calculateAgeInMonths(newDate);
+
+    if (ageInMonths > 60) {
+      alert(
+        "⚠️ Peringatan: Aplikasi ini hanya dapat digunakan untuk anak usia maksimal 60 bulan (5 tahun). Usia yang akan dihasilkan adalah " +
+          ageInMonths +
+          " bulan. Silakan pilih tahun yang lebih baru."
+      );
+      return; // Don't proceed with date selection
+    }
+
+    if (ageInMonths < 0) {
+      alert("⚠️ Peringatan: Tanggal lahir tidak boleh di masa depan!");
+      return; // Don't proceed with date selection
+    }
+
+    // Pastikan tanggal tidak melebihi batas maksimal dan minimal
+    if (newDate <= maxDate && newDate >= minDate) {
       setFormData((prev) => ({ ...prev, tanggalLahir: newDate }));
     }
     setSelectedYear(year);
@@ -303,6 +484,25 @@ export default function CekStunting() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validasi semua field
+    const isValid = validateAllFields();
+
+    if (!isValid) {
+      // Scroll ke field pertama yang error
+      const firstErrorField = Object.keys(errors).find(
+        (key) => errors[key as keyof typeof errors]
+      );
+      if (firstErrorField) {
+        const element = document.getElementById(firstErrorField);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+          element.focus();
+        }
+      }
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -384,8 +584,10 @@ export default function CekStunting() {
 
   // Tanggal maksimal adalah hari ini
   const maxDate = new Date();
+
   // Tanggal minimal adalah 5 tahun yang lalu dari hari ini
-  const minDate = subYears(new Date(), 5);
+  // Menggunakan addMonths untuk memastikan tepat 60 bulan (bukan 5 tahun)
+  const minDate = addMonths(new Date(), -60);
 
   // Buat array tahun untuk pemilihan tahun
   const years = Array.from(
@@ -395,6 +597,9 @@ export default function CekStunting() {
 
   // Buat array bulan untuk pemilihan bulan
   const months = Array.from({ length: 12 }, (_, i) => i);
+
+  // Tanggal untuk usia tepat 60 bulan
+  const exactSixtyMonthsDate = addMonths(new Date(), -60);
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
@@ -433,42 +638,63 @@ export default function CekStunting() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="nama">Nama Anak</Label>
+                        <Label htmlFor="nama">Nama Anak *</Label>
                         <Input
                           id="nama"
                           name="nama"
-                          placeholder="Masukkan nama anak"
+                          placeholder="Masukkan nama anak (minimal 2 huruf)"
                           value={formData.nama}
                           onChange={handleChange}
-                          className="border-blue-200 focus:border-blue-400"
+                          className={`border-blue-200 focus:border-blue-400 ${
+                            errors.nama
+                              ? "border-red-500 focus:border-red-500"
+                              : ""
+                          }`}
                           required
                         />
+                        {errors.nama && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.nama}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="namaIbu">Nama Ibu Kandung</Label>
+                        <Label htmlFor="namaIbu">Nama Ibu Kandung *</Label>
                         <Input
                           id="namaIbu"
                           name="namaIbu"
-                          placeholder="Masukkan nama ibu kandung"
+                          placeholder="Masukkan nama ibu kandung (minimal 2 huruf)"
                           value={formData.namaIbu}
                           onChange={handleChange}
-                          className="border-blue-200 focus:border-blue-400"
+                          className={`border-blue-200 focus:border-blue-400 ${
+                            errors.namaIbu
+                              ? "border-red-500 focus:border-red-500"
+                              : ""
+                          }`}
                           required
                         />
+                        {errors.namaIbu && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.namaIbu}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="tanggalLahir">Tanggal Lahir Anak</Label>
+                        <Label htmlFor="tanggalLahir">
+                          Tanggal Lahir Anak *
+                        </Label>
                         <Popover>
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"
                               className={cn(
-                                "w-full justify-start text-left font-normal border-blue-200 hover:bg-blue-50 -blue-950/50 bg-input",
+                                "w-full justify-start text-left font-normal border-blue-200 hover:bg-blue-50 bg-input",
                                 !formData.tanggalLahir
                                   ? "text-black"
-                                  : "text-muted-foreground"
+                                  : "text-muted-foreground",
+                                errors.tanggalLahir ? "border-red-500" : ""
                               )}
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -506,11 +732,26 @@ export default function CekStunting() {
                                   mode="single"
                                   selected={formData.tanggalLahir}
                                   onSelect={handleDateSelect}
-                                  disabled={(date) =>
-                                    date > maxDate || date < minDate
-                                  }
+                                  disabled={(date) => {
+                                    // Memastikan tanggal tidak lebih dari hari ini
+                                    if (date > maxDate) return true;
+
+                                    // Memastikan tanggal tidak lebih dari 60 bulan yang lalu
+                                    // Tapi memperbolehkan tepat 60 bulan
+                                    const ageInMonths =
+                                      calculateAgeInMonths(date);
+                                    return ageInMonths > 60;
+                                  }}
                                   initialFocus
                                   locale={id}
+                                  month={
+                                    formData.tanggalLahir ||
+                                    new Date(selectedYear, selectedMonth)
+                                  }
+                                  onMonthChange={(date) => {
+                                    setSelectedYear(date.getFullYear());
+                                    setSelectedMonth(date.getMonth());
+                                  }}
                                 />
                               </div>
                             )}
@@ -528,22 +769,42 @@ export default function CekStunting() {
                                   </Button>
                                 </div>
                                 <div className="grid grid-cols-3 gap-2">
-                                  {months.map((month) => (
-                                    <Button
-                                      key={month}
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => handleMonthSelect(month)}
-                                      className={cn(
-                                        "h-10",
-                                        selectedMonth === month && "bg-input "
-                                      )}
-                                    >
-                                      {format(new Date(2000, month, 1), "MMM", {
-                                        locale: id,
-                                      })}
-                                    </Button>
-                                  ))}
+                                  {months.map((month) => {
+                                    // Cek apakah bulan ini akan menghasilkan usia > 60 bulan
+                                    const testDate = new Date(
+                                      selectedYear,
+                                      month,
+                                      1
+                                    );
+                                    const ageInMonths =
+                                      calculateAgeInMonths(testDate);
+                                    const isDisabled =
+                                      ageInMonths > 60 || testDate > maxDate;
+
+                                    return (
+                                      <Button
+                                        key={month}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleMonthSelect(month)}
+                                        className={cn(
+                                          "h-10",
+                                          selectedMonth === month && "bg-input",
+                                          isDisabled &&
+                                            "opacity-50 cursor-not-allowed"
+                                        )}
+                                        disabled={isDisabled}
+                                      >
+                                        {format(
+                                          new Date(2000, month, 1),
+                                          "MMM",
+                                          {
+                                            locale: id,
+                                          }
+                                        )}
+                                      </Button>
+                                    );
+                                  })}
                                 </div>
                               </div>
                             )}
@@ -551,34 +812,87 @@ export default function CekStunting() {
                             {calendarView === "years" && (
                               <div className="p-3">
                                 <div className="grid grid-cols-3 gap-2">
-                                  {years.map((year) => (
-                                    <Button
-                                      key={year}
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => handleYearSelect(year)}
-                                      className={cn(
-                                        "h-10",
-                                        selectedYear === year && "bg-input -800"
-                                      )}
-                                    >
-                                      {year}
-                                    </Button>
-                                  ))}
+                                  {years.map((year) => {
+                                    // Cek apakah tahun ini akan menghasilkan usia > 60 bulan
+                                    const testDate = new Date(
+                                      year,
+                                      selectedMonth,
+                                      1
+                                    );
+                                    const ageInMonths =
+                                      calculateAgeInMonths(testDate);
+                                    const isDisabled =
+                                      ageInMonths > 60 || testDate > maxDate;
+
+                                    return (
+                                      <Button
+                                        key={year}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleYearSelect(year)}
+                                        className={cn(
+                                          "h-10",
+                                          selectedYear === year &&
+                                            "bg-input -800",
+                                          isDisabled &&
+                                            "opacity-50 cursor-not-allowed"
+                                        )}
+                                        disabled={isDisabled}
+                                      >
+                                        {year}
+                                      </Button>
+                                    );
+                                  })}
                                 </div>
                               </div>
                             )}
                           </PopoverContent>
                         </Popover>
-                        {formData.usia && (
-                          <p className="text-xs text-text mt-1">
-                            Usia: {formData.usia} bulan
+                        {errors.tanggalLahir && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.tanggalLahir}
                           </p>
+                        )}
+                        <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                          <p className="text-xs text-blue-700">
+                            <strong>ℹ️ Informasi:</strong> Aplikasi ini
+                            dirancang untuk anak usia 0-60 bulan (0-5 tahun).
+                            Pemeriksaan stunting paling efektif dilakukan pada
+                            rentang usia ini sesuai standar WHO.
+                          </p>
+                          <p className="text-xs text-blue-700 mt-1">
+                            <strong>Tanggal untuk usia tepat 60 bulan:</strong>{" "}
+                            {format(exactSixtyMonthsDate, "dd MMMM yyyy", {
+                              locale: id,
+                            })}
+                          </p>
+                        </div>
+                        {formData.usia && (
+                          <div className="text-xs mt-1">
+                            <p className="text-text">
+                              Usia: {formData.usia} bulan
+                            </p>
+                            {Number.parseInt(formData.usia) > 60 && (
+                              <div className="bg-red-50 border border-red-200 rounded-md p-2 mt-1">
+                                <p className="text-red-600 font-medium text-xs">
+                                  ⚠️ Peringatan: Usia {formData.usia} bulan
+                                  melebihi batas maksimal 60 bulan (5 tahun)
+                                </p>
+                              </div>
+                            )}
+                            {Number.parseInt(formData.usia) <= 60 &&
+                              Number.parseInt(formData.usia) >= 0 && (
+                                <p className="text-green-600 text-xs">
+                                  ✅ Usia valid untuk pemeriksaan stunting
+                                  (maksimal 60 bulan)
+                                </p>
+                              )}
+                          </div>
                         )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label>Jenis Kelamin Anak</Label>
+                        <Label>Jenis Kelamin Anak *</Label>
                         <RadioGroup
                           value={formData.jenisKelamin}
                           onValueChange={(value) =>
@@ -587,8 +901,13 @@ export default function CekStunting() {
                           className="flex flex-col space-y-1"
                           required
                         >
-                          {/* Laki-laki */}
-                          <div className="bg-input flex items-center space-x-2 rounded-md border border-blue-200 p-2 hover:bg-blue-50 -blue-950/30">
+                          <div
+                            className={`bg-input flex items-center space-x-2 rounded-md border p-2 hover:bg-blue-50 ${
+                              errors.jenisKelamin
+                                ? "border-red-500"
+                                : "border-blue-200"
+                            }`}
+                          >
                             <RadioGroupItem value="laki-laki" id="laki-laki" />
                             <Label
                               htmlFor="laki-laki"
@@ -597,9 +916,13 @@ export default function CekStunting() {
                               Laki-laki
                             </Label>
                           </div>
-
-                          {/* Perempuan */}
-                          <div className="bg-input flex items-center space-x-2 rounded-md border border-blue-200 p-2 hover:bg-blue-50 -blue-950/30">
+                          <div
+                            className={`bg-input flex items-center space-x-2 rounded-md border p-2 hover:bg-blue-50 ${
+                              errors.jenisKelamin
+                                ? "border-red-500"
+                                : "border-blue-200"
+                            }`}
+                          >
                             <RadioGroupItem value="perempuan" id="perempuan" />
                             <Label
                               htmlFor="perempuan"
@@ -609,23 +932,16 @@ export default function CekStunting() {
                             </Label>
                           </div>
                         </RadioGroup>
+                        {errors.jenisKelamin && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.jenisKelamin}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <Label htmlFor="beratBadan">Berat Badan (kg)</Label>
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Info className="h-4 w-4 text-secondary" />
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-xs">
-                                  Masukkan berat badan anak dalam kilogram (kg)
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
+                          <Label htmlFor="beratBadan">Berat Badan (kg) *</Label>
                         </div>
                         <Input
                           id="beratBadan"
@@ -636,27 +952,25 @@ export default function CekStunting() {
                           min="0"
                           value={formData.beratBadan}
                           onChange={handleChange}
-                          className="border-blue-200 focus:border-blue-400"
+                          className={`border-blue-200 focus:border-blue-400 ${
+                            errors.beratBadan
+                              ? "border-red-500 focus:border-red-500"
+                              : ""
+                          }`}
                           required
                         />
+                        {errors.beratBadan && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.beratBadan}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <Label htmlFor="tinggiBadan">Tinggi Badan (cm)</Label>
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Info className="h-4 w-4 text-secondary" />
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-xs">
-                                  Masukkan tinggi badan anak dalam sentimeter
-                                  (cm)
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
+                          <Label htmlFor="tinggiBadan">
+                            Tinggi Badan (cm) *
+                          </Label>
                         </div>
                         <Input
                           id="tinggiBadan"
@@ -667,19 +981,33 @@ export default function CekStunting() {
                           min="0"
                           value={formData.tinggiBadan}
                           onChange={handleChange}
-                          className="border-blue-200 focus:border-blue-400"
+                          className={`border-blue-200 focus:border-blue-400 ${
+                            errors.tinggiBadan
+                              ? "border-red-500 focus:border-red-500"
+                              : ""
+                          }`}
                           required
                         />
+                        {errors.tinggiBadan && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.tinggiBadan}
+                          </p>
+                        )}
                       </div>
+
                       <div className="space-y-2">
-                        <Label htmlFor="provinsi">Provinsi</Label>
+                        <Label htmlFor="provinsi">Provinsi *</Label>
                         <Select
                           value={formData.provinsiId}
                           onValueChange={(value) =>
                             handleSelectChange("provinsiId", value)
                           }
                         >
-                          <SelectTrigger className="border-blue-200 bg-input text-black">
+                          <SelectTrigger
+                            className={`border-blue-200 bg-input text-black ${
+                              errors.provinsiId ? "border-red-500" : ""
+                            }`}
+                          >
                             <SelectValue placeholder="Pilih provinsi" />
                           </SelectTrigger>
                           <SelectContent>
@@ -694,10 +1022,15 @@ export default function CekStunting() {
                             ))}
                           </SelectContent>
                         </Select>
+                        {errors.provinsiId && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.provinsiId}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="kabupaten">Kabupaten/Kota</Label>
+                        <Label htmlFor="kabupaten">Kabupaten/Kota *</Label>
                         <Select
                           value={formData.kabupatenId}
                           onValueChange={(value) =>
@@ -705,7 +1038,11 @@ export default function CekStunting() {
                           }
                           disabled={!formData.provinsiId}
                         >
-                          <SelectTrigger className="text-text border-blue-200 bg-input">
+                          <SelectTrigger
+                            className={`text-text border-blue-200 bg-input ${
+                              errors.kabupatenId ? "border-red-500" : ""
+                            }`}
+                          >
                             <SelectValue placeholder="Pilih kabupaten/kota" />
                           </SelectTrigger>
                           <SelectContent>
@@ -719,10 +1056,15 @@ export default function CekStunting() {
                             ))}
                           </SelectContent>
                         </Select>
+                        {errors.kabupatenId && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.kabupatenId}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="kecamatan">Kecamatan</Label>
+                        <Label htmlFor="kecamatan">Kecamatan *</Label>
                         <Select
                           value={formData.kecamatanId}
                           onValueChange={(value) =>
@@ -730,7 +1072,11 @@ export default function CekStunting() {
                           }
                           disabled={!formData.kabupatenId}
                         >
-                          <SelectTrigger className="text-text border-blue-200 bg-input">
+                          <SelectTrigger
+                            className={`text-text border-blue-200 bg-input ${
+                              errors.kecamatanId ? "border-red-500" : ""
+                            }`}
+                          >
                             <SelectValue placeholder="Pilih kecamatan" />
                           </SelectTrigger>
                           <SelectContent>
@@ -744,10 +1090,15 @@ export default function CekStunting() {
                             ))}
                           </SelectContent>
                         </Select>
+                        {errors.kecamatanId && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.kecamatanId}
+                          </p>
+                        )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="desa">Desa/Kelurahan</Label>
+                        <Label htmlFor="desa">Desa/Kelurahan *</Label>
                         <Select
                           value={formData.desaId}
                           onValueChange={(value) =>
@@ -755,7 +1106,11 @@ export default function CekStunting() {
                           }
                           disabled={!formData.kecamatanId}
                         >
-                          <SelectTrigger className="text-text border-blue-200 bg-input">
+                          <SelectTrigger
+                            className={`text-text border-blue-200 bg-input ${
+                              errors.desaId ? "border-red-500" : ""
+                            }`}
+                          >
                             <SelectValue placeholder="Pilih desa/kelurahan" />
                           </SelectTrigger>
                           <SelectContent>
@@ -766,16 +1121,29 @@ export default function CekStunting() {
                             ))}
                           </SelectContent>
                         </Select>
+                        {errors.desaId && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.desaId}
+                          </p>
+                        )}
                       </div>
                     </div>
 
                     <Button
                       type="submit"
-                      className="rounded-xl w-full bg-secondary from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all"
-                      disabled={isLoading}
+                      className="rounded-xl w-full bg-secondary from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 transition-all disabled:opacity-50"
+                      disabled={
+                        isLoading ||
+                        Object.values(errors).some((error) => error !== "")
+                      }
                     >
                       {isLoading ? "Memproses..." : "Cek Status Stunting"}
                     </Button>
+                    {Object.values(errors).some((error) => error !== "") && (
+                      <p className="text-red-500 text-sm text-center mt-2">
+                        Mohon lengkapi semua field yang wajib diisi dengan benar
+                      </p>
+                    )}
                   </form>
                 </CardContent>
               </Card>
@@ -1150,8 +1518,6 @@ export default function CekStunting() {
                         </p>
                       </div>
                     </div>
-
-                    
 
                     <div className="mt-6">
                       <h3 className="text-lg font-semibold mb-2 text-center">

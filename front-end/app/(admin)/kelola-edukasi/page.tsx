@@ -75,6 +75,10 @@ interface Edukasi {
   views: number;
   isPopular: boolean;
   createdDate: string;
+  authorId?: string;
+  authorName?: string;
+  isPublished: boolean;
+  publishedAt?: string | null;
 }
 
 const categories = [
@@ -85,6 +89,11 @@ const categories = [
 ];
 
 export default function KelolaEdukasi() {
+  const [currentUser, setCurrentUser] = useState({
+    id: "admin-001",
+    name: "Admin User",
+  }); // Simulasi user login
+  const [isPublishing, setIsPublishing] = useState(false);
   const [edukasiList, setEdukasiList] = useState<Edukasi[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -100,7 +109,6 @@ export default function KelolaEdukasi() {
     title: "",
     headerImage: "",
     category: "",
-    publishDate: new Date().toISOString().split("T")[0],
     readingTime: 5,
     excerpt: "",
     content: [
@@ -108,11 +116,23 @@ export default function KelolaEdukasi() {
     ] as ContentSection[],
     conclusion: { h2: "Kesimpulan", paragraph: "" },
     importantPoints: [""],
+    authorId: "",
+    isPublished: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    publishedAt: null as string | null,
   });
 
   useEffect(() => {
     fetchEdukasi();
-  }, []);
+    // Set author otomatis saat component mount
+    setFormData((prev) => ({
+      ...prev,
+      authorId: currentUser.id,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }));
+  }, [currentUser.id]);
 
   const fetchEdukasi = async () => {
     try {
@@ -187,9 +207,17 @@ export default function KelolaEdukasi() {
     return toc;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSaveDraft = async (e: React.FormEvent) => {
     e.preventDefault();
+    await saveEdukasi(false);
+  };
 
+  const handlePublish = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await saveEdukasi(true);
+  };
+
+  const saveEdukasi = async (publish: boolean) => {
     if (
       !formData.title ||
       !formData.headerImage ||
@@ -210,32 +238,40 @@ export default function KelolaEdukasi() {
     }
 
     try {
+      setIsPublishing(true);
       const tableOfContents = generateTableOfContents();
       const method = editingEdukasi ? "PUT" : "POST";
+
+      const dataToSend = {
+        ...formData,
+        id: editingEdukasi?.id,
+        tableOfContents,
+        content: formData.content.filter(
+          (section) =>
+            section.h2.trim() !== "" && section.paragraph.trim() !== ""
+        ),
+        importantPoints: formData.importantPoints.filter(
+          (point) => point.trim() !== ""
+        ),
+        authorId: currentUser.id,
+        isPublished: publish,
+        publishedAt: publish ? new Date().toISOString() : null,
+        updatedAt: new Date().toISOString(),
+      };
+
       const response = await fetch("/api/articles", {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          id: editingEdukasi?.id,
-          tableOfContents,
-          content: formData.content.filter(
-            (section) =>
-              section.h2.trim() !== "" && section.paragraph.trim() !== ""
-          ),
-          importantPoints: formData.importantPoints.filter(
-            (point) => point.trim() !== ""
-          ),
-        }),
+        body: JSON.stringify(dataToSend),
       });
 
       if (response.ok) {
         toast({
           title: "Berhasil",
           description: `Edukasi berhasil ${
-            editingEdukasi ? "diperbarui" : "ditambahkan"
+            publish ? "dipublikasi" : "disimpan sebagai draft"
           }`,
         });
         setIsDialogOpen(false);
@@ -255,6 +291,8 @@ export default function KelolaEdukasi() {
         description: "Terjadi kesalahan saat menyimpan edukasi",
         variant: "destructive",
       });
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -263,12 +301,16 @@ export default function KelolaEdukasi() {
       title: "",
       headerImage: "",
       category: "",
-      publishDate: new Date().toISOString().split("T")[0],
       readingTime: 5,
       excerpt: "",
       content: [{ id: "1", h2: "", paragraph: "", illustration: undefined }],
       conclusion: { h2: "Kesimpulan", paragraph: "" },
       importantPoints: [""],
+      authorId: currentUser.id,
+      isPublished: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      publishedAt: null,
     });
     setEditingEdukasi(null);
   };
@@ -362,7 +404,6 @@ export default function KelolaEdukasi() {
       title: edukasi.title,
       headerImage: edukasi.headerImage,
       category: edukasi.category,
-      publishDate: edukasi.publishDate,
       readingTime: edukasi.readingTime,
       excerpt: edukasi.excerpt,
       content:
@@ -372,6 +413,11 @@ export default function KelolaEdukasi() {
       conclusion: edukasi.conclusion,
       importantPoints:
         edukasi.importantPoints.length > 0 ? edukasi.importantPoints : [""],
+      authorId: edukasi.authorId || currentUser.id,
+      isPublished: edukasi.isPublished || false,
+      createdAt: edukasi.createdDate,
+      updatedAt: new Date().toISOString(),
+      publishedAt: edukasi.publishedAt || null,
     });
     setIsDialogOpen(true);
   };
@@ -458,7 +504,7 @@ export default function KelolaEdukasi() {
                 </DialogHeader>
 
                 <div className="flex-1 overflow-y-auto pr-2 bg-white p-5">
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSaveDraft} className="space-y-6">
                     {/* Basic Information */}
                     <Card>
                       <CardHeader>
@@ -526,7 +572,7 @@ export default function KelolaEdukasi() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <Label htmlFor="category">Kategori *</Label>
                             <Select
@@ -549,24 +595,6 @@ export default function KelolaEdukasi() {
                                 ))}
                               </SelectContent>
                             </Select>
-                          </div>
-
-                          <div className="space-y-2 ">
-                            <Label htmlFor="publishDate">
-                              Tanggal Publikasi *
-                            </Label>
-                            <Input
-                              id="publishDate"
-                              type="date"
-                              value={formData.publishDate}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  publishDate: e.target.value,
-                                }))
-                              }
-                              required
-                            />
                           </div>
 
                           <div className="space-y-2">
@@ -592,6 +620,47 @@ export default function KelolaEdukasi() {
                         </div>
 
                         <div className="space-y-2">
+                          <Label htmlFor="author">Author</Label>
+                          <Input
+                            id="author"
+                            value={currentUser.name}
+                            disabled
+                            className="bg-gray-100"
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            Author otomatis berdasarkan akun yang login
+                          </p>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="createdDate">Tanggal Dibuat</Label>
+                          <Input
+                            id="createdDate"
+                            value={new Date(
+                              formData.createdAt
+                            ).toLocaleDateString("id-ID")}
+                            disabled
+                            className="bg-gray-100"
+                          />
+                        </div>
+
+                        {editingEdukasi && formData.publishedAt && (
+                          <div className="space-y-2">
+                            <Label htmlFor="publishedDate">
+                              Tanggal Dipublikasi
+                            </Label>
+                            <Input
+                              id="publishedDate"
+                              value={new Date(
+                                formData.publishedAt
+                              ).toLocaleDateString("id-ID")}
+                              disabled
+                              className="bg-gray-100"
+                            />
+                          </div>
+                        )}
+
+                        <div className="space-y-2">
                           <Label htmlFor="excerpt">Ringkasan Singkat *</Label>
                           <Textarea
                             id="excerpt"
@@ -604,6 +673,23 @@ export default function KelolaEdukasi() {
                               }))
                             }
                             placeholder="Masukkan ringkasan singkat Edukasi yang akan ditampilkan di halaman utama"
+                            rows={3}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="excerpt">Tag *</Label>
+                          <Textarea
+                            id="excerpt"
+                            className="bg-input"
+                            value={formData.excerpt}
+                            onChange={(e) =>
+                              setFormData((prev) => ({
+                                ...prev,
+                                excerpt: e.target.value,
+                              }))
+                            }
+                            placeholder="Masukkan tag yang akan ditampilkan di halaman utama dengan format #tag"
                             rows={3}
                             required
                           />
@@ -914,10 +1000,44 @@ export default function KelolaEdukasi() {
                         Batal
                       </Button>
                       <Button
-                        type="submit"
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          // Preview functionality - buka di tab baru
+                          const previewData = {
+                            ...formData,
+                            tableOfContents: generateTableOfContents(),
+                          };
+                          localStorage.setItem(
+                            "previewData",
+                            JSON.stringify(previewData)
+                          );
+                          window.open("/preview-edukasi", "_blank");
+                        }}
+                        className="border-blue-500 text-white hover:bg-blue-50"
+                      >
+                        Preview
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handleSaveDraft}
+                        disabled={isPublishing}
+                        variant="outline"
+                        className="border-gray-500 text-white hover:bg-gray-50"
+                      >
+                        {isPublishing ? "Menyimpan..." : "Simpan Draft"}
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handlePublish}
+                        disabled={isPublishing}
                         className="bg-secondary hover:bg-[#2A6CB0]"
                       >
-                        {editingEdukasi ? "Update" : "Simpan"} Edukasi
+                        {isPublishing
+                          ? "Mempublikasi..."
+                          : editingEdukasi?.isPublished
+                          ? "Update & Publish"
+                          : "Publish"}
                       </Button>
                     </div>
                   </form>
@@ -1124,6 +1244,12 @@ export default function KelolaEdukasi() {
                     <TableHead className="text-center font-semibold text-text ">
                       Status
                     </TableHead>
+                    <TableHead className="text-center font-semibold text-text">
+                      Author
+                    </TableHead>
+                    <TableHead className="text-center font-semibold text-text">
+                      Status Publish
+                    </TableHead>
                     <TableHead className="text-center font-semibold text-text ">
                       Aksi
                     </TableHead>
@@ -1154,9 +1280,11 @@ export default function KelolaEdukasi() {
                       <TableCell>
                         <div className="flex items-center gap-1">
                           <Calendar className="h-4 w-4" />
-                          {new Date(edukasi.publishDate).toLocaleDateString(
-                            "id-ID"
-                          )}
+                          {edukasi.publishedAt
+                            ? new Date(edukasi.publishedAt).toLocaleDateString(
+                                "id-ID"
+                              )
+                            : "Belum dipublikasi"}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -1175,6 +1303,22 @@ export default function KelolaEdukasi() {
                         {edukasi.isPopular && (
                           <Badge className="bg-yellow-500 hover:bg-yellow-600">
                             Populer
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="text-sm text-gray-600">
+                          {edukasi.authorName || "Admin User"}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {edukasi.isPublished ? (
+                          <Badge className="bg-green-100 text-green-800">
+                            Published
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-yellow-100 text-yellow-800">
+                            Draft
                           </Badge>
                         )}
                       </TableCell>
