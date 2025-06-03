@@ -17,7 +17,6 @@ import {
   Linkedin,
   List,
   User,
-  Eye,
 } from "lucide-react";
 import type { EducationWithDetails } from "@/lib/types/education";
 
@@ -336,10 +335,6 @@ export function ArticleContent({
                   <User className="h-4 w-4 mr-1" />
                   <span>{article.author?.name || "Tim ByeStunting"}</span>
                 </div>
-                <div className="flex items-center">
-                  <Eye className="h-4 w-4 mr-1" />
-                  <span>{article.view_count} views</span>
-                </div>
               </div>
             </div>
           </div>
@@ -624,26 +619,6 @@ export function ArticleContent({
                 Cek Sekarang
               </Button>
             </Link>
-          </div>
-
-          {/* Newsletter Box */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="font-bold text-lg mb-3 text-gray-900">
-              Dapatkan Update Terbaru
-            </h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Berlangganan newsletter kami untuk mendapatkan artikel dan tips
-              terbaru tentang pencegahan stunting.
-            </p>
-            <div className="space-y-3">
-              <Input
-                placeholder="Email Anda"
-                className="rounded-lg border-gray-200 focus:ring-secondary transition-all duration-200"
-              />
-              <Button className="w-full bg-secondary hover:bg-[#2A6CB0] text-white rounded-xl transition-colors duration-200">
-                Berlangganan
-              </Button>
-            </div>
           </div>
         </div>
       </div>
