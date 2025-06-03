@@ -1,0 +1,38 @@
+## Langkah Kerja Proyek dalam Bahasa Indonesia
+
+### 1. **Persiapan Proyek**
+
+1. **Deteksi Endpoint Model ML**
+
+```shellscript
+npm run detect:ml
+```
+
+Perintah ini akan mendeteksi endpoint yang tersedia di model ML eksternal.
+
+
+2. **Jalankan Server Hapi.js**
+
+```shellscript
+npm run server
+```
+
+Server akan berjalan di `http://localhost:3001` dan akan mencoba terhubung ke model ML.
+
+
+3. **Jalankan Frontend Next.js**
+
+```shellscript
+npm run dev
+```
+
+Frontend akan berjalan di `http://localhost:3000`.
+
+
+4. **Atau Jalankan Keduanya Sekaligus**
+
+```shellscript
+npm run dev:all
+```
+
+catatan sebelum menjalankan npm installgse helaaaa
