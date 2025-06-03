@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Eye } from "lucide-react";
+import { Calendar, Heart } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import type { EducationWithDetails } from "@/lib/types/education";
 
@@ -117,12 +117,7 @@ export function ArticleCard({ article, featured = false }: ArticleCardProps) {
                   Baca Selengkapnya
                 </Button>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center text-gray-500">
-                    <Eye className="h-4 w-4 mr-1" />
-                    <span className="text-xs md:text-sm">
-                      {article.view_count}
-                    </span>
-                  </div>
+
 
                   <div className="flex items-center text-gray-500 text-xs md:text-sm">
                     <Heart className="h-4 w-4 mr-1" />
@@ -163,10 +158,6 @@ export function ArticleCard({ article, featured = false }: ArticleCardProps) {
               <span>{formatDate(article.published_at)}</span>
             </div>
             <div className="text-xs md:text-sm flex items-center gap-3">
-              <div className="flex items-center">
-                <Eye className="h-4 w-4 mr-1" />
-                <span>{article.view_count}</span>
-              </div>
               <div className="flex items-center">
                 <Heart className="h-4 w-4 mr-1" />
                 {article.like_count}
