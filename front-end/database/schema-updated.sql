@@ -58,15 +58,6 @@ CREATE TABLE conclusions (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table of contents (auto-generated, bisa disimpan untuk performa)
-CREATE TABLE table_of_contents (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    education_id UUID REFERENCES educations(id) ON DELETE CASCADE,
-    item_order INT,
-    title VARCHAR(255),
-    slug VARCHAR(100),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
 
 CREATE TABLE education_likes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

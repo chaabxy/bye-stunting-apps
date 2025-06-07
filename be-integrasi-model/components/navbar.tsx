@@ -45,7 +45,7 @@ export default function Navbar() {
               scrolled ? "md:mt-0" : "md:mt-5"
             }`}
           >
-            <Link href="/" className="text-xl font-bold text-[#1D3557]">
+            <Link href="/" className="text-xl md:text-md lg:text-xl font-bold text-[#1D3557]">
               ByeStunting
             </Link>
           </div>
@@ -62,7 +62,7 @@ export default function Navbar() {
                 <Link
                   key={idx}
                   href={link.path}
-                  className={`text-sm font-semibold px-3 py-1 transition-all duration-200 ${
+                  className={`text-xs lg:text-sm font-semibold px-3 py-1 transition-all duration-200 ${
                     isActive
                       ? "text-white bg-secondary rounded-xl shadow-sm"
                       : "text-text hover:text-[#0a0b0c]"

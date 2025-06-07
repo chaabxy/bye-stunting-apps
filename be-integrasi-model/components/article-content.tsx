@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,12 +18,12 @@ import {
   User,
   Eye,
 } from "lucide-react";
-import type { EducationWithDetails } from "@/lib/types/education";
+import type { Article } from "@/model/user/edukasi-model";
 
 interface ArticleContentProps {
-  article: EducationWithDetails;
+  article: Article;
   readingTime: number;
-  relatedArticles: EducationWithDetails[];
+  relatedArticles: Article[];
 }
 
 export function ArticleContent({
@@ -299,6 +298,7 @@ export function ArticleContent({
               src={
                 article.featured_image ||
                 "/placeholder.svg?height=400&width=800" ||
+                "/placeholder.svg" ||
                 "/placeholder.svg"
               }
               alt={article.title}
@@ -586,6 +586,7 @@ export function ArticleContent({
                 src={
                   article.author?.avatar ||
                   "/placeholder.svg?height=200&width=200&text=Author" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt="Author"

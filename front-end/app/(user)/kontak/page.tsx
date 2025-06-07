@@ -25,7 +25,7 @@ export default function Kontak() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 shadow-md border-blue-100 -900">
+        <Card className="lg:col-span-2 shadow-md border-blue-100">
           <CardHeader className="bg-input from-blue-50 to-cyan-50 -950/50 -950/50 border-b border-blue-100 -900">
             <CardTitle className=" text-primary -300 flex items-center gap-2">
               <MessageSquare className="h-5 w-5" /> Kirim{" "}

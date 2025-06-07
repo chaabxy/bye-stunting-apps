@@ -9,8 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Heart, Eye } from "lucide-react";
-import { formatDate } from "@/lib/utils";
-import type { EducationWithDetails } from "@/lib/types/education";
+import { formatDate } from "@/presenter/lib/utils";
+import type { EducationWithDetails } from "@/model/user/edukasi-model";
 
 interface ArticleCardProps {
   article: EducationWithDetails;
@@ -84,7 +84,8 @@ export function ArticleCard({ article, featured = false }: ArticleCardProps) {
               <Image
                 src={
                   article.featured_image ||
-                  "/placeholder.svg?height=600&width=800"
+                  "/placeholder.svg?height=600&width=800" ||
+                  "/placeholder.svg"
                 }
                 alt={article.title}
                 fill

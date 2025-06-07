@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
-import { fetchProvinces } from "@/lib/location-data";
+import { fetchProvinces } from "@/presenter/lib/location-data";
 
 interface ProvinceStatsCardProps {
   className?: string;

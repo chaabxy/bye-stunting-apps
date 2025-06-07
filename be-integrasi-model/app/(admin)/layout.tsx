@@ -67,23 +67,23 @@ export default function AdminLayout({
     const adminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
     setIsLoggedIn(adminLoggedIn);
 
-    if (!adminLoggedIn && pathname !== "/admin/login") {
-      router.push("/admin/login");
+    if (!adminLoggedIn && pathname !== "/login") {
+      router.push("/login");
     }
   }, [pathname, router]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminLoggedIn");
     setIsLoggedIn(false);
-    router.push("/admin/login");
+    router.push("/login");
   };
 
-  if ((!isLoggedIn && pathname !== "/admin/login") || !isMounted) {
+  if ((!isLoggedIn && pathname !== "/login") || !isMounted) {
     return null;
   }
 
-  if (pathname === "/admin/login") {
-    return <div className="min-h-screen">{children}</div>;
+  if (pathname === "/login") {
+    return <div className="min-h-screen bg-background">{children}</div>;
   }
 
   const SidebarContent = () => (
@@ -200,7 +200,6 @@ export default function AdminLayout({
                         </p>
                       </div>
                     </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
                       <LogOut className="mr-2 h-4 w-4" />

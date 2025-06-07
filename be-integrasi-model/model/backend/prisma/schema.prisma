@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Province {
+  id        String     @id // kode provinsi, misal: '32'
+  name      String     // nama provinsi, misal: 'Jawa Barat'
+  regencies Regency[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("provinces")
+}
+
+model Regency {
+  id          String     @id // kode kabupaten/kota, misal: '3201'
+  provinceId  String     @map("province_id") // kode provinsi, foreign key
+  name        String     // nama kabupaten/kota, misal: 'Garut'
+  province    Province   @relation(fields: [provinceId], references: [id], onDelete: Cascade)
+  districts   District[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("regencies")
+}
+
+model District {
+  id        String    @id // kode kecamatan, misal: '320101'
+  regencyId String    @map("regency_id") // kode kabupaten/kota, foreign key
+  name      String    // nama kecamatan, misal: 'Cilawu'
+  regency   Regency   @relation(fields: [regencyId], references: [id], onDelete: Cascade)
+  villages  Village[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("districts")
+}
+
+model Village {
+  id         String   @id // kode desa/kelurahan, misal: '32010101'
+  districtId String   @map("district_id") // kode kecamatan, foreign key
+  name       String   // nama desa/kelurahan, misal: 'Sukamurni'
+  district   District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("villages")
+}
