@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Search, Loader2, BookOpen, Clock } from "lucide-react"
-import Image from "next/image"
-import ArticleCard from "@/components/article-card"
-import { useEdukasiPresenter } from "@/presenter/user/edukasi-presenter"
-import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Search, Loader2, BookOpen, Clock } from "lucide-react";
+import Image from "next/image";
+import ArticleCard from "@/components/article-card";
+import { useEdukasiPresenter } from "@/presenter/user/edukasi-presenter";
+import { Button } from "@/components/ui/button";
 
 export default function EdukasiView() {
   const {
@@ -21,7 +21,7 @@ export default function EdukasiView() {
     setActiveCategory,
     error,
     presenter,
-  } = useEdukasiPresenter()
+  } = useEdukasiPresenter();
 
   const container = {
     hidden: { opacity: 0 },
@@ -31,48 +31,41 @@ export default function EdukasiView() {
         staggerChildren: 0.1,
       },
     },
-  }
+  };
 
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
-  }
+  };
 
-  const featuredArticle = filteredArticles[0]
+  const featuredArticle = filteredArticles[0];
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] px-5">
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-secondary to-[#64B5F6] mb-12 shadow-xl">
-          <div className="absolute inset-0 bg-blue-600 opacity-10">
-            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path
-                fill="none"
-                stroke="white"
-                strokeWidth="0.5"
-                strokeDasharray="6,6"
-                d="M0,0 L100,100 M100,0 L0,100"
-              />
-            </svg>
-          </div>
           <div className="relative z-10 flex flex-col md:flex-row items-center p-6 md:p-12">
             <div className="md:w-1/2 mb-6 md:mb-0 md:pr-8 text-center md:text-left">
               <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold mb-4 text-white">
                 Edukasi <span className="text-primary">Stunting</span>
               </h1>
               <p className="text-xs md:text-md opacity-90 mb-6 text-white">
-                Pelajari informasi penting tentang stunting, nutrisi, dan tips praktis untuk mendukung pertumbuhan
-                optimal anak Anda.
+                Pelajari informasi penting tentang stunting, nutrisi, dan tips
+                praktis untuk mendukung pertumbuhan optimal anak Anda.
               </p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
                 <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white">
                   <BookOpen className="h-5 w-5" />
-                  <span className="text-sm font-medium">{articles.length} Artikel</span>
+                  <span className="text-sm font-medium">
+                    {articles.length} Artikel
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white">
                   <Clock className="h-5 w-5" />
-                  <span className="text-sm font-medium">Diperbarui Berkala</span>
+                  <span className="text-sm font-medium">
+                    Diperbarui Berkala
+                  </span>
                 </div>
               </div>
             </div>
@@ -103,7 +96,12 @@ export default function EdukasiView() {
           </div>
 
           <div className="w-full overflow-x-auto lg:w-auto p-1 rounded-full">
-            <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="min-w-max">
+            <Tabs
+              defaultValue="all"
+              value={activeCategory}
+              onValueChange={setActiveCategory}
+              className="min-w-max"
+            >
               <TabsList className="flex gap-2 bg-foreground justify-evenly">
                 <TabsTrigger
                   value="all"
@@ -134,9 +132,14 @@ export default function EdukasiView() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
               <Search className="h-8 w-8 text-red-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 text-red-800">Terjadi Kesalahan</h3>
+            <h3 className="text-xl font-semibold mb-2 text-red-800">
+              Terjadi Kesalahan
+            </h3>
             <p className="text-gray-600 max-w-md mx-auto mb-4">{error}</p>
-            <Button onClick={() => presenter.loadArticles()} className="bg-secondary hover:bg-blue-700">
+            <Button
+              onClick={() => presenter.loadArticles()}
+              className="bg-secondary hover:bg-blue-700"
+            >
               Coba Lagi
             </Button>
           </div>
@@ -171,7 +174,9 @@ export default function EdukasiView() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-foreground mb-4">
               <Search className="h-8 w-8 text-secondary" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Tidak ada artikel yang ditemukan</h3>
+            <h3 className="text-xl font-semibold mb-2">
+              Tidak ada artikel yang ditemukan
+            </h3>
             <p className="text-gray-600 max-w-md mx-auto">
               Coba gunakan kata kunci lain atau pilih kategori yang berbeda
             </p>
@@ -179,5 +184,5 @@ export default function EdukasiView() {
         )}
       </div>
     </div>
-  )
+  );
 }

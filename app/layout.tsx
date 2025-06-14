@@ -21,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="scroll-smooth">
-      <body className={`${poppins.className} antialiased`}>{children}</body>
+      <body className={`${poppins.className} min-h-screen text-foreground`}>
+        {children}
+      </body>
     </html>
   );
 }

@@ -61,12 +61,13 @@ export default function Kontak() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold mb-2 text-black">
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
+      {/* Header Section */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">
           Kontak <span className="text-blue-500">Kami</span>
         </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-gray-600 text-lg max-w-3xl mx-auto">
           Punya pertanyaan atau saran? Jangan ragu untuk menghubungi kami. Tim
           kami siap membantu Anda dalam upaya pencegahan stunting.
         </p>
@@ -74,7 +75,7 @@ export default function Kontak() {
 
       {/* Success Message */}
       {success && (
-        <Alert className="mb-6 max-w-md mx-auto border-green-200 bg-green-50">
+        <Alert className="mb-8 max-w-2xl mx-auto border-green-200 bg-green-50">
           <svg
             className="h-4 w-4 text-green-600"
             fill="none"
@@ -97,7 +98,7 @@ export default function Kontak() {
 
       {/* Error Messages */}
       {errors.length > 0 && (
-        <Alert variant="destructive" className="mb-6 max-w-md mx-auto">
+        <Alert variant="destructive" className="mb-8 max-w-2xl mx-auto">
           <svg
             className="h-4 w-4"
             fill="none"
@@ -118,27 +119,30 @@ export default function Kontak() {
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
-        <div className="md:col-span-2 h-full">
-          <div className="bg-gray-50 rounded-lg p-6 h-full">
-            <div className="flex items-center gap-2 mb-2">
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Form Section - Takes 2 columns */}
+        <div className="lg:col-span-2">
+          <div className="bg-gray-50 rounded-lg p-8 h-full">
+            <div className="flex items-center gap-3 mb-2">
               <svg
-                className="h-5 w-5 text-blue-500"
+                className="h-6 w-6 text-gray-700"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 />
               </svg>
-              <h2 className="text-lg font-medium text-blue-500">Kirim Pesan</h2>
+              <h2 className="text-xl font-semibold text-gray-900">
+                Kirim <span className="text-blue-500">Pesan</span>
+              </h2>
             </div>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-gray-600 mb-6">
               Isi formulir di bawah ini dan tim kami akan merespons dalam 1-2
               hari kerja
             </p>
@@ -151,10 +155,15 @@ export default function Kontak() {
           </div>
         </div>
 
-        <div className="md:col-span-1 h-full">
-          <div className="bg-blue-500 text-white text-center rounded-lg p-6 h-[95%]">
-            <h2 className="text-lg font-bold mb-6">Informasi Kontak</h2>
-            <ContactInfoCard contactInfo={contactInfo} />
+        {/* Contact Info Section - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <div className="bg-gray-50 rounded-lg overflow-hidden h-full">
+            <div className="bg-blue-500 text-white text-center py-6">
+              <h2 className="text-xl font-semibold">Informasi Kontak</h2>
+            </div>
+            <div className="p-6">
+              <ContactInfoCard contactInfo={contactInfo} />
+            </div>
           </div>
         </div>
       </div>
