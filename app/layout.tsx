@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "@/styles/globals.css";
+import "./globals.css";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -21,11 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="scroll-smooth">
-      <body
-        className={`${poppins.className} min-h-screen text-foreground`}
-      >
-        {children}
-      </body>
+      <body className={`${poppins.className} antialiased`}>{children}</body>
     </html>
   );
 }

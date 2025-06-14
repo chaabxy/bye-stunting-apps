@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect } from "react";
 import { differenceInMonths } from "date-fns";
 import {
@@ -23,11 +22,7 @@ import {
   getWeightForAgeData,
   getHeightForAgeData,
 } from "@/presenter/lib/who-chart-data";
-import {
-  generatePdf,
-  downloadPdf,
-  shareViaWhatsApp,
-} from "@/presenter/lib/pdf-generator";
+import { shareViaWhatsApp } from "@/presenter/lib/laporan-wa";
 
 export class CekStuntingPresenter {
   private model: CekStuntingModel;
@@ -306,18 +301,20 @@ export class CekStuntingPresenter {
       currentAgeHeightData
     );
 
-    // Tentukan status berdasarkan percentile
+    // Tentukan status berdasarkan percentile - PERBAIKAN: Logika yang sama untuk weight dan height
     let weightStatus = "normal";
     if (calculatedWeightPercentile <= 3) weightStatus = "sangat kurang";
     else if (calculatedWeightPercentile <= 15) weightStatus = "kurang";
     else if (calculatedWeightPercentile >= 97) weightStatus = "sangat tinggi";
     else if (calculatedWeightPercentile >= 85) weightStatus = "tinggi";
+    else weightStatus = "normal";
 
     let heightStatus = "normal";
     if (calculatedHeightPercentile <= 3) heightStatus = "sangat pendek";
     else if (calculatedHeightPercentile <= 15) heightStatus = "pendek";
     else if (calculatedHeightPercentile >= 97) heightStatus = "sangat tinggi";
     else if (calculatedHeightPercentile >= 85) heightStatus = "tinggi";
+    else heightStatus = "normal";
 
     // perubahan Caca: Simpan percentile dan status data untuk keperluan save ke database
     this.weightPercentile = calculatedWeightPercentile;
@@ -596,57 +593,6 @@ export class CekStuntingPresenter {
     }
   }
 
-  async handlePrintReport(
-    result: PredictionResult,
-    chartData: ChartData[],
-    heightChartData: ChartData[],
-    weightPercentile: number,
-    heightPercentile: number,
-    provinsis: LocationData[],
-    kabupatens: LocationData[],
-    kecamatans: LocationData[],
-    desas: LocationData[]
-  ) {
-    if (!result) return;
-
-    try {
-      const formData = this.model.getFormData();
-      if (!formData.tanggalLahir) return;
-
-      const childData = {
-        nama: formData.nama,
-        namaIbu: formData.namaIbu,
-        tanggalLahir: formData.tanggalLahir,
-        usia: Number.parseInt(formData.usia),
-        jenisKelamin: formData.jenisKelamin,
-        beratBadan: Number.parseFloat(formData.beratBadan),
-        tinggiBadan: Number.parseFloat(formData.tinggiBadan),
-        alamat: {
-          provinsi:
-            provinsis.find((p) => p.id === formData.provinsiId)?.name || "",
-          kabupaten:
-            kabupatens.find((k) => k.id === formData.kabupatenId)?.name || "",
-          kecamatan:
-            kecamatans.find((k) => k.id === formData.kecamatanId)?.name || "",
-          desa: desas.find((d) => d.id === formData.desaId)?.name || "",
-        },
-      };
-
-      const whoChartData = {
-        weightChartData: chartData,
-        heightChartData: heightChartData,
-        weightPercentile: weightPercentile,
-        heightPercentile: heightPercentile,
-      };
-
-      const pdfBlob = await generatePdf(childData, result, whoChartData);
-      downloadPdf(pdfBlob, `laporan-stunting-${formData.nama}.pdf`);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      alert("Gagal menghasilkan PDF. Silakan coba lagi.");
-    }
-  }
-
   handleShareWhatsApp(
     result: PredictionResult,
     chartData: ChartData[],
@@ -658,11 +604,23 @@ export class CekStuntingPresenter {
     kecamatans: LocationData[],
     desas: LocationData[]
   ) {
-    if (!result) return;
+    console.log("🔍 handleShareWhatsApp called with result:", result);
+
+    if (!result) {
+      console.error("❌ No result data available");
+      alert("Data hasil tidak tersedia untuk dibagikan.");
+      return;
+    }
 
     try {
       const formData = this.model.getFormData();
-      if (!formData.tanggalLahir) return;
+      console.log("🔍 Form data:", formData);
+
+      if (!formData.tanggalLahir) {
+        console.error("❌ No birth date available");
+        alert("Data tanggal lahir tidak tersedia.");
+        return;
+      }
 
       const childData = {
         nama: formData.nama,
@@ -674,25 +632,39 @@ export class CekStuntingPresenter {
         tinggiBadan: Number.parseFloat(formData.tinggiBadan),
         alamat: {
           provinsi:
-            provinsis.find((p) => p.id === formData.provinsiId)?.name || "",
+            provinsis.find((p) => p.id === formData.provinsiId)?.name ||
+            "Tidak diketahui",
           kabupaten:
-            kabupatens.find((k) => k.id === formData.kabupatenId)?.name || "",
+            kabupatens.find((k) => k.id === formData.kabupatenId)?.name ||
+            "Tidak diketahui",
           kecamatan:
-            kecamatans.find((k) => k.id === formData.kecamatanId)?.name || "",
-          desa: desas.find((d) => d.id === formData.desaId)?.name || "",
+            kecamatans.find((k) => k.id === formData.kecamatanId)?.name ||
+            "Tidak diketahui",
+          desa:
+            desas.find((d) => d.id === formData.desaId)?.name ||
+            "Tidak diketahui",
         },
       };
 
       const whoChartData = {
-        weightChartData: chartData,
-        heightChartData: heightChartData,
-        weightPercentile: weightPercentile,
-        heightPercentile: heightPercentile,
+        weightChartData: chartData || [],
+        heightChartData: heightChartData || [],
+        weightPercentile: weightPercentile || 0,
+        heightPercentile: heightPercentile || 0,
       };
+
+      console.log("🔍 Calling shareViaWhatsApp with:", {
+        childData: childData.nama,
+        resultStatus: result.status,
+        whoChartData: !!whoChartData,
+      });
 
       shareViaWhatsApp(childData, result, whoChartData);
     } catch (error) {
-      console.error("Error sharing via WhatsApp:", error);
+      console.error("❌ Error in handleShareWhatsApp:", error);
+      alert(
+        "Terjadi kesalahan saat menyiapkan data untuk WhatsApp. Silakan coba lagi."
+      );
     }
   }
 }

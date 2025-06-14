@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   title: "ByeStunting - Cegah Stunting Sejak Dini",
   description:
     "Aplikasi untuk memantau tumbuh kembang anak dan mencegah stunting dengan dukungan AI",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({
@@ -23,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
-      <body className={poppins.className}>
+    <html lang="id" className="scroll-smooth">
+      <body className={`${poppins.className} min-h-screen text-foreground`}>
         <Navbar />
         {children}
         <Footer />

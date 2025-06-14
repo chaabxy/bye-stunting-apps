@@ -9,21 +9,19 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Printer, Share2, Users } from "lucide-react";
+import { ArrowRight, Share2, Users } from "lucide-react";
 import { cn } from "@/presenter/lib/utils";
 import type { PredictionResult } from "@/model/user/cek-stunting-model";
 
 interface ResultSectionProps {
   result: PredictionResult;
   onBackToForm: () => void;
-  onPrintReport: () => void;
   onShareWhatsApp: () => void;
 }
 
 export function ResultSection({
   result,
   onBackToForm,
-  onPrintReport,
   onShareWhatsApp,
 }: ResultSectionProps) {
   return (
@@ -188,7 +186,17 @@ export function ResultSection({
         <Button
           variant="outline"
           size="sm"
-          onClick={onShareWhatsApp}
+          onClick={() => {
+            console.log("🔍 Share WhatsApp button clicked");
+            try {
+              onShareWhatsApp();
+            } catch (error) {
+              console.error("❌ Error calling onShareWhatsApp:", error);
+              alert(
+                "Terjadi kesalahan saat membagikan ke WhatsApp. Silakan coba lagi."
+              );
+            }
+          }}
           className="bg-green-500 border-green-200 text-white hover:bg-green-50"
         >
           <Share2 className="h-4 w-4 mr-2" />

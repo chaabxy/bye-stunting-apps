@@ -33,6 +33,34 @@ export function WHOChartSection({
   childName,
   result,
 }: WHOChartSectionProps) {
+  // Fungsi untuk menentukan kategori berdasarkan persentil - PERBAIKAN UTAMA
+  const getWeightCategory = (
+    percentile: number
+  ): { text: string; color: string } => {
+    if (percentile <= 3)
+      return { text: "sangat kurang", color: "text-red-600" };
+    if (percentile <= 15) return { text: "kurang", color: "text-orange-600" };
+    if (percentile >= 97)
+      return { text: "sangat tinggi", color: "text-red-600" };
+    if (percentile >= 85) return { text: "tinggi", color: "text-orange-600" };
+    return { text: "normal", color: "text-green-600" };
+  };
+
+  const getHeightCategory = (
+    percentile: number
+  ): { text: string; color: string } => {
+    if (percentile <= 3)
+      return { text: "sangat pendek", color: "text-red-600" };
+    if (percentile <= 15) return { text: "pendek", color: "text-orange-600" };
+    if (percentile >= 97)
+      return { text: "sangat tinggi", color: "text-red-600" };
+    if (percentile >= 85) return { text: "tinggi", color: "text-orange-600" };
+    return { text: "normal", color: "text-green-600" };
+  };
+
+  const weightCategory = getWeightCategory(weightPercentile);
+  const heightCategory = getHeightCategory(heightPercentile);
+
   return (
     <Card className="shadow-lg border-blue-100 overflow-hidden">
       <CardHeader className="bg-foreground from-blue-50 to-cyan-50 border-b border-blue-100">
@@ -341,63 +369,19 @@ export function WHOChartSection({
                 <br />
                 <strong>• Berat badan:</strong> Persentil{" "}
                 <strong>{weightPercentile.toFixed(1)}</strong> –{" "}
-                {weightPercentile < 3 ? (
-                  <>
-                    <span className="text-red-600 font-medium">
-                      sangat kurang
-                    </span>
-                    . Anak berada dalam kategori berat badan sangat rendah.
-                  </>
-                ) : weightPercentile < 15 ? (
-                  <>
-                    <span className="text-orange-600 font-medium">kurang</span>.
-                    Anak berada dalam kategori berat badan rendah.
-                  </>
-                ) : weightPercentile > 85 && weightPercentile < 97 ? (
-                  <>
-                    <span className="text-orange-600 font-medium">
-                      di atas normal
-                    </span>
-                    . Anak berada dalam kategori berat badan tinggi.
-                  </>
-                ) : weightPercentile >= 97 ? (
-                  <>
-                    <span className="text-red-600 font-medium">
-                      sangat tinggi
-                    </span>
-                    . Anak berada dalam kategori berat badan sangat tinggi.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-green-600 font-medium">normal</span>.
-                    Berat badan anak berada dalam batas sehat.
-                  </>
-                )}
+                <span className={`font-medium ${weightCategory.color}`}>
+                  {weightCategory.text}
+                </span>
+                . Anak berada dalam kategori berat badan {weightCategory.text}.
               </p>
 
               <p className="mt-3">
                 <strong>• Tinggi badan:</strong> Persentil{" "}
                 <strong>{heightPercentile.toFixed(1)}</strong> –{" "}
-                {heightPercentile < 3 ? (
-                  <>
-                    <span className="text-red-600 font-medium">
-                      sangat pendek
-                    </span>
-                    . Anak berada dalam kategori tinggi badan sangat rendah.
-                  </>
-                ) : heightPercentile < 15 ? (
-                  <>
-                    <span className="text-orange-600 font-medium">
-                      di bawah normal
-                    </span>
-                    . Anak berada dalam kategori tinggi badan rendah.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-green-600 font-medium">normal</span>.
-                    Tinggi badan anak sesuai dengan standar WHO.
-                  </>
-                )}
+                <span className={`font-medium ${heightCategory.color}`}>
+                  {heightCategory.text}
+                </span>
+                . Anak berada dalam kategori tinggi badan {heightCategory.text}.
               </p>
 
               <hr className="my-4 border-t border-gray-300" />
