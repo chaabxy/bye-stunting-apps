@@ -96,10 +96,10 @@ export const DashboardView: React.FC<DashboardViewState> = ({
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Artikel Terpopuler */}
+            {/* Edukasi Terpopuler */}
             <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="text-lg font-semibold text-blue-600 mb-1">
-                Artikel Terpopuler
+                Edukasi Terpopuler
               </div>
               {loading.edukasiPopuler ? (
                 <div className="animate-pulse">
@@ -197,139 +197,6 @@ export const DashboardView: React.FC<DashboardViewState> = ({
           </AlertDescription>
         </Alert>
       )}
-
-      {/* Dashboard Detail Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Edukasi Populer */}
-        <Card>
-          <CardHeader className="bg-blue-50">
-            <CardTitle className="flex items-center space-x-2">
-              <BookOpen className="h-5 w-5" />
-              <span>Edukasi Populer</span>
-            </CardTitle>
-            <CardDescription>
-              Artikel dan video dengan jumlah view tertinggi
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-6">
-            {loading.edukasiPopuler ? (
-              renderSkeleton()
-            ) : safeError.edukasiPopuler ? (
-              <div className="text-center py-4 text-red-500">
-                <AlertCircle className="h-5 w-5 mx-auto mb-2" />
-                Gagal memuat data edukasi populer
-              </div>
-            ) : edukasiPopuler?.length > 0 ? (
-              <div className="space-y-4">
-                {edukasiPopuler.slice(0, 5).map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex justify-between items-center border-b pb-2"
-                  >
-                    <div className="font-medium">{item.title}</div>
-                    <div className="text-sm text-gray-500">
-                      {item.view_count} views
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4 text-gray-500">
-                Belum ada data edukasi
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Pesan Belum Dibaca */}
-        <Card classname="bg-input">
-          <CardHeader className="bg-orange-50">
-            <CardTitle className="flex items-center space-x-2">
-              <MessageSquare className="h-5 w-5" />
-              <span>Pesan Belum Dibaca</span>
-            </CardTitle>
-            <CardDescription>
-              Pesan terbaru dari pengguna yang belum dibaca
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-6">
-            {loading.unreadMessages ? (
-              renderSkeleton()
-            ) : safeError.unreadMessages ? (
-              <div className="text-center py-4 text-red-500">
-                <AlertCircle className="h-5 w-5 mx-auto mb-2" />
-                Gagal memuat data pesan
-              </div>
-            ) : unreadMessages?.messages?.length > 0 ? (
-              <div className="space-y-4">
-                {unreadMessages.messages.slice(0, 5).map((message) => (
-                  <div
-                    key={message.id}
-                    className="flex justify-between items-center border-b pb-2"
-                  >
-                    <div className="font-medium">
-                      {message.subject || `Pesan #${message.id}`}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {message.name || "Pengguna"}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4 text-gray-500">
-                Tidak ada pesan yang belum dibaca
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Data Stunting Terbaru */}
-        <Card>
-          <CardHeader className="bg-emerald-50">
-            <CardTitle className="flex items-center space-x-2">
-              <Clock className="h-5 w-5" />
-              <span>Data Stunting Terbaru</span>
-            </CardTitle>
-            <CardDescription>
-              Pemeriksaan stunting terbaru yang telah dilakukan
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-6">
-            {loading.lastStuntingRecords ? (
-              renderSkeleton()
-            ) : safeError.lastStuntingRecords ? (
-              <div className="text-center py-4 text-red-500">
-                <AlertCircle className="h-5 w-5 mx-auto mb-2" />
-                Gagal memuat data stunting
-              </div>
-            ) : lastStuntingRecords?.length > 0 ? (
-              <div className="space-y-4">
-                {lastStuntingRecords.slice(0, 5).map((record) => (
-                  <div
-                    key={record.id}
-                    className="flex justify-between items-center border-b pb-2"
-                  >
-                    <div className="font-medium">
-                      {record.childName || record.name || `Anak #${record.id}`}
-                      {record.age && ` (${record.age} bulan)`}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {new Date(
-                        record.createdAt || record.created_at || ""
-                      ).toLocaleDateString()}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4 text-gray-500">
-                Belum ada data stunting terbaru
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 };

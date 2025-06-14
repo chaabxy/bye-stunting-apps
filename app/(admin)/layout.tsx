@@ -168,7 +168,7 @@ export default function AdminLayout({
                   className="lg:hidden"
                   onClick={() => setIsSidebarOpen(true)}
                 >
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-6 w-6 text-black" />
                 </Button>
                 <div className="ml-4 lg:ml-0">
                   <h1 className="text-lg font-semibold text-gray-900">
@@ -186,7 +186,7 @@ export default function AdminLayout({
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-10 w-10 rounded-full">
-                      <User className="h-5 w-5" />
+                      <User className="h-5 w-5 text-black" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>

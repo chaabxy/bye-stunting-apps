@@ -87,39 +87,7 @@ export class DashboardModel {
     }
   }
 
-  async fetchStats(): Promise<DashboardStats> {
-    try {
-      // Use Next.js API routes instead of external backend
-      const [articlesRes, healthDataRes] = await Promise.allSettled([
-        this.fetchWithErrorHandling("/api/articles"),
-        this.fetchWithErrorHandling("/api/health-data"),
-      ]);
-
-      let articles = 0;
-      let healthData = 0;
-
-      if (articlesRes.status === "fulfilled") {
-        articles = Array.isArray(articlesRes.value)
-          ? articlesRes.value.length
-          : 0;
-      }
-
-      if (healthDataRes.status === "fulfilled") {
-        healthData = Array.isArray(healthDataRes.value)
-          ? healthDataRes.value.length
-          : 0;
-      }
-
-      return {
-        articles,
-        videos: 0, // Placeholder since videos API might not exist
-        healthData,
-      };
-    } catch (error) {
-      console.error("❌ Error fetching stats:", error);
-      return { articles: 0, videos: 0, healthData: 0 };
-    }
-  }
+  
 
   // Fetch popular education content with fallback
   async fetchEdukasiPopuler(): Promise<EdukasiPopuler[]> {
