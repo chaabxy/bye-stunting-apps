@@ -1,5 +1,3 @@
-// View: Handles UI rendering
-
 import type React from "react";
 import {
   Card,
@@ -14,15 +12,11 @@ import {
   TrendingUp,
   Plus,
   Network,
-  MessageSquare,
-  BookOpen,
-  Clock,
   AlertCircle,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { DashboardViewState } from "../presenter/admin/dashboard-presenter";
-import {ProvinceStatsCard} from "@/components/province-stats-card"
-
+import { ProvinceStatsCard } from "@/components/province-stats-card";
 // Map string icon names to actual components
 const iconMap = {
   FileText,
@@ -184,6 +178,14 @@ export const DashboardView: React.FC<DashboardViewState> = ({
           </div>
         </CardContent>
       </Card>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+        {/* Province mengambil 1 kolom */}
+        <div>
+          <ProvinceStatsCard />
+        </div>
+      </div>
 
       {/* Connection Error Alert */}
       {(safeError.edukasiPopuler ||

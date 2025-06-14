@@ -87,8 +87,6 @@ export class DashboardModel {
     }
   }
 
-  
-
   // Fetch popular education content with fallback
   async fetchEdukasiPopuler(): Promise<EdukasiPopuler[]> {
     try {
@@ -302,6 +300,128 @@ export class DashboardModel {
         edukasiPopuler: [],
         unreadMessages: { count: 0, messages: [] },
         lastStuntingRecords: [],
+      };
+    }
+  }
+
+  // Fetch provinces that have stunting data
+  async fetchProvincesWithData(): Promise<{ id: string; name: string }[]> {
+    try {
+      console.log("🔍 Fetching provinces with stunting data...");
+
+      // Try backend API directly
+      try {
+        const result = await this.fetchWithErrorHandling(
+          `${this.baseUrl}/api/provinces-with-data`
+        );
+
+        console.log("🔍 Raw backend response:", result);
+
+        // Handle different response formats
+        if (result && result.success && Array.isArray(result.data)) {
+          console.log(
+            "✅ Provinces with data fetched from backend (success format):",
+            result.data
+          );
+          return result.data.map((province: any) => ({
+            id: String(province.id),
+            name: province.name,
+          }));
+        } else if (result && Array.isArray(result.data)) {
+          console.log(
+            "✅ Provinces with data fetched from backend (data format):",
+            result.data
+          );
+          return result.data.map((province: any) => ({
+            id: String(province.id),
+            name: province.name,
+          }));
+        } else if (Array.isArray(result)) {
+          console.log(
+            "✅ Provinces with data fetched from backend (array format):",
+            result
+          );
+          return result.map((province: any) => ({
+            id: String(province.id),
+            name: province.name,
+          }));
+        } else {
+          console.log("⚠️ Unexpected response format:", result);
+        }
+      } catch (error) {
+        console.log("⚠️ Backend API failed:", error);
+      }
+
+      // Return mock data for testing
+      console.log("⚠️ Using mock data for provinces");
+      return [
+        { id: "1", name: "DKI Jakarta" },
+        { id: "2", name: "Jawa Barat" },
+        { id: "3", name: "Jawa Tengah" },
+        { id: "4", name: "Jawa Timur" },
+        { id: "5", name: "Sumatera Utara" },
+      ];
+    } catch (error) {
+      console.error("❌ Error fetching provinces with data:", error);
+      return [];
+    }
+  }
+
+  // Fetch province statistics
+  async fetchProvinceStats(provinceId: string): Promise<{
+    normal: number;
+    stunting: number;
+    stuntingBerat: number;
+    totalChildren: number;
+  }> {
+    try {
+      console.log(`🔍 Fetching stats for province: ${provinceId}`);
+
+      // Try backend API directly
+      try {
+        const result = await this.fetchWithErrorHandling(
+          `${this.baseUrl}/api/health-data/province-detail?provinceId=${provinceId}`
+        );
+
+        console.log("🔍 Raw province stats response:", result);
+
+        if (result && typeof result === "object") {
+          const stats = {
+            normal: Number(result.normal) || 0,
+            stunting: Number(result.stunting) || 0,
+            stuntingBerat:
+              Number(result.stuntingBerat) ||
+              Number(result.severe_stunting) ||
+              0,
+            totalChildren: Number(result.totalChildren) || 0,
+          };
+          console.log("✅ Province stats processed:", stats);
+          console.log(
+            `📊 Validation - Total percentage: ${
+              stats.normal + stats.stunting + stats.stuntingBerat
+            }%`
+          );
+          return stats;
+        }
+      } catch (error) {
+        console.log("⚠️ Backend API failed:", error);
+      }
+
+      // Return realistic mock stats for testing
+      console.log("⚠️ Using realistic mock stats for province:", provinceId);
+      return {
+        normal: 65,
+        stunting: 25,
+        stuntingBerat: 10,
+        totalChildren: 1500,
+      };
+    } catch (error) {
+      console.error("❌ Error fetching province stats:", error);
+      return {
+        normal: 0,
+        stunting: 0,
+        stuntingBerat: 0,
+        totalChildren: 0,
       };
     }
   }

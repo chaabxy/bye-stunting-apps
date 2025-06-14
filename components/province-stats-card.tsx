@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Map,
   CheckCircle,
@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
-import { fetchProvinces } from "@/presenter/lib/location-data";
+import { DashboardModel } from "@/model/admin/dashboard-model";
 
 interface ProvinceStatsCardProps {
   className?: string;
@@ -25,8 +25,8 @@ interface ProvinceStatsCardProps {
 
 interface StuntingData {
   normal: number;
-  risk: number;
   stunting: number;
+  stuntingBerat: number;
   totalChildren: number;
 }
 
@@ -40,29 +40,56 @@ export function ProvinceStatsCard({ className }: ProvinceStatsCardProps) {
   const [selectedProvince, setSelectedProvince] = useState<string>("");
   const [stuntingData, setStuntingData] = useState<StuntingData>({
     normal: 0,
-    risk: 0,
     stunting: 0,
+    stuntingBerat: 0,
     totalChildren: 0,
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchProvinces()
-      .then((data) => setProvinces(data))
-      .catch((error) => console.error("Gagal memuat provinsi:", error));
+    const model = new DashboardModel();
+
+    console.log("🔄 ProvinceStatsCard: Starting to load provinces...");
+    setProvinces([]);
+
+    model
+      .fetchProvincesWithData()
+      .then((data) => {
+        console.log(
+          "✅ ProvinceStatsCard: Provinces loaded successfully:",
+          data
+        );
+        console.log("📊 ProvinceStatsCard: Number of provinces:", data.length);
+        setProvinces(data);
+      })
+      .catch((error) => {
+        console.error("❌ ProvinceStatsCard: Failed to load provinces:", error);
+        setProvinces([]);
+      });
   }, []);
 
   useEffect(() => {
     if (selectedProvince) {
+      const model = new DashboardModel();
+
+      console.log(`🔄 Loading stats for province: ${selectedProvince}`);
       setLoading(true);
-      fetch(`/api/health-data/province-detail?provinceId=${selectedProvince}`)
-        .then((res) => res.json())
+
+      model
+        .fetchProvinceStats(selectedProvince)
         .then((data) => {
+          console.log("✅ Province stats loaded successfully:", data);
           setStuntingData(data);
           setLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching province data:", error);
+          console.error("❌ Failed to load province stats:", error);
+          setStuntingData({
+            normal: 0,
+            stunting: 0,
+            stuntingBerat: 0,
+            totalChildren: 0,
+          });
           setLoading(false);
         });
     }
@@ -79,7 +106,13 @@ export function ProvinceStatsCard({ className }: ProvinceStatsCardProps) {
           </h3>
         </div>
         <div className="mt-4">
-          <Select value={selectedProvince} onValueChange={setSelectedProvince}>
+          <Select
+            value={selectedProvince}
+            onValueChange={(value) => {
+              console.log("🔄 ProvinceStatsCard: Province selected:", value);
+              setSelectedProvince(value);
+            }}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Pilih Provinsi" />
             </SelectTrigger>
@@ -104,7 +137,7 @@ export function ProvinceStatsCard({ className }: ProvinceStatsCardProps) {
       ) : selectedProvince ? (
         <>
           {/* Normal */}
-          <Card className="bg-green-50 shadow-md rounded-xl p-4 flex flex-col justify-center  items-center text-center">
+          <Card className="bg-green-50 shadow-md rounded-xl p-4 flex flex-col justify-center items-center text-center">
             <CheckCircle className="w-10 h-10 text-green-600 mb-2" />
             <h4 className="text-green-700 font-semibold text-base mb-1">
               Normal
@@ -119,33 +152,33 @@ export function ProvinceStatsCard({ className }: ProvinceStatsCardProps) {
             />
           </Card>
 
-          {/* Risiko */}
+          {/* Stunting */}
           <Card className="bg-yellow-50 shadow-md rounded-xl p-4 flex flex-col justify-center items-center text-center">
             <AlertTriangle className="w-10 h-10 text-yellow-600 mb-2" />
             <h4 className="text-yellow-700 font-semibold text-base mb-1">
-              Berisiko
+              Stunting
             </h4>
             <p className="text-yellow-700 font-extrabold text-3xl">
-              {stuntingData.risk}%
+              {stuntingData.stunting}%
             </p>
             <Progress
-              value={stuntingData.risk}
+              value={stuntingData.stunting}
               className="h-2 w-full mt-4 rounded"
               indicatorClassName="bg-yellow-500"
             />
           </Card>
 
-          {/* Stunting */}
+          {/* Stunting Berat */}
           <Card className="bg-red-50 shadow-md rounded-xl p-4 flex flex-col justify-center items-center text-center">
             <AlertCircle className="w-10 h-10 text-red-600 mb-2" />
             <h4 className="text-red-700 font-semibold text-base mb-1">
-              Stunting
+              Stunting Berat
             </h4>
             <p className="text-red-700 font-extrabold text-3xl">
-              {stuntingData.stunting}%
+              {stuntingData.stuntingBerat}%
             </p>
             <Progress
-              value={stuntingData.stunting}
+              value={stuntingData.stuntingBerat}
               className="h-2 w-full mt-4 rounded"
               indicatorClassName="bg-red-600"
             />

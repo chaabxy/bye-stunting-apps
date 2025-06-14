@@ -340,65 +340,6 @@ export default function KelolaDataStuntingView() {
             </p>
           </div>
           <div className="flex flex-col md:flex-row gap-3">
-            <Dialog
-              open={uiState.isChartDialogOpen && !uiState.selectedData}
-              onOpenChange={(open) =>
-                setUIState((prev) => ({ ...prev, isChartDialogOpen: open }))
-              }
-            >
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="rounded-xl bg-white border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-400 shadow-md transition-all duration-200"
-                >
-                  <BarChart3 className="mr-2 h-4 w-4" />
-                  Lihat Grafik WHO
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-input">
-                <DialogHeader>
-                  <DialogTitle>Grafik WHO - Semua Data</DialogTitle>
-                  <DialogDescription>
-                    Visualisasi data pertumbuhan anak berdasarkan standar WHO
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-4">Berat Badan vs Usia</h3>
-                    <div className="h-[300px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <ScatterChart data={chartData}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis
-                            dataKey="usia"
-                            label={{
-                              value: "Usia (bulan)",
-                              position: "insideBottom",
-                              offset: -10,
-                            }}
-                          />
-                          <YAxis
-                            label={{
-                              value: "Berat (kg)",
-                              angle: -90,
-                              position: "insideLeft",
-                            }}
-                          />
-                          <Tooltip
-                            formatter={(value, name) => [
-                              value,
-                              name === "beratBadan" ? "Berat Badan (kg)" : name,
-                            ]}
-                          />
-                          <Scatter dataKey="beratBadan" fill="#22c55e" />
-                        </ScatterChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-
             <Button
               onClick={handleDownloadExcel}
               className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
