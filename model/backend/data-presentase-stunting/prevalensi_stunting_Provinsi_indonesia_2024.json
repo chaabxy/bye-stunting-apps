@@ -1,0 +1,192 @@
+[
+  {
+    "Provinsi":"Aceh",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":19.36
+  },
+  {
+    "Provinsi":"Sumatera Utara",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":33.77
+  },
+  {
+    "Provinsi":"Sumatera Barat",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":28.3
+  },
+  {
+    "Provinsi":"Riau",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":24.97
+  },
+  {
+    "Provinsi":"Jambi",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":13.9
+  },
+  {
+    "Provinsi":"Sumatera Selatan",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":13.9
+  },
+  {
+    "Provinsi":"Bengkulu",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":11.45
+  },
+  {
+    "Provinsi":"Lampung",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":31.65
+  },
+  {
+    "Provinsi":"Kepulauan Bangka Belitung",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":25.03
+  },
+  {
+    "Provinsi":"Kepulauan Riau",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":27.7
+  },
+  {
+    "Provinsi":"DKI Jakarta",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":10.51
+  },
+  {
+    "Provinsi":"Jawa Barat",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":34.25
+  },
+  {
+    "Provinsi":"Jawa Tengah",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":30.81
+  },
+  {
+    "Provinsi":"DI Yogyakarta",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":15.31
+  },
+  {
+    "Provinsi":"Jawa Timur",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":14.55
+  },
+  {
+    "Provinsi":"Banten",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":14.59
+  },
+  {
+    "Provinsi":"Bali",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":17.61
+  },
+  {
+    "Provinsi":"Nusa Tenggara Barat",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":23.12
+  },
+  {
+    "Provinsi":"Nusa Tenggara Timur",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":20.8
+  },
+  {
+    "Provinsi":"Kalimantan Barat",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":17.28
+  },
+  {
+    "Provinsi":"Kalimantan Tengah",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":25.3
+  },
+  {
+    "Provinsi":"Kalimantan Selatan",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":13.49
+  },
+  {
+    "Provinsi":"Kalimantan Timur",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":17.3
+  },
+  {
+    "Provinsi":"Kalimantan Utara",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":19.16
+  },
+  {
+    "Provinsi":"Sulawesi Utara",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":21.4
+  },
+  {
+    "Provinsi":"Sulawesi Tengah",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":29.63
+  },
+  {
+    "Provinsi":"Sulawesi Selatan",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":14.99
+  },
+  {
+    "Provinsi":"Sulawesi Tenggara",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":22.86
+  },
+  {
+    "Provinsi":"Gorontalo",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":24.81
+  },
+  {
+    "Provinsi":"Sulawesi Barat",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":11.16
+  },
+  {
+    "Provinsi":"Maluku",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":25.19
+  },
+  {
+    "Provinsi":"Maluku Utara",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":14.26
+  },
+  {
+    "Provinsi":"Papua Barat",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":11.63
+  },
+  {
+    "Provinsi":"Papua",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":33.72
+  },
+  {
+    "Provinsi":"Papua Pegunungan",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":34.14
+  },
+  {
+    "Provinsi":"Papua Tengah",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":30.21
+  },
+  {
+    "Provinsi":"Papua Selatan",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":17.62
+  },
+  {
+    "Provinsi":"Papua Barat Daya",
+    "Tahun":2024,
+    "Prevalensi_Stunting(%)":12.44
+  }
+]
