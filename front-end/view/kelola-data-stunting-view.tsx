@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Download, Loader2 } from "lucide-react";
+import { Download, BarChart3, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,8 +9,18 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ScatterChart,
+  Scatter,
+} from "recharts";
 
 import { StuntingModel } from "@/model/admin/stunting-model";
 import { StuntingPresenter } from "@/presenter/admin/stunting-presenter";
@@ -24,6 +34,8 @@ import { StatsCards } from "@/components/kelola-stunting/stats-card";
 import { FilterSection } from "@/components/kelola-stunting/filter-section";
 import { DataTable } from "@/components/kelola-stunting/data-table";
 import { WHOChartSection } from "@/components/cek-stunting/who-chart-section";
+import { ResultSection } from "@/components/cek-stunting/result-section";
+import type { PredictionResult } from "@/model/user/cek-stunting-model";
 
 export default function KelolaDataStuntingView() {
   // State management
@@ -120,15 +132,57 @@ export default function KelolaDataStuntingView() {
     await fetchRecordDetailForChart(data.id);
   };
 
-  
+  // Function to fetch record details for ResultSection
+  const fetchRecordDetailForResult = async (recordId: string) => {
+    setIsLoadingDetail(true);
+    try {
+      const backendUrl =
+        process.env.NEXT_PUBLIC_BACKEND_URL || "https://be-byestunting-production.up.railway.app";
+      console.log(
+        `🔍 Fetching record detail for ResultSection, ID: ${recordId}`
+      );
+
+      const response = await fetch(`${backendUrl}/stunting/${recordId}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(
+          "✅ Successfully fetched record detail for ResultSection:",
+          result
+        );
+
+        if (result.success && result.data) {
+          setSelectedRecordDetail(result.data);
+        } else {
+          console.error("❌ Invalid response format:", result);
+          setSelectedRecordDetail(null);
+        }
+      } else {
+        console.error(
+          `❌ Failed to fetch record detail. Status: ${response.status}`
+        );
+        setSelectedRecordDetail(null);
+      }
+    } catch (error) {
+      console.error("❌ Error fetching record detail:", error);
+      setSelectedRecordDetail(null);
+    } finally {
+      setIsLoadingDetail(false);
+    }
+  };
 
   // Function to fetch record details for WHO Chart
   const fetchRecordDetailForChart = async (recordId: string) => {
     setIsLoadingChart(true);
     try {
       const backendUrl =
-        process.env.NEXT_PUBLIC_BACKEND_URL ||
-        "https://be-byestunting-production.up.railway.app";
+        process.env.NEXT_PUBLIC_BACKEND_URL || "https://be-byestunting-production.up.railway.app";
       console.log(`🔍 Fetching WHO chart data for record ID: ${recordId}`);
 
       const response = await fetch(`${backendUrl}/stunting/${recordId}`, {

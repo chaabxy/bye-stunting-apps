@@ -76,7 +76,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] px-0">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <motion.div
