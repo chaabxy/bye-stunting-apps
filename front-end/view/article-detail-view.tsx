@@ -26,7 +26,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
   // perubahan Ihsan: Enhanced loading state dengan skeleton yang lebih baik
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] px-5">
+      <div className="min-h-screen bg-[#F8FAFC]">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="animate-pulse">

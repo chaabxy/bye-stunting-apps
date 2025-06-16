@@ -41,7 +41,7 @@ export default function EdukasiView() {
   const featuredArticle = filteredArticles[0];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] px-5">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-secondary to-[#64B5F6] mb-12 shadow-xl">

@@ -34,7 +34,6 @@ import { StatsCards } from "@/components/kelola-stunting/stats-card";
 import { FilterSection } from "@/components/kelola-stunting/filter-section";
 import { DataTable } from "@/components/kelola-stunting/data-table";
 import { WHOChartSection } from "@/components/cek-stunting/who-chart-section";
-import { ResultSection } from "@/components/cek-stunting/result-section";
 import type { PredictionResult } from "@/model/user/cek-stunting-model";
 
 export default function KelolaDataStuntingView() {
@@ -388,125 +387,6 @@ export default function KelolaDataStuntingView() {
         onViewChart={handleViewChart}
       />
 
-      {/* Detail Dialog - Using ResultSection Component */}
-      <Dialog
-        open={uiState.isDetailDialogOpen}
-        onOpenChange={(open) => !open && handleCloseDialogs()}
-      >
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              Hasil Pemeriksaan - {uiState.selectedData?.namaAnak}
-            </DialogTitle>
-            <DialogDescription>
-              Hasil pemeriksaan stunting untuk {uiState.selectedData?.namaAnak}{" "}
-              ({uiState.selectedData?.usia} bulan)
-            </DialogDescription>
-          </DialogHeader>
-
-          {isLoadingDetail ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="ml-2 text-gray-500">Memuat hasil...</span>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {/* Data Inputan */}
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="font-semibold mb-3">Data Inputan</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">
-                      Nama Anak
-                    </p>
-                    <p className="font-semibold">
-                      {uiState.selectedData?.namaAnak}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Usia</p>
-                    <p>{uiState.selectedData?.usia} bulan</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">
-                      Berat Badan
-                    </p>
-                    <p className="font-semibold">
-                      {uiState.selectedData?.beratBadan} kg
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">
-                      Tinggi Badan
-                    </p>
-                    <p className="font-semibold">
-                      {uiState.selectedData?.tinggiBadan} cm
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ResultSection Component */}
-              {uiState.selectedData && (
-                <ResultSection
-                  result={
-                    {
-                      status: uiState.selectedData.status,
-                      score: uiState.selectedData.risiko,
-                      message: `Berdasarkan hasil analisis machine learning, anak yang bernama ${
-                        uiState.selectedData.namaAnak
-                      } berada dalam kondisi ${
-                        uiState.selectedData.status === "normal"
-                          ? "normal"
-                          : uiState.selectedData.status === "berisiko"
-                          ? "berisiko"
-                          : "stunting"
-                      }.`,
-                      suggestions: [
-                        "Berikan ASI eksklusif selama 6 bulan pertama",
-                        "Berikan makanan pendamping ASI yang bergizi setelah 6 bulan",
-                        "Lakukan pemantauan pertumbuhan secara rutin",
-                        "Pastikan anak mendapatkan imunisasi lengkap",
-                        "Berikan makanan dengan gizi seimbang",
-                      ],
-                      recommendations: [
-                        "Konsultasi rutin dengan tenaga kesehatan",
-                        "Pantau perkembangan anak secara berkala",
-                        "Berikan nutrisi seimbang sesuai usia",
-                        "Jaga kebersihan lingkungan dan makanan",
-                      ],
-                      recommendedArticles: [
-                        {
-                          id: "1",
-                          title:
-                            "Mengenal Stunting: Penyebab, Dampak, dan Pencegahan",
-                          category: "Pengetahuan Umum",
-                          slug: "mengenal-stunting-penyebab-dampak-dan-pencegahan", // Tambahkan slug
-                        },
-                      ],
-                    } as PredictionResult
-                  }
-                  onBackToForm={() => handleCloseDialogs()}
-                  onPrintReport={() => {
-                    console.log(
-                      "Print report for:",
-                      uiState.selectedData?.namaAnak
-                    );
-                  }}
-                  onShareWhatsApp={() => {
-                    const message = `Hasil pemeriksaan stunting untuk ${uiState.selectedData?.namaAnak}: Status ${uiState.selectedData?.status}, Risiko ${uiState.selectedData?.risiko}%`;
-                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
-                      message
-                    )}`;
-                    window.open(whatsappUrl, "_blank");
-                  }}
-                />
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
       {/* WHO Chart Dialog - Individual Record */}
       <Dialog
         open={uiState.isChartDialogOpen && !!uiState.selectedData}
@@ -514,7 +394,7 @@ export default function KelolaDataStuntingView() {
       >
         <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-black">
               WHO Chart - {uiState.selectedData?.namaAnak}
             </DialogTitle>
             <DialogDescription>
