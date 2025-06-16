@@ -27,13 +27,6 @@ ByeStunting adalah aplikasi web berbasis machine learning yang dirancang untuk m
 6. Dapatkan rekomendasi & artikel edukasi.
 7. Bagikan hasil ke WhatsApp jika diperlukan.
 
-## 👨‍💻 Tim Pengembang
-
-Proyek ini dikembangkan oleh Tim CC25-CF231 (Capstone Project Dicoding):
-- Ihsan Nurdin – Fullstack Developer
-- Cha Cha Nisya Asyah – Project Manager / Machine Learning
-- Adelia Cesar, Hairul – Machine Learning
-- Alya Siti Rahmah, Olifiana – Developer
 
 ## ⚠️ Catatan
 
