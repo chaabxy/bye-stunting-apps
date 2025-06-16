@@ -135,7 +135,7 @@ ${recommendations
   .map((rec, index) => `${index + 1}. ${rec}`)
   .join("\n")}
 
-Untuk informasi lebih lengkap dan mendalam, silakan cek artikel-artikel edukatif kami di fitur edukasi pada Link https://byestunting-app.vercel.app/edukasi${
+Untuk informasi lebih lengkap dan mendalam, silakan cek artikel-artikel edukatif kami di fitur edukasi pada Link https://bye-stunting.vercel.app/edukasi${
       articles.length > 0
         ? `, seperti:
 ${articles
