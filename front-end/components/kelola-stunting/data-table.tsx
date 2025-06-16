@@ -125,9 +125,6 @@ export function DataTable({
                 <TableHead className="font-semibold py-3 px-4 text-center text-text">
                   WHO Chart
                 </TableHead>
-                <TableHead className="font-semibold py-3 px-4 rounded-r-lg text-center text-text">
-                  Aksi
-                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -210,18 +207,6 @@ export function DataTable({
                       >
                         <BarChart3 className="h-4 w-4" />
                       </Button>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => onViewDetail(item)}
-                          className="hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))
