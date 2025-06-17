@@ -28,6 +28,30 @@ ByeStunting adalah aplikasi web berbasis machine learning yang dirancang untuk m
 7. Bagikan hasil ke WhatsApp jika diperlukan.
 
 
+## 🌐 Link Deploy
+
+🔗 Akses aplikasi utama: [https://bye-stunting.vercel.app/](https://bye-stunting.vercel.app/)
+
+## 🔐 Cara Mengakses Aplikasi Admin
+
+Akses aplikasi admin melalui tautan berikut:  
+👉 [https://bye-stunting.vercel.app/admin](https://bye-stunting.vercel.app/admin)
+
+**Email**: `admin@byestunting.id`  
+**Password**: `admin123`
+
+## 👥 Tim Pengembang
+
+**Machine Learning**  
+- Adelia Cesar  
+- Olifiana  
+- Hairul  
+
+**Front-end & Back-end**
+- Ihsan Nurdin  
+- Cha Cha Nisya Asyah  
+- Alya Siti Rahmah
+
 ## ⚠️ Catatan
 
 > ByeStunting bukan pengganti konsultasi medis profesional. Hasil prediksi sebaiknya dikonfirmasi dengan tenaga kesehatan.
