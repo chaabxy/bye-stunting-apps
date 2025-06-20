@@ -246,7 +246,7 @@ export default function DataChart({ title, data = [] }: DataChartProps) {
         </p>
       </CardHeader>
       <CardContent>
-        <div style={{ height: `${data.length * 65}px`, width: "100%" }} className="relative">
+        <div style={{ height: `${data.length * 60}px`, width: "100%" }} className="relative">
           <div
             ref={mapRef}
             style={{
