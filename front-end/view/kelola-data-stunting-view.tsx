@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Download, BarChart3, Loader2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,18 +9,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ScatterChart,
-  Scatter,
-} from "recharts";
 
 import { StuntingModel } from "@/model/admin/stunting-model";
 import { StuntingPresenter } from "@/presenter/admin/stunting-presenter";
@@ -34,7 +24,7 @@ import { StatsCards } from "@/components/kelola-stunting/stats-card";
 import { FilterSection } from "@/components/kelola-stunting/filter-section";
 import { DataTable } from "@/components/kelola-stunting/data-table";
 import { WHOChartSection } from "@/components/cek-stunting/who-chart-section";
-import type { PredictionResult } from "@/model/user/cek-stunting-model";
+import { getWeightForAgeData, getHeightForAgeData } from "@/presenter/lib/who-chart-data";
 
 export default function KelolaDataStuntingView() {
   // State management
@@ -136,7 +126,8 @@ export default function KelolaDataStuntingView() {
     setIsLoadingDetail(true);
     try {
       const backendUrl =
-        process.env.NEXT_PUBLIC_BACKEND_URL || "https://be-byestunting-production.up.railway.app";
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        "https://be-byestunting-production.up.railway.app";
       console.log(
         `🔍 Fetching record detail for ResultSection, ID: ${recordId}`
       );
@@ -181,7 +172,8 @@ export default function KelolaDataStuntingView() {
     setIsLoadingChart(true);
     try {
       const backendUrl =
-        process.env.NEXT_PUBLIC_BACKEND_URL || "https://be-byestunting-production.up.railway.app";
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        "https://be-byestunting-production.up.railway.app";
       console.log(`🔍 Fetching WHO chart data for record ID: ${recordId}`);
 
       const response = await fetch(`${backendUrl}/stunting/${recordId}`, {
@@ -246,7 +238,7 @@ export default function KelolaDataStuntingView() {
     }
   };
 
-  // Generate WHO weight chart data
+  // Generate WHO weight chart data - menggunakan data WHO yang akurat
   const generateWHOWeightData = (
     childAge: number,
     childWeight: number,
@@ -254,27 +246,26 @@ export default function KelolaDataStuntingView() {
   ) => {
     const data = [];
     for (let age = 0; age <= 60; age++) {
-      // WHO weight-for-age percentiles (simplified approximation)
-      const baseWeight =
-        gender === "laki-laki"
-          ? 3.3 + age * 0.15
-          : // Boys
-            3.2 + age * 0.14; // Girls
+      // Gunakan data WHO yang akurat dari who-chart-data.ts
+      const whoData = getWeightForAgeData(
+        age,
+        gender as "laki-laki" | "perempuan"
+      );
 
       data.push({
         age,
-        p3: baseWeight * 0.75,
-        p15: baseWeight * 0.85,
-        p50: baseWeight,
-        p85: baseWeight * 1.15,
-        p97: baseWeight * 1.25,
+        p3: whoData.p3,
+        p15: whoData.p15,
+        p50: whoData.p50,
+        p85: whoData.p85,
+        p97: whoData.p97,
         childWeight: age === childAge ? childWeight : null,
       });
     }
     return data;
   };
 
-  // Generate WHO height chart data
+  // Generate WHO height chart data - menggunakan data WHO yang akurat
   const generateWHOHeightData = (
     childAge: number,
     childHeight: number,
@@ -282,20 +273,19 @@ export default function KelolaDataStuntingView() {
   ) => {
     const data = [];
     for (let age = 0; age <= 60; age++) {
-      // WHO height-for-age percentiles (simplified approximation)
-      const baseHeight =
-        gender === "laki-laki"
-          ? 49.9 + age * 1.1
-          : // Boys
-            49.1 + age * 1.0; // Girls
+      // Gunakan data WHO yang akurat dari who-chart-data.ts
+      const whoData = getHeightForAgeData(
+        age,
+        gender as "laki-laki" | "perempuan"
+      );
 
       data.push({
         age,
-        p3: baseHeight * 0.92,
-        p15: baseHeight * 0.96,
-        p50: baseHeight,
-        p85: baseHeight * 1.04,
-        p97: baseHeight * 1.08,
+        p3: whoData.p3,
+        p15: whoData.p15,
+        p50: whoData.p50,
+        p85: whoData.p85,
+        p97: whoData.p97,
         childHeight: age === childAge ? childHeight : null,
       });
     }
